@@ -2,6 +2,8 @@
     font-size: 16px
 }
 
+
+
 body {
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
@@ -5504,7 +5506,7 @@ button:focus {
     -webkit-transition: all .4s ease;
     -o-transition: all .4s ease;
     transition: all .4s ease;
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
     padding-left: 30px
 }
 
@@ -8974,7 +8976,7 @@ blockquote:before {
     -webkit-box-align: unset;
     -ms-flex-align: unset;
     align-items: unset;
-    padding:130px 0 20px 0;
+    padding:150px 0 20px 0;
 }
 
 .banner-portfolio>.container>.row {
@@ -11611,7 +11613,6 @@ blockquote:before {
 
 .input-material .form-group {
     position: relative;
-    margin-bottom: 37px
 }
 
 .input-material .bar {
@@ -11636,7 +11637,12 @@ blockquote:before {
     transition: all .4s ease
 }
 
+.hidden {
+    display: none;
+  }
+
 .input-material .placeholder-title {
+    /* display: none!important; */
     position: absolute;
     left: 0;
     pointer-events: none;
@@ -11658,7 +11664,6 @@ blockquote:before {
     border: 0;
     border-radius: 0;
     padding-left: 15px;
-    margin-bottom: 0;
     border-radius: 8px;
     opacity: .4;
 }
