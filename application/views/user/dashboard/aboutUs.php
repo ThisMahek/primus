@@ -58,18 +58,19 @@
 					<div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <h6 class="mb-0 text-uppercase">Add About Us</h6>
-                        <?php if ($this->session->flashdata('validation_errors')): ?>
-                        <div class="alert alert-danger">
-                        <?php echo $this->session->flashdata('validation_errors'); ?>
-                        </div>
-                        <?php endif; ?>
-
+                                <h6 class="mb-4 text-uppercase">Add About Us</h6>
                             </div>
                             <div class="col-md-6 ">
                                 <div class="form-check form-switch text-end">
                                     <input class="form-check-input" type="checkbox" <?=$user_data->is_about_us==1?'checked':""?> id="flexSwitchCheckChecked" onchange="change_status(this,'is_about_us','<?=$about_count?>')">
                                 </div>
+                            </div>
+                            <div class="col-md-12">
+                                <?php if ($this->session->flashdata('validation_errors')): ?>
+                                    <div class="alert alert-danger">
+                                        <?php echo $this->session->flashdata('validation_errors'); ?>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div><hr/>
                         <form action="<?=base_url()?>UserDashboard/about_us" method="post" enctype= multipart/form-data>
