@@ -12,7 +12,6 @@ class UserDashboard extends CI_Controller
 			redirect(base_url());
 		}
 	}
-
 	public function dashboard()
 	{
 		$data = [];
@@ -37,15 +36,7 @@ class UserDashboard extends CI_Controller
 		$this->load->view('user/dashboard/dashboard', $data);
 	}
 
-	public function aboutUs()
-	{
-
-		$user_id = $this->session->userdata('user_id');
-		$data['aboutus_data'] = $this->UM->get_single_data('tbl_about','1',$user_id);
-		$data['user_data'] = $this->UM->get_user_data();
-		$data['about_count'] = $this->db->where(['user_id' => $user_id])->get('tbl_about')->num_rows();
-		$this->load->view('user/dashboard/aboutUs', $data);
-	}
+	
 	public function education()
 	{
 		$user_id = $this->session->userdata('user_id');
