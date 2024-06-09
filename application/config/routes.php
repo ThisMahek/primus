@@ -58,5 +58,5 @@ $route['logoutuser']='Login/LogoutUser';
 $route['save_user_img']='User/save_user_img';
 $route['(:any)'] = 'Home/index/$1';
 //for users pages
-$route['User/about-us']='UsersView/aboutUs';
+$route['(:any)/about-us']='UsersView/aboutUs';
 //for users pages
