@@ -5,9 +5,7 @@
 <body>
 <?php include_once('includes/header.php') ?>
 <style>
-    .error{
-        color:red;
-    }
+    .error{color:red;padding-left:15px;font-size:12px;}
     </style>
 <section class="xs-banner banner-portfolio" style="background-image: url(<?= base_url() ?>landingpage-assets/images/banner/portfolio-banner-img.png);" id="portfolio-home">
     <div class="container">
@@ -39,28 +37,28 @@
             <div class="col-lg-8 align-self-end">
                 <form action="#"  id="xs-contact-form" class="contact-form input-material" method="post">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-4">
                             <input type="text" placeholder="Enter your First Name"  id="firstName" name="firstName" class="form-control">
-                            <span id="firstname_error" class="error_msg"></span>
+                            <!-- <span id="firstname_error" class="error_msg"></span> -->
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-4">
                             <input type="text" placeholder="Enter your Last Name" id="lastName" name="lastName" class="form-control">
                             <span id="lastname_error" class="error_msg"></span>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-4">
                             <input type="number" placeholder="Enter your Mobile No." id="mobileNo" name="mobileNo" class="form-control">
                             <span id="mobileno_error" class="error_msg"></span>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-4">
                             <input type="email" placeholder="Enter your Email Id." id="emailId" name="emailId" class="form-control">
                             <span id="email_error" class="error_msg"></span>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-4">
                             <input type="text" placeholder="Profile Category | eg: web developer" id="designation" name="designation" class="form-control">
                             <span id="designation_error" class="error_msg"></span>
                         </div>
-                        <div class="col-md-6">
-                        <select class="form-control"  id="country" name="country">
+                        <div class="col-md-6 mb-4">
+                            <select class="form-control"  id="country" name="country">
                                 <option  value="">Select Country ...</option>
                                 <?php
                                 foreach ($countries as $country) {
@@ -74,28 +72,28 @@
                             <span id="country_error" class="error_msg"></span>
                         </div>
 
-                        <div class="col-md-6">
-                        <select class="form-control" id="state" name="state">
+                        <div class="col-md-6 mb-4">
+                            <select class="form-control" id="state" name="state">
                                 <option selected="" disabled="" value="">Select State</option>
 
                             </select>
                             <span id="state_error" class="error_msg"></span>
                         </div>
-                        <div class="col-md-6">
-                        <select class="form-control" id="city" name="city" >
+                        <div class="col-md-6 mb-4">
+                            <select class="form-control" id="city" name="city" >
                                 <option selected="" disabled="" value="">Select City</option>
                             </select> 
                             <span id="city_error" class="error_msg"></span>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-5">
                             <input type="password" placeholder="Password" id="password_signup" name="password_signup" class="form-control">
                             <span id="password_error" class="error_msg"></span>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-5">
                             <input type="password" placeholder="Confirm Password" id="confirmpassword" name="confirmpassword" class="form-control">
                                     
                         </div>
-                        <div class="col-md-12 text-center">
+                        <div class="col-md-12 mb-4 text-center">
                             <button type="submit" class="long-arrow-btn version-white text-right" id="register_button">SUBMIT <span class="long-arrow"></span></button>
                         </div>
                     </div>
@@ -233,6 +231,17 @@
 </div>
 <?php include_once('includes/footer.php') ?>
 <?php include_once('includes/footer-script.php') ?>
+
+<script>
+    // document.getElementsByClassName("example");
+    document.getElementById('firstName-error').addEventListener('input', function() {
+      var elements = document.getElementsByClassName('placeholder-title-two');
+      for (var i = 0; i < elements.length; i++) {
+        elements[i].classList.add('hidden');
+      }
+    });
+  </script>
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"></script>
     <!--sweetalert-->
@@ -480,7 +489,7 @@
             });
         });
      
-    </script>
+</script>
     
 <?= $this->session->flashdata('error') ?>
 <?= $this->session->flashdata('success') ?>

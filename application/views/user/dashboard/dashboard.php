@@ -24,14 +24,17 @@
                 <div class="row">
                     
                 <div class="col-md-4">
+                    <div class="wrapper-box">
                         <div class="card bdr-white">
-                            <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-9">
-                                            <h6 class="mb-0 text-uppercase">Total Experiance</h6>
-                                        </div>
-                                    </div><hr/>
-                                    <input type="text" value="0" class="form-control" name="total_experience" readonly>
+                                <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <h6 class="mb-0 text-uppercase">Total Experiance</h6>
+                                            </div>
+                                        </div><hr/>
+                                        <h2 class="text-center">100</h2>
+                                        <!-- <input type="text" value="0" class="form-control" name="total_experience" readonly> -->
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -43,7 +46,8 @@
                                             <h6 class="mb-0 text-uppercase">Total Projects</h6>
                                         </div>
                                     </div><hr/>
-                                    <input type="text" class="form-control" value="0" readonly>    
+                                    <h2 class="text-center">0</h2>
+                                    <!-- <input type="text" class="form-control" value="0" readonly>     -->
                             </div>
                         </div>
                     </div>
@@ -55,7 +59,8 @@
                                             <h6 class="mb-0 text-uppercase">Total Clients</h6>
                                         </div>
                                     </div><hr/>
-                                    <input type="text" class="form-control" value="0" readonly>
+                                    <h2 class="text-center">0</h2>
+                                    <!-- <input type="text" class="form-control" value="0" readonly> -->
                             </div>
                         </div>
                     </div>
