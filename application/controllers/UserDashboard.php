@@ -12,7 +12,6 @@ class UserDashboard extends CI_Controller
 			redirect(base_url());
 		}
 	}
-
 	public function dashboard()
 	{
 		$data = [];
@@ -37,15 +36,7 @@ class UserDashboard extends CI_Controller
 		$this->load->view('user/dashboard/dashboard', $data);
 	}
 
-	public function aboutUs()
-	{
-
-		$user_id = $this->session->userdata('user_id');
-		$data['aboutus_data'] = $this->UM->get_single_data('tbl_about','1',$user_id);
-		$data['user_data'] = $this->UM->get_user_data();
-		$data['about_count'] = $this->db->where(['user_id' => $user_id])->get('tbl_about')->num_rows();
-		$this->load->view('user/dashboard/aboutUs', $data);
-	}
+	
 	public function education()
 	{
 		$user_id = $this->session->userdata('user_id');
@@ -175,19 +166,102 @@ class UserDashboard extends CI_Controller
 		// Redirect to the same page
 		redirect(base_url() . "UserDashboard/skills");
 	}
-	public function save_experience()
-	{
+	// public function save_experience()
+	// {
+	// 	$ids = $this->input->post('delete_id');
+	// 	$work_type = $this->input->post('work_type');
+	// 	$organisation_name = $this->input->post('organisation_name');
+	// 	$website_url = $this->input->post('website_url');
+	// 	$work_from = $this->input->post('work_from');
+	// 	$work_to = $this->input->post('work_to');
+
+	// 	if (!empty($work_type) && !empty($organisation_name) && !empty($website_url) && !empty($work_from) && !empty($work_to)) {
+	// 		$user_id = $this->session->userdata('user_id');
+	// 		if (!empty($ids)) {
+	// 			$response = $this->db->where_not_in('id', $ids)->delete('tbl_experience');
+	// 		}
+	// 		for ($i = 0; $i < count($work_type); $i++) {
+	// 			$data = array(
+	// 				'work_type' => $work_type[$i],
+	// 				'organisation_name' => $organisation_name[$i],
+	// 				'website_url' => $website_url[$i],
+	// 				'work_from' => $work_from[$i],
+	// 				'work_to' => $work_to[$i],
+	// 				'user_id' => $this->session->userdata('user_id'),
+	// 			);
+	// 			if (isset($ids[$i]) && !empty($ids[$i])) {
+	// 				$response = $this->db->where('id', $ids[$i])->update('tbl_experience', $data);
+	// 			} else {
+	// 				$response = $this->db->insert('tbl_experience', $data);
+	// 			}
+	// 		}
+	// 		// Check if any database operation failed
+	// 		if ($response) {
+	// 			$this->session->set_flashdata('success', '<script>
+	// 			$(document).ready(function(){
+	// 			Swal.fire({
+	// 			icon: "success",
+	// 			title: "Success",
+	// 			text: "You data save successfully!",
+	// 			});
+	// 			});
+	// 			</script>');
+	// 		} else {
+	// 			// Error message
+	// 			$this->session->set_flashdata('success', '<script>
+	// 				$(document).ready(function(){
+	// 				Swal.fire({
+	// 				icon: "error",
+	// 				title: "Oops...",
+	// 				text: "Something went wrong!",
+	// 				});
+	// 				});
+	// 				</script>');
+	// 		}
+	// 	} else {
+	// 		// Error message for invalid data
+	// 		$this->session->set_flashdata('success', '<script>
+	// 		$(document).ready(function(){
+	// 		Swal.fire({
+	// 		icon: "error",
+	// 		title: "Oops..",
+	// 		text: "Invalid data submitted. Please check your input!",
+	// 		});
+	// 		});
+	// 		</script>');
+	// 	}
+
+	// 	// Redirect to the same page
+	// 	redirect(base_url() . "UserDashboard/experience");
+	// }
+	public function save_experience() {
+		// Load form validation library
+	
+		// Get POST data
 		$ids = $this->input->post('delete_id');
 		$work_type = $this->input->post('work_type');
 		$organisation_name = $this->input->post('organisation_name');
 		$website_url = $this->input->post('website_url');
 		$work_from = $this->input->post('work_from');
 		$work_to = $this->input->post('work_to');
+	
+		// Define validation rules for each field
+		for ($i = 0; $i < count($work_type); $i++) {
+			$this->form_validation->set_rules('work_type['.$i.']', 'Work Type', 'required');
+			$this->form_validation->set_rules('organisation_name['.$i.']', 'Organisation Name', 'required');
+			$this->form_validation->set_rules('website_url['.$i.']', 'Website URL', 'required|valid_url');
+			$this->form_validation->set_rules('work_from['.$i.']', 'Work From', 'required');
+			$this->form_validation->set_rules('work_to['.$i.']', 'Work To', 'required');
+		}
 
-		if (!empty($work_type) && !empty($organisation_name) && !empty($website_url) && !empty($work_from) && !empty($work_to)) {
+		// Run validation
+		if ($this->form_validation->run() == FALSE) {
+			echo 2;
+		} else {
+			// Validation passed, proceed with saving data
 			$user_id = $this->session->userdata('user_id');
 			if (!empty($ids)) {
-				$response = $this->db->where_not_in('id', $ids)->delete('tbl_experience');
+				$this->db->where_not_in('id', $ids)->delete('tbl_experience');
 			}
 			for ($i = 0; $i < count($work_type); $i++) {
 				$data = array(
@@ -196,7 +270,7 @@ class UserDashboard extends CI_Controller
 					'website_url' => $website_url[$i],
 					'work_from' => $work_from[$i],
 					'work_to' => $work_to[$i],
-					'user_id' => $this->session->userdata('user_id'),
+					'user_id' => $user_id,
 				);
 				if (isset($ids[$i]) && !empty($ids[$i])) {
 					$response = $this->db->where('id', $ids[$i])->update('tbl_experience', $data);
@@ -206,53 +280,38 @@ class UserDashboard extends CI_Controller
 			}
 			// Check if any database operation failed
 			if ($response) {
-				$this->session->set_flashdata('success', '<script>
-				$(document).ready(function(){
-				Swal.fire({
-				icon: "success",
-				title: "Success",
-				text: "You data save successfully!",
-				});
-				});
-				</script>');
+				echo 1;
 			} else {
-				// Error message
-				$this->session->set_flashdata('success', '<script>
-					$(document).ready(function(){
-					Swal.fire({
-					icon: "error",
-					title: "Oops...",
-					text: "Something went wrong!",
-					});
-					});
-					</script>');
+				
+				echo 0;
 			}
-		} else {
-			// Error message for invalid data
-			$this->session->set_flashdata('success', '<script>
-			$(document).ready(function(){
-			Swal.fire({
-			icon: "error",
-			title: "Oops..",
-			text: "Invalid data submitted. Please check your input!",
-			});
-			});
-			</script>');
 		}
-
-		// Redirect to the same page
-		redirect(base_url() . "UserDashboard/experience");
 	}
 	public function save_education()
 	{
-
+		// Set validation rules for each input field
+		$this->form_validation->set_rules('education_type[]', 'Education Type', 'required');
+		$this->form_validation->set_rules('institute[]', 'Institute', 'required');
+		$this->form_validation->set_rules('year[]', 'Year', 'required');
+		$this->form_validation->set_rules('description[]', 'Description', 'required');
+		if ($this->form_validation->run() == FALSE) {
+			// Validation failed
+			$this->session->set_flashdata('success', '<script>
+				$(document).ready(function(){
+					Swal.fire({
+						icon: "error",
+						title: "Oops...",
+						text: "Invalid data submitted. Please fill all field!",
+					});
+				});
+			</script>');
+			
+		} else {
 		$ids = $this->input->post('delete_id');
 		$education_type = $this->input->post('education_type');
 		$institute = $this->input->post('institute');
 		$year = $this->input->post('year');
 		$description = $this->input->post('description');
-
-
 		if (!empty($education_type) && !empty($institute) && !empty($year) && !empty($description)) {
 			$user_id = $this->session->userdata('user_id');
 			if (!empty($ids)) {
@@ -307,7 +366,7 @@ class UserDashboard extends CI_Controller
 			});
 			</script>');
 		}
-
+	}
 		// Redirect to the same page
 		redirect(base_url() . "UserDashboard/education");
 	}

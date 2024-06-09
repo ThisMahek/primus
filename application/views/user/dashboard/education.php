@@ -46,11 +46,11 @@
                                     <div class="item-content">
                                         <div class="mb-3">
                                             <label for="inputEmail1" class="form-label">Enter Qualification Type<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" name="education_type[]"  value="<?=$row->education_type?>"placeholder="Example : MCA" required  >
+                                            <input type="text" class="form-control" name="education_type[]"  value="<?=$row->education_type?>"placeholder="Example : MCA"   >
                                         </div>
                                         <div class="mb-3">
                                             <label for="inputEmail1" class="form-label">Enter School/College/Institute/University Name <span class="text-danger">*</span></label>
-                                            <input type="text"  class="form-control"  value="<?=$row->institute?>" name="institute[]" placeholder="Enter Your School/College/Institute/University Name" required>
+                                            <input type="text"  class="form-control"  value="<?=$row->institute?>" name="institute[]" placeholder="Enter Your School/College/Institute/University Name" >
                                         </div>
                                         <div class="mb-3">
                                             <label for="inputEmail1" class="form-label">Year of Passing<span class="text-danger">*</span></label>
@@ -59,8 +59,8 @@
                                         <div class="mt-3">
                                             <label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label>
 </div>
-                                        <!-- <div id="editor" required> -->
-                                        <textarea class="form-control" maxlength="40" name="description[]" aria-label="With textarea" style="height: 110px;" required><?=$row->description?>
+                                        <!-- <div id="editor" > -->
+                                        <textarea class="form-control" maxlength="40" name="description[]" aria-label="With textarea" style="height: 110px;" ><?=$row->description?>
                                     </textarea>
                                     </div>
                                    
@@ -83,11 +83,11 @@
                                     <div class="item-content">
                                         <div class="mb-3">
                                             <label for="inputEmail1" class="form-label">Enter Qualification Type<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" name="education_type[]" placeholder="Example : MCA" required  >
+                                            <input type="text" class="form-control" name="education_type[]" placeholder="Example : MCA"   >
                                         </div>
                                         <div class="mb-3">
                                             <label for="inputEmail1" class="form-label">Enter School/College/Institute/University Name <span class="text-danger">*</span></label>
-                                            <input type="text"  class="form-control" name="institute[]" placeholder="Enter Your School/College/Institute/University Name" required>
+                                            <input type="text"  class="form-control" name="institute[]" placeholder="Enter Your School/College/Institute/University Name" >
                                         </div>
                                         <div class="mb-3">
                                             <label for="inputEmail1" class="form-label">Year of Passing<span class="text-danger">*</span></label>
@@ -96,8 +96,8 @@
                                         <div class="mt-3">
                                             <label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label>
 </div>
-                                        <!-- <div id="editor" required> -->
-                                        <textarea class="form-control" maxlength="40"  name="description[]" aria-label="With textarea" style="height: 110px;" required></textarea>
+                                        <!-- <div id="editor" > -->
+                                        <textarea class="form-control" maxlength="40"  name="description[]" aria-label="With textarea" style="height: 110px;" ></textarea>
                                     </div>
                                     <!-- Repeater Remove Btn -->
                                     <div class="row mt-3">
@@ -131,7 +131,7 @@
         <script>
               $(document).ready(function () {
              $("#add-class").click(function () {
-                var group = `<div class="items"><div class="item-content"><div class="mb-3"><label for="inputEmail1" class="form-label">Enter Qualification Type<span class="text-danger">*</span></label><input type="text" class="form-control" name="education_type[]" placeholder="Example : MCA" required></div><div class="mb-3"><label for="inputEmail1" class="form-label">Enter School/College/Institute/University Name <span class="text-danger">*</span></label><input type="text" class="form-control" name="institute[]" placeholder="Enter Your School/College/Institute/University Name" required></div><div class="mb-3"><label for="inputEmail1" class="form-label">Year of Passing<span class="text-danger">*</span></label><input class="form-control" name="year[]" type="month" id=""></div><div class="mt-3"><label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label></div><textarea  maxlength="40" class="form-control" name="description[]" aria-label="With textarea" style="height: 110px;" required></textarea></div><div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)"  title="Remove Colloum"><i class="bx bx-x"></i></button></div></div><hr></div>
+                var group = `<div class="items"><div class="item-content"><div class="mb-3"><label for="inputEmail1" class="form-label">Enter Qualification Type<span class="text-danger">*</span></label><input type="text" class="form-control" name="education_type[]" placeholder="Example : MCA" ></div><div class="mb-3"><label for="inputEmail1" class="form-label">Enter School/College/Institute/University Name <span class="text-danger">*</span></label><input type="text" class="form-control" name="institute[]" placeholder="Enter Your School/College/Institute/University Name" ></div><div class="mb-3"><label for="inputEmail1" class="form-label">Year of Passing<span class="text-danger">*</span></label><input class="form-control" name="year[]" type="month" id=""></div><div class="mt-3"><label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label></div><textarea  maxlength="40" class="form-control" name="description[]" aria-label="With textarea" style="height: 110px;" ></textarea></div><div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)"  title="Remove Colloum"><i class="bx bx-x"></i></button></div></div><hr></div>
 `;
                 $(this).closest('form').find('.append-area').append(group);
                 //  $(this).parent().after(group);
