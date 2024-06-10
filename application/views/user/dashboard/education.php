@@ -26,12 +26,12 @@
                             </div>
                         </div><hr/>
                         
-                        <form action="<?=base_url()?>UserDashboard/save_education" method="post">
+                        <form id="education_form" method="post">
                         <div class="append-area">
                             <!-- Repeater Heading -->
                             <div class="d-flex align-items-center justify-content-between">
                                 <h5 class="mb-0"></h5>
-                                <button class="btn btn-outline-primary  repeater-add-btn px-4" id="add-class" title="Add More Colloum"><i class="bx bx-plus"></i></button>
+                                <button type="button" class="btn btn-outline-primary  repeater-add-btn px-4" id="add-class" title="Add More Colloum"><i class="bx bx-plus"></i></button>
                             </div>
                             <!-- Repeater Items -->
                           <?php
@@ -114,9 +114,9 @@
                             <?php
                                  if(!empty($education_data)){
                                 ?>
-                                <button class="btn btn-outline-secondary w-25 " >Update</button>
+                                <button class="btn btn-outline-secondary w-25 " id="submit_education">Update</button>
                                 <?php }else{?>
-                                    <button class="btn btn-outline-secondary w-25 " >Save</button>
+                                    <button class="btn btn-outline-secondary w-25 " id="submit_education">Save</button>
                                     <?php }?>
                         
                             </div>
@@ -136,6 +136,43 @@
                 $(this).closest('form').find('.append-area').append(group);
                 //  $(this).parent().after(group);
              });
+             $('#submit_education').on('click', function() {
+                event.preventDefault();
+               // alert('hu');
+        $.ajax({
+            url: '<?php echo base_url("UserDashboard/save_education"); ?>',
+            type: 'POST',
+            data: $('#education_form').serialize(),
+         //   dataType: 'json',
+            success: function(response) {
+                // alert(response);
+                // console.log(response);
+                if(response == 1) {
+                        Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: "Your data was saved successfully!",
+                        });
+                        setTimeout(function(){
+					window.location.reload();
+				},2000);
+                }else if(response == 2) {
+                            Swal.fire({
+                            icon: "error",
+                            title: "Oops..",
+                            text: "Invalid data submitted. Please fill all field!",
+                            });
+				
+                } else {
+                    Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong!",
+                    });
+                }
+            }
+        });
+    });
         });
         function  removeInputGroup(btn) {
             $(btn).closest('.items').remove();
