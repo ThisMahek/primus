@@ -8,87 +8,12 @@ class UserDashboard extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('UserModel', 'UM');
-		if (!$this->session->userdata('user_id')) {
-			redirect(base_url());
-		}
+		// if (!$this->session->userdata('user_id')) {
+		// 	redirect(base_url());
+		// }
 	}
-	public function dashboard()
-	{
-		$data = [];
-		$user_id = $this->session->userdata('user_id');
-		$data['user_img'] = $this->UM->get_data('tbl_user_image','1',$user_id);
-		$data['total_project'] = $this->UM->total_project($user_id);
-		$data['total_client'] = $this->UM->total_client($user_id);
-		$data['total_experience'] = $this->UM->total_experience($user_id);
-		$data['dashboard_data'] = $this->UM->get_data('tbl_dashboard','1',$user_id);
-		$user_image = $this->db->where('user_id', $user_id)->get('tbl_user_image')->row();
-		$path = FCPATH . 'assets\upload\user_Images\\' . ($user_image->image ?? 'kjdfdkfdk');
-		if (file_exists($path)) {
-			$type = pathinfo($path, PATHINFO_EXTENSION);
-			$data_img = file_get_contents($path);
-			$data['base64'] = 'data:image/' . $type . ';base64,' . base64_encode($data_img);
-		} else {
-			$data['base64'] = base_url() . 'admin-assets/images/pro-pic.jpg';
-		}
-
-		$user_data = $this->UM->get_user_data();
-		$data['name_id'] = $user_data->first_name . $user_data->last_name . $user_data->id;
-		$this->load->view('user/dashboard/dashboard', $data);
-	}
-
 	
-	public function education()
-	{
-		$user_id = $this->session->userdata('user_id');
-		$data['user_data'] = $this->UM->get_user_data();
-		$data['education_data'] = $this->UM->get_data('tbl_qualification','1',$user_id);
-		$data['education_count'] = $this->db->where(['user_id' => $user_id])->get('tbl_qualification')->num_rows();
-		$this->load->view('user/dashboard/education', $data);
-	}
-	public function experience()
-	{
-		$user_id = $this->session->userdata('user_id');
-		$data['user_data'] = $this->UM->get_user_data();
-		$data['experience_data'] = $this->UM->get_data('tbl_experience','1',$user_id);
-		$data['experience_count'] = $this->db->where(['user_id' => $user_id])->get('tbl_experience')->num_rows();
-		$this->load->view('user/dashboard/experience', $data);
-	}
-	public function skills()
-	{
-		$user_id = $this->session->userdata('user_id');
-		$data['user_data'] = $this->UM->get_user_data();
-		$data['skills_data'] = $this->UM->get_data('tbl_skills','1',$user_id);
-		$data['skills_count'] = $this->db->where(['user_id' => $user_id])->get('tbl_skills')->num_rows();
-		$this->load->view('user/dashboard/skills', $data);
-	}
-	public function projects()
-	{
-		$user_id = $this->session->userdata('user_id');
-		$data['user_data'] = $this->UM->get_user_data();
-		$data['project_data'] = $this->UM->get_data('tbl_project','1',$user_id);
-		$this->load->view('user/dashboard/projects', $data);
-	}
-	public function clients()
-	{
-		$user_id = $this->session->userdata('user_id');
-		$data['user_data'] = $this->UM->get_user_data();
-		$data['client_data'] = $this->UM->get_data('tbl_client','1',$user_id);
-		$data['client_count'] = $this->db->where(['user_id' => $user_id])->get('tbl_client')->num_rows();
-		$this->load->view('user/dashboard/clients', $data);
-	}
 
-	public function myProfile()
-	{
-		$this->load->view('user/dashboard/myProfile');
-	}
-	public function changePassword()
-	{
-		$this->load->view('user/dashboard/changePassword');
-	}
-	public function demo()
-	{
-		$this->load->view('user/dashboard/test');
-	}
 
 	public function test()
 	{
@@ -107,10 +32,19 @@ class UserDashboard extends CI_Controller
 
 	public function save_skills()
 	{
+		
 		$ids = $this->input->post('delete_id');
 		$skills = $this->input->post('skill');
 		$percentages = $this->input->post('percantage');
-		if (!empty($skills) && !empty($percentages)) {
+		// Define validation rules for each field
+		for ($i = 0; $i < count($skills); $i++) {
+			$this->form_validation->set_rules('skill['.$i.']', 'Skill', 'required');
+			$this->form_validation->set_rules('percantage['.$i.']', 'Percentage', 'required');
+		}
+		// Run validation
+		if ($this->form_validation->run() == FALSE) {
+			echo 2;
+		} else {
 			$user_id = $this->session->userdata('user_id');
 			if (!empty($ids)) {
 				$response = $this->db->where_not_in('id', $ids)->delete('tbl_skills');
@@ -127,114 +61,15 @@ class UserDashboard extends CI_Controller
 					$response = $this->db->insert('tbl_skills', $data);
 				}
 			}
-			// Check if any database operation failed
 			if ($response) {
-				$this->session->set_flashdata('success', '<script>
-				$(document).ready(function(){
-				Swal.fire({
-				icon: "success",
-				title: "Success",
-				text: "You data save successfully!",
-				});
-				});
-				</script>');
+				echo 1;
 			} else {
 				// Error message
-				$this->session->set_flashdata('success', '<script>
-					$(document).ready(function(){
-					Swal.fire({
-					icon: "error",
-					title: "Oops...",
-					text: "Something went wrong!",
-					});
-					});
-					</script>');
+				echo 0;
 			}
-		} else {
-			// Error message for invalid data
-			$this->session->set_flashdata('success', '<script>
-			$(document).ready(function(){
-			Swal.fire({
-			icon: "error",
-			title: "Oops..",
-			text: "Invalid data submitted. Please check your input!",
-			});
-			});
-			</script>');
-		}
-
-		// Redirect to the same page
-		redirect(base_url() . "UserDashboard/skills");
+	    }
 	}
-	// public function save_experience()
-	// {
-	// 	$ids = $this->input->post('delete_id');
-	// 	$work_type = $this->input->post('work_type');
-	// 	$organisation_name = $this->input->post('organisation_name');
-	// 	$website_url = $this->input->post('website_url');
-	// 	$work_from = $this->input->post('work_from');
-	// 	$work_to = $this->input->post('work_to');
-
-	// 	if (!empty($work_type) && !empty($organisation_name) && !empty($website_url) && !empty($work_from) && !empty($work_to)) {
-	// 		$user_id = $this->session->userdata('user_id');
-	// 		if (!empty($ids)) {
-	// 			$response = $this->db->where_not_in('id', $ids)->delete('tbl_experience');
-	// 		}
-	// 		for ($i = 0; $i < count($work_type); $i++) {
-	// 			$data = array(
-	// 				'work_type' => $work_type[$i],
-	// 				'organisation_name' => $organisation_name[$i],
-	// 				'website_url' => $website_url[$i],
-	// 				'work_from' => $work_from[$i],
-	// 				'work_to' => $work_to[$i],
-	// 				'user_id' => $this->session->userdata('user_id'),
-	// 			);
-	// 			if (isset($ids[$i]) && !empty($ids[$i])) {
-	// 				$response = $this->db->where('id', $ids[$i])->update('tbl_experience', $data);
-	// 			} else {
-	// 				$response = $this->db->insert('tbl_experience', $data);
-	// 			}
-	// 		}
-	// 		// Check if any database operation failed
-	// 		if ($response) {
-	// 			$this->session->set_flashdata('success', '<script>
-	// 			$(document).ready(function(){
-	// 			Swal.fire({
-	// 			icon: "success",
-	// 			title: "Success",
-	// 			text: "You data save successfully!",
-	// 			});
-	// 			});
-	// 			</script>');
-	// 		} else {
-	// 			// Error message
-	// 			$this->session->set_flashdata('success', '<script>
-	// 				$(document).ready(function(){
-	// 				Swal.fire({
-	// 				icon: "error",
-	// 				title: "Oops...",
-	// 				text: "Something went wrong!",
-	// 				});
-	// 				});
-	// 				</script>');
-	// 		}
-	// 	} else {
-	// 		// Error message for invalid data
-	// 		$this->session->set_flashdata('success', '<script>
-	// 		$(document).ready(function(){
-	// 		Swal.fire({
-	// 		icon: "error",
-	// 		title: "Oops..",
-	// 		text: "Invalid data submitted. Please check your input!",
-	// 		});
-	// 		});
-	// 		</script>');
-	// 	}
-
-	// 	// Redirect to the same page
-	// 	redirect(base_url() . "UserDashboard/experience");
-	// }
-	public function save_experience() {
+		public function save_experience() {
 		// Load form validation library
 	
 		// Get POST data
@@ -290,29 +125,22 @@ class UserDashboard extends CI_Controller
 	public function save_education()
 	{
 		// Set validation rules for each input field
-		$this->form_validation->set_rules('education_type[]', 'Education Type', 'required');
-		$this->form_validation->set_rules('institute[]', 'Institute', 'required');
-		$this->form_validation->set_rules('year[]', 'Year', 'required');
-		$this->form_validation->set_rules('description[]', 'Description', 'required');
-		if ($this->form_validation->run() == FALSE) {
-			// Validation failed
-			$this->session->set_flashdata('success', '<script>
-				$(document).ready(function(){
-					Swal.fire({
-						icon: "error",
-						title: "Oops...",
-						text: "Invalid data submitted. Please fill all field!",
-					});
-				});
-			</script>');
-			
-		} else {
+		
 		$ids = $this->input->post('delete_id');
 		$education_type = $this->input->post('education_type');
 		$institute = $this->input->post('institute');
 		$year = $this->input->post('year');
 		$description = $this->input->post('description');
-		if (!empty($education_type) && !empty($institute) && !empty($year) && !empty($description)) {
+		for ($i = 0; $i < count($education_type); $i++) {
+			$this->form_validation->set_rules('education_type['.$i.']', 'Education_type', 'required');
+			$this->form_validation->set_rules('institute['.$i.']', 'Institute', 'required');
+			$this->form_validation->set_rules('year['.$i.']', 'Year', 'required');
+			$this->form_validation->set_rules('description['.$i.']', 'Description', 'required');
+		}if ($this->form_validation->run() == FALSE) {
+			echo 2;
+		}
+		else{
+		//if (!empty($education_type) && !empty($institute) && !empty($year) && !empty($description)) {
 			$user_id = $this->session->userdata('user_id');
 			if (!empty($ids)) {
 				$response = $this->db->where_not_in('id', $ids)->delete('tbl_qualification');
@@ -333,42 +161,12 @@ class UserDashboard extends CI_Controller
 			}
 			// Check if any database operation failed
 			if ($response) {
-				$this->session->set_flashdata('success', '<script>
-				$(document).ready(function(){
-				Swal.fire({
-				icon: "success",
-				title: "Success",
-				text: "You data save successfully!",
-				});
-				});
-				</script>');
+				echo 1;
 			} else {
 				// Error message
-				$this->session->set_flashdata('success', '<script>
-					$(document).ready(function(){
-					Swal.fire({
-					icon: "error",
-					title: "Oops...",
-					text: "Something went wrong!",
-					});
-					});
-					</script>');
+				echo 0;
 			}
-		} else {
-			// Error message for invalid data
-			$this->session->set_flashdata('success', '<script>
-			$(document).ready(function(){
-			Swal.fire({
-			icon: "error",
-			title: "Oops..",
-			text: "Invalid data submitted. Please check your input!",
-			});
-			});
-			</script>');
-		}
-	}
-		// Redirect to the same page
-		redirect(base_url() . "UserDashboard/education");
+	   }
 	}
 	public function about_us()
 {
@@ -613,62 +411,6 @@ class UserDashboard extends CI_Controller
 
 
 
-
-
-	public function save_client_old()
-	{
-		$id = $this->input->post('id');
-
-		if ((isset($_FILES['logo']['name']) && isset($_POST['url']))) {
-
-			$config = array(
-				'upload_path' => './assets/upload/logo',
-				'allowed_types' => 'jpg|gif|png|jpeg',
-				'overwrite' => 1
-			);
-			$this->load->library('upload', $config);
-			$url = $this->input->post('url');
-			$previous_file_names = $this->input->post('previous_file_name');
-			$previous_urls = $this->input->post('previous_url');
-
-			foreach ($_FILES['logo']['name'] as $key => $fileName) {
-				$url = $this->input->post('url');
-
-				$_FILES['userfile'] = array(
-					'name' => $fileName,
-					'type' => $_FILES['logo']['type'][$key],
-					'tmp_name' => $_FILES['logo']['tmp_name'][$key],
-					'error' => $_FILES['logo']['error'][$key],
-					'size' => $_FILES['logo']['size'][$key],
-				);
-				$this->upload->initialize($config);
-				$this->upload->do_upload('userfile');
-				$uploadData = $this->upload->data();
-				$imageFileName = $uploadData['file_name'];
-
-				if (!empty($imageFileName)) {
-					//print_r($url );exit;
-					// Insert new record only if an image is uploaded
-					$data = array(
-						'url' => $url[$key],
-						'logo' => $imageFileName,
-						'user_id' => $this->session->userdata('user_id'),
-					);
-					$this->db->insert('tbl_client', $data);
-
-				}
-
-			}
-
-		} else {
-			// Remove data based on id (if provided)
-			if (!empty($id)) {
-				$this->db->where_not_in('id', $id)->delete('tbl_client');
-			}
-		}
-		redirect(base_url() . "UserDashboard/clients");
-	}
-	// ...
 	public function save_client()
 	{
 		$user_id = $this->session->userdata('user_id');

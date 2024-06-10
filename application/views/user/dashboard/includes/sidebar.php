@@ -10,7 +10,7 @@
 </div>
     <ul class="metismenu" id="menu">
         <li>
-            <a class="<?= ($this->uri->segment(2) == 'dashboard') ? 'active' : '' ?>"href="<?=base_url()?>UserDashboard/dashboard">
+            <a class="<?= ($this->uri->segment(2) == 'dashboard') ? 'active' : '' ?>"href="<?= base_url($user_name . '/dashboard') ?>">
                 <div class="parent-icon"><i class='bx bx-home-alt'></i></div>
                 <div class="menu-title">Dashboard</div>
             </a>
@@ -22,31 +22,31 @@
             </a>
         </li>
         <li>
-            <a  class="<?= ($this->uri->segment(2) == 'education') ? 'active' : '' ?>" href="<?=base_url()?>UserDashboard/education">
+            <a  class="<?= ($this->uri->segment(2) == 'education') ? 'active' : '' ?>" href="<?= base_url($user_name . '/education') ?>">
                 <div class="parent-icon"><i class="bx bx-book-add"></i></div>
                 <div class="menu-title">Education</div>
             </a>
         </li>
         <li>
-            <a class="<?= ($this->uri->segment(2) == 'experience') ? 'active' : '' ?>" href="<?=base_url()?>UserDashboard/experience">
+            <a class="<?= ($this->uri->segment(2) == 'experience') ? 'active' : '' ?>" href="<?= base_url($user_name . '/experience') ?>">
                 <div class="parent-icon"><i class="bx bx-tachometer"></i></div>
                 <div class="menu-title">Experience</div>
             </a>
         </li>
         <li>
-            <a  class="<?= ($this->uri->segment(2) == 'skills') ? 'active' : '' ?>" href="<?=base_url()?>UserDashboard/skills">
+            <a  class="<?= ($this->uri->segment(2) == 'skills') ? 'active' : '' ?>" href="<?= base_url($user_name . '/skills') ?>">
                 <div class="parent-icon"><i class="bx bx-book-open"></i></div>
                 <div class="menu-title">Skills</div>
             </a>
         </li>
         <li>
-            <a class="<?= ($this->uri->segment(2) == 'projects') ? 'active' : '' ?>" href="<?=base_url()?>UserDashboard/projects">
+            <a class="<?= ($this->uri->segment(2) == 'projects') ? 'active' : '' ?>" href="<?= base_url($user_name . '/projects') ?>">
                 <div class="parent-icon"><i class="bx bx-magnet"></i></div>
                 <div class="menu-title">Projects</div>
             </a>
         </li>
         <li>
-            <a class="<?= ($this->uri->segment(2) == 'clients') ? 'active' : '' ?>" href="<?=base_url()?>UserDashboard/clients">
+            <a class="<?= ($this->uri->segment(2) == 'clients') ? 'active' : '' ?>" href="<?= base_url($user_name . '/clients') ?>">
                 <div class="parent-icon"><i class="bx bx-group"></i></div>
                 <div class="menu-title">Clients</div>
             </a>

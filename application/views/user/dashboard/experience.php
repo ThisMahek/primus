@@ -157,7 +157,7 @@
                         });
                         setTimeout(function(){
 					window.location.reload();
-				},3000);
+				},2000);
                 }else if(response == 2) {
                             Swal.fire({
                             icon: "error",
