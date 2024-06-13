@@ -51,15 +51,6 @@
                                 </div>
                             </a>
                         </li>
-                        <!-- <li class="nav-item" role="presentation">
-                                <a class="nav-link" data-bs-toggle="pill" href="#pills-editProject" role="tab" aria-selected="false">
-                                    <div class="d-flex align-items-center">
-                                        <div class="tab-icon"><i class='bx bx-edit font-18 me-1'></i>
-                                        </div>
-                                        <div class="tab-title">Edit Project</div>
-                                    </div>
-                                </a>
-                            </li> -->
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-addProject" role="tabpanel">
@@ -77,13 +68,13 @@
                                         <div class="col-md-12 mb-3">
                                             <label for="inputEmail1" class="form-label">Project URL</label>
                                             <input type="url" name="project_url" class="form-control" id="project_url"
-                                                placeholder="Enter Project URL" required>
+                                                placeholder="Enter Project URL" >
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <label for="inputEmail1" class="form-label">Your Working Role <span
                                                     class="text-danger">*</span></label>
                                             <input type="text" name="working_role" class="form-control"
-                                                id="working_role" placeholder="Example : Project Manager" required>
+                                                id="working_role" placeholder="Example : Project Manager" >
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <label for="inputEmail1" class="form-label">Upload Feature Image<span
@@ -92,15 +83,16 @@
 
 
                                             <input class="form-control" type="file" id="faeture_image"
-                                                name="faeture_image" accept="image/*" 
+                                                name="faeture_image" accept="image/*"
                                                 onchange="add_preview(this, 'imagePreview', 'sp_img','submitButton','300','192')">
                                             <span id="sp_img" style="color:red"></span>
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <label for="inputEmail1" class="form-label">Project Description<span
                                                     class="text-danger">*</span> (Max 40 words Accepted)</label>
-                                            <textarea class="form-control" name="description" id="description" aria-label="With textarea"
-                                                style="height: 110px;" maxlength="40" required></textarea>
+                                            <textarea class="form-control" name="description" id="description"
+                                                aria-label="With textarea" style="height: 110px;" maxlength="40"
+                                                ></textarea>
                                         </div>
                                         <div class="col-md-12 text-end">
                                             <button type="submit" class="btn btn-outline-secondary w-25"
@@ -161,8 +153,9 @@
                                                 </td>
                                             </tr>
                                             <!-- =====Edit Modal===== -->
-                                            <div class="modal fade" id="editProject_<?= $row->id ?>" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <form id="editForm_<?= $row->id ?>"  method="post" enctype="multipart/form-data">
+                                            <div class="modal fade dynamic-modal" id="editProject_<?= $row->id ?>"
+                                                tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -170,11 +163,9 @@
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
                                                         </div>
-                                                        <div class="modal-body">
-                                                            <form id="edit_project"
-                                                                action="<?= base_url() ?>UserDashboard/edit_project"
-                                                                method="post" enctype="multipart/form-data">
-            
+                                                       
+                                                           
+                                                            <div class="modal-body">
                                                                 <div class="items">
                                                                     <!-- Repeater Content -->
                                                                     <div class="row item-content">
@@ -185,7 +176,7 @@
                                                                                 class="form-label">Project Name<span
                                                                                     class="text-danger">*</span></label>
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Enter Project Name" required
+                                                                                placeholder="Enter Project Name" 
                                                                                 id="project_name" name="project_name"
                                                                                 value="<?= $row->project_name ?>">
                                                                         </div>
@@ -204,7 +195,7 @@
                                                                             <input type="text" name="working_role"
                                                                                 class="form-control" id="working_role"
                                                                                 placeholder="Example : Project Manager"
-                                                                                required value="<?= $row->working_role ?>">
+                                                                                 value="<?= $row->working_role ?>">
                                                                         </div>
                                                                         <div class="col-md-12 mb-3">
                                                                             <label for="inputEmail1"
@@ -213,8 +204,8 @@
                                                                                 be in 330 × 192 px )</label>
 
                                                                             <input class="form-control" type="file"
-                                                                                id="faeture_image_update" name="faeture_image_update"
-                                                                                accept="image/*"
+                                                                                id="faeture_image_update"
+                                                                                name="faeture_image_update" accept="image/*"
                                                                                 onchange="add_preview(this, 'imagePreview', 'sp_img<?= $row->id ?>','editButton<?= $row->id ?>','330','192')">
                                                                             <img src="<?= base_url('assets/upload/Project_Image/' . $row->faeture_image) ?>"
                                                                                 alt="faeture_image_update" width="170"
@@ -230,62 +221,32 @@
                                                                                     class="text-danger">*</span> (Max 40
                                                                                 words Accepted)</label>
                                                                             <textarea class="form-control"
-                                                                                name="description"
+                                                                                name="description" id="description"
                                                                                 aria-label="With textarea"
-                                                                                style="height: 110px;" required
+                                                                                style="height: 110px;" 
                                                                                 maxlength="40"><?= $row->description ?></textarea>
                                                                         </div>
                                                                         <div class="col-md-12 text-end">
-                                                                            <button type="submit"
+                                                                            <button type="button"
                                                                                 class="btn btn-outline-secondary w-25"
                                                                                 id="editButton<?= $row->id ?>">Update</button>
                                                                         </div>
-                                                                    </div>
+                                                                        
+                                                                      
+                                                                    
                                                                 </div>
-                                                            </form>
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- ==============-->
-                                        <?php }
-                                         ?>
+                                            </form>
+                                            <!-- ==================== -->
+                                        <?php } ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-
-                        <!-- <div class="tab-pane fade show active" id="pills-editProject" role="tabpanel" style="display:none;">
-                                <form action="">
-                                    <div class="items" data-group="test">
-                                        <div class="row item-content">
-                                            <div class="col-md-12 mb-3">
-                                                <label for="inputEmail1" class="form-label">Project Name<span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="Enter Project Name" required>
-                                            </div>
-                                            <div class="col-md-12 mb-3">
-                                                <label for="inputEmail1" class="form-label">Project URL</label>
-                                                <input type="url" class="form-control" placeholder="Enter Project URL" required>
-                                            </div>
-                                            <div class="col-md-12 mb-3">
-                                                <label for="inputEmail1" class="form-label">Your Working Role <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="Example : Project Manager" required>
-                                            </div>
-                                            <div class="col-md-12 mb-3">
-                                                <label for="inputEmail1" class="form-label">Upload Feature Image<span class="text-danger">*</span> (Image must be in 330 × 192 px )</label>
-                                                <input class="form-control"  type="file" id="" accept="image/*"  required>
-                                            </div>
-                                            <div class="col-md-12 mb-3">
-                                                <label for="inputEmail1" class="form-label">Project Description<span class="text-danger">*</span> (Max 40 words Accepted)</label>
-                                                <textarea class="form-control" aria-label="With textarea" style="height: 110px;" required></textarea>
-                                            </div>
-                                            <div class="col-md-12 text-end">
-                                                <button class="btn btn-outline-secondary w-25">Save</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div> -->
                     </div>
                 </div>
             </div>
@@ -321,10 +282,6 @@
             }
         }
         $(document).ready(function () {
-            // Attach click event handler to the button
-            // $('#yourFormId').submit(function (e) {
-            //     e.preventDefault(); // Prevent default form submission
-            // });
             $('#yourFormId').validate({
                 rules: {
                     project_name: {
@@ -339,7 +296,7 @@
                     description: {
                         required: true,
                     },
-                    faeture_image:{
+                    faeture_image: {
                         required: true,
                     }
                 },
@@ -380,44 +337,40 @@
                                     $('#description').val('');
                                     $('#faeture_image').val('');
                                 });
-                                //$('#project_name').val();
-
                             }
 
                         }
                     });
                 }
             });
+           
         });
-
-
-        // $('#submitButton').click(function () {
-        //     submitForm();
-        // });
-        // function submitForm() {
-        //     var formData = new FormData($('#yourFormId')[0]);
-        //     $.ajax({
-        //         url: '<?= base_url() ?>UserDashboard/add_project',
-        //         type: 'POST',
-        //         data: formData,
-        //         contentType: false,
-        //         processData: false,
-        //         success: function (response) {
-        //             if (response == 1) {
-        //                 $('.updated-container').load(window.location.href + ' .updated-container', function () {
-        //                     $("#view_project").click();
-        //                 });
-        //                 $('#project_name').val();
-
-        //             }
-        //         },
-        //         error: function (xhr, status, error) {
-        //             console.error(xhr.responseText);
-        //         }
-        //     });
-        // }
-
-
+        $('form[id^="editForm_"]').on('submit', function(e) {
+    e.preventDefault();
+    var form = $(this);
+    if (form.valid()) {
+        var formData = new FormData(this);
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response == 1) {
+                    $('.updated-container').load(window.location.href + ' .updated-container');
+                    form.closest('.modal').modal('hide');
+                } else {
+                    alert('Failed to update project.');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                alert('An error occurred while updating project.');
+            }
+        });
+    }
+});
 
     </script>
     <?php include_once ('includes/footer.php') ?>

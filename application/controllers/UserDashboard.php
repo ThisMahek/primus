@@ -292,62 +292,60 @@ class UserDashboard extends CI_Controller
 		}
 	}
 	public function edit_project()
-	{
-		//echo "<pre>";
-		// print_r($_POST);
-		// print_r($_FILES);
-		// exit;
-		$id = $this->input->post('project_id');
-		$user_id = $this->session->userdata('user_id');
-		$file = $_FILES["faeture_image_update"];
-		$MyFileName = "";
-		if (strlen($file['name']) > 0) {
-			$image = $file["name"];
-			$config['upload_path'] = './assets/upload/Project_Image';
-			$config['allowed_types'] = 'jpg|png|jpeg';
-			$config['file_name'] = $image;
-			$this->load->library("upload", $config);
-			$filestatus = $this->upload->do_upload('faeture_image_update');
-			if ($filestatus == true) {
-				$MyFileName = $this->upload->data('file_name');
-				$array['faeture_image'] = $MyFileName;
-			} else {
-				$error = array('error' => $this->upload->display_errors());
-				$result = $error;
-			}
-		}
-		//End: File upload code
-		$array['project_name'] = $this->input->post('project_name');
-		$array['working_role'] = $this->input->post('working_role');
-		$array['description'] = $this->input->post('description');
-		$array['project_url'] = $this->input->post('project_url');
-		$array['user_id'] = $user_id;
-		$response = $this->db->where('id', $id)->update('tbl_project', $array);
-		if ($response) {
-			$this->session->set_flashdata('success', '<script>
-				$(document).ready(function(){
-				Swal.fire({
-					icon: "success",
-					title: "Success",
-					text: "Your data updated successfully!",
-				});
-				 $("#view_project").click();
-			});
-			</script>');
-		} else {
-			$this->session->set_flashdata('success', '<script>
-				$(document).ready(function(){
-				Swal.fire({
-					icon: "error",
-					title: "Oops...",
-					text: "Something went wrong!",
-				});
-				$("#view_project").click();
-			});
-			</script>');
-		}
-		redirect(base_url() . "UserDashboard/projects");
-	}
+{
+    // Load form validation library
+    $this->load->library('form_validation');
+
+    // Set validation rules
+    $this->form_validation->set_rules('project_name', 'Project Name', 'required');
+    $this->form_validation->set_rules('project_url', 'Project URL', 'required');
+    $this->form_validation->set_rules('working_role', 'Working Role', 'required');
+    $this->form_validation->set_rules('description', 'Description', 'required');
+
+    // Check if the form validation passes
+    if ($this->form_validation->run() == FALSE) {
+        // Validation failed, return errors
+        $errors = validation_errors();
+       echo 2;
+    } else {
+        // Validation passed, proceed with file upload and database update
+
+        $id = $this->input->post('project_id');
+        $user_id = $this->session->userdata('user_id');
+        $file = $_FILES["feature_image"]; // Corrected to match form input name
+        $MyFileName = "";
+        if (strlen($file['name']) > 0) {
+            $image = $file["name"];
+            $config['upload_path'] = './assets/upload/Project_Image';
+            $config['allowed_types'] = 'jpg|png|jpeg';
+            $config['file_name'] = $image;
+            $this->load->library("upload", $config);
+            $filestatus = $this->upload->do_upload('feature_image'); // Corrected to match form input name
+            if ($filestatus == true) {
+                $MyFileName = $this->upload->data('file_name');
+                $array['feature_image'] = $MyFileName; // Corrected to match form input name
+            } else {
+                $error = array('error' => $this->upload->display_errors());
+                echo json_encode(['status' => 0, 'errors' => $error]);
+                return;
+            }
+        }
+        //End: File upload code
+        $array['project_name'] = $this->input->post('project_name');
+        $array['working_role'] = $this->input->post('working_role');
+        $array['description'] = $this->input->post('description');
+        $array['project_url'] = $this->input->post('project_url');
+        $array['user_id'] = $user_id;
+
+        $response = $this->db->where('id', $id)->update('tbl_project', $array);
+        if ($response) {
+           echo 1;
+        } else {
+			echo 0;
+        }
+    }
+}
+
 	public function update_dashboard_status()
 	{
 		$user_id = $this->session->userdata('user_id');

@@ -7,6 +7,7 @@ class UsersView extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('UserModel', 'UM');
+		$this->load->helper('user');
 		if (!$this->session->userdata('user_id')) {
 			redirect(base_url());
 		}
@@ -14,7 +15,8 @@ class UsersView extends CI_Controller
 
 	public function aboutUs()
 	{
-
+		
+		
 		$user_id = $this->session->userdata('user_id');
 		$data['aboutus_data'] = $this->UM->get_single_data('tbl_about','1',$user_id);
 		$data['user_data'] = $this->UM->get_user_data();
