@@ -31,7 +31,7 @@
                             <!-- Repeater Heading -->
                             <div class="d-flex align-items-center justify-content-between">
                                 <h5 class="mb-0"></h5>
-                                <button type="button" class="btn btn-outline-primary  repeater-add-btn px-4" id="add-class" title="Add More Colloum"><i class="bx bx-plus"></i></button>
+                                <button type="button" class="btn btn-outline-primary  repeater-add-btn px-4" id="add-class-eduction" title="Add More Colloum"><i class="bx bx-plus"></i></button>
                             </div>
                             <!-- Repeater Items -->
                           <?php
@@ -127,56 +127,5 @@
             </div>
         </div>
         <!--end page wrapper -->
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
-        <script>
-              $(document).ready(function () {
-             $("#add-class").click(function () {
-                var group = `<div class="items"><div class="item-content"><div class="mb-3"><label for="inputEmail1" class="form-label">Enter Qualification Type<span class="text-danger">*</span></label><input type="text" class="form-control" name="education_type[]" placeholder="Example : MCA" ></div><div class="mb-3"><label for="inputEmail1" class="form-label">Enter School/College/Institute/University Name <span class="text-danger">*</span></label><input type="text" class="form-control" name="institute[]" placeholder="Enter Your School/College/Institute/University Name" ></div><div class="mb-3"><label for="inputEmail1" class="form-label">Year of Passing<span class="text-danger">*</span></label><input class="form-control" name="year[]" type="month" id=""></div><div class="mt-3"><label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label></div><textarea  maxlength="40" class="form-control" name="description[]" aria-label="With textarea" style="height: 110px;" ></textarea></div><div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)"  title="Remove Colloum"><i class="bx bx-x"></i></button></div></div><hr></div>
-`;
-                $(this).closest('form').find('.append-area').append(group);
-                //  $(this).parent().after(group);
-             });
-             $('#submit_education').on('click', function() {
-                event.preventDefault();
-               // alert('hu');
-        $.ajax({
-            url: '<?php echo base_url("UserDashboard/save_education"); ?>',
-            type: 'POST',
-            data: $('#education_form').serialize(),
-         //   dataType: 'json',
-            success: function(response) {
-                // alert(response);
-                // console.log(response);
-                if(response == 1) {
-                        Swal.fire({
-                        icon: "success",
-                        title: "Success",
-                        text: "Your data was saved successfully!",
-                        });
-                        setTimeout(function(){
-					window.location.reload();
-				},2000);
-                }else if(response == 2) {
-                            Swal.fire({
-                            icon: "error",
-                            title: "Oops..",
-                            text: "Invalid data submitted. Please fill all field!",
-                            });
-				
-                } else {
-                    Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Something went wrong!",
-                    });
-                }
-            }
-        });
-    });
-        });
-        function  removeInputGroup(btn) {
-            $(btn).closest('.items').remove();
-        }
-    </script>
         <?php include_once('includes/footer.php') ?>
     

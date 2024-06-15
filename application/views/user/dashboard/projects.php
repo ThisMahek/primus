@@ -161,7 +161,7 @@
                                                 </td>
                                             </tr>
                                             <!-- =====Edit Modal===== -->
-                                            <div class="modal fade" id="editProject_<?= $row->id ?>" tabindex="-1"
+                                            <div class="modal fade dynamic-modal" id="editProject_<?= $row->id ?>" tabindex="-1"
                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
@@ -171,10 +171,7 @@
                                                                 aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form id="edit_project"
-                                                                action="<?= base_url() ?>UserDashboard/edit_project"
-                                                                method="post" enctype="multipart/form-data">
-            
+                                                            <form id="editForm"method="post" enctype="multipart/form-data">
                                                                 <div class="items">
                                                                     <!-- Repeater Content -->
                                                                     <div class="row item-content">
@@ -247,45 +244,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- ==============-->
-                                        <?php }
-                                         ?>
+                                            <!-- ==================== -->
+                                        <?php } ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-
-                        <!-- <div class="tab-pane fade show active" id="pills-editProject" role="tabpanel" style="display:none;">
-                                <form action="">
-                                    <div class="items" data-group="test">
-                                        <div class="row item-content">
-                                            <div class="col-md-12 mb-3">
-                                                <label for="inputEmail1" class="form-label">Project Name<span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="Enter Project Name" required>
-                                            </div>
-                                            <div class="col-md-12 mb-3">
-                                                <label for="inputEmail1" class="form-label">Project URL</label>
-                                                <input type="url" class="form-control" placeholder="Enter Project URL" required>
-                                            </div>
-                                            <div class="col-md-12 mb-3">
-                                                <label for="inputEmail1" class="form-label">Your Working Role <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="Example : Project Manager" required>
-                                            </div>
-                                            <div class="col-md-12 mb-3">
-                                                <label for="inputEmail1" class="form-label">Upload Feature Image<span class="text-danger">*</span> (Image must be in 330 × 192 px )</label>
-                                                <input class="form-control"  type="file" id="" accept="image/*"  required>
-                                            </div>
-                                            <div class="col-md-12 mb-3">
-                                                <label for="inputEmail1" class="form-label">Project Description<span class="text-danger">*</span> (Max 40 words Accepted)</label>
-                                                <textarea class="form-control" aria-label="With textarea" style="height: 110px;" required></textarea>
-                                            </div>
-                                            <div class="col-md-12 text-end">
-                                                <button class="btn btn-outline-secondary w-25">Save</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div> -->
                     </div>
                 </div>
             </div>
@@ -380,14 +344,75 @@
                                     $('#description').val('');
                                     $('#faeture_image').val('');
                                 });
-                                //$('#project_name').val();
-
                             }
 
                         }
                     });
                 }
             });
+            $('#editForm').validate({
+    rules: {
+        project_name: {
+            required: true,
+        },
+        project_url: {
+            required: true,
+        },
+        working_role: {
+            required: true,
+        },
+        description: {
+            required: true,
+        },
+        feature_image: {  // corrected the typo here
+            required: true,
+        }
+    },
+    messages: {
+        project_name: {
+            required: "Enter Project Name",
+        },
+        project_url: {
+            required: "Enter Project URL",
+        },
+        working_role: {
+            required: "Enter Working Role",
+        },
+        description: {
+            required: "Enter Project Description",
+        },
+        feature_image: {  // corrected the typo here
+            required: "Please Choose Image",
+        }
+    },
+    submitHandler: function (form, e) {
+        e.preventDefault();  // prevent default form submission
+
+        var formData = new FormData(form);
+        $.ajax({
+            url: '<?= base_url() ?>UserDashboard/edit_project',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response == 1) {
+                    $('.updated-container').load(window.location.href + ' .updated-container', function () {
+                        $('.dynamic-modal').modal('hide');        
+                                });
+                } else {
+                    // handle the case where the response is not 1
+                    alert('An error occurred. Please try again.');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // handle any errors from the server
+                alert('An error occurred: ' + textStatus);
+            }
+        });
+    }
+});
+
         });
 
 

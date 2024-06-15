@@ -419,6 +419,10 @@
                     e.preventDefault();
                     let email = $('#user_email').val();
                     let password = $('#password').val();
+                    <?php
+$dashboard_url = base_url() . $this->session->userdata('user_name') . '/dashboard';
+?>
+
                     $.ajax({
                         type: "POST",
                         url: "<?= base_url() ?>/Login/ProcessLoginUser",
@@ -430,7 +434,7 @@
                             let messageDiv = $('#messageDiv');
                             if (response == 1) {
                                 $('#login_form_id')[0].reset();
-                                window.location = "<?= base_url() ?>UserDashboard";
+                                window.location = "<?php echo $dashboard_url; ?>";
                             }
                             else if (response == 2) {
                                 messageDiv.html('<div class="alert alert-danger">Invalid Password!</div>');

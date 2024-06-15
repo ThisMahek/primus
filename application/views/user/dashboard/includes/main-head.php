@@ -1,4 +1,8 @@
 <!-- Required meta tags -->
+<script>
+const BASE_URL="<?php echo base_url()?>";
+</script>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--favicon-->
@@ -22,4 +26,5 @@
 <link rel="stylesheet" href="<?=base_url()?>admin-assets/css/semi-dark.css"/>
 <link rel="stylesheet" href="<?=base_url()?>admin-assets/css/header-colors.css"/>
 <link href="<?=base_url()?>admin-assets/css/quill.snow.css" rel="stylesheet">
+
 <title></title>
