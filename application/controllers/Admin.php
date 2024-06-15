@@ -5,11 +5,11 @@ class Admin extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('admin/index');
+		$this->load->view('admin/pages/admin_index');
 	}
     public function dashboard()
 	{
-		$this->load->view('admin/dashboard');
+		$this->load->view('admin/pages/dashboard');
 	}
     public function changePassword()
 	{

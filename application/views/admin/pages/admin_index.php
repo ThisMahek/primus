@@ -103,6 +103,5 @@
 	<!--app JS-->
 	<script src="<?=base_url()?>admin-assets/js/app.js"></script>
 </body>
-<?= $this->session->flashdata('error')?>
-<?= $this->session->flashdata('success')?>
+
 </html>
