@@ -26,4 +26,5 @@ const BASE_URL="<?php echo base_url()?>";
 <link rel="stylesheet" href="<?=base_url()?>admin-assets/css/semi-dark.css"/>
 <link rel="stylesheet" href="<?=base_url()?>admin-assets/css/header-colors.css"/>
 <link href="<?=base_url()?>admin-assets/css/quill.snow.css" rel="stylesheet">
+
 <title></title>

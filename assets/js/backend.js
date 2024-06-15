@@ -1,11 +1,12 @@
+
 function logoutuser(urll) {
     event.preventDefault();
     const url = urll;
     Swal.fire({
-    icon: "warning",
-    title: "Are you sure",
-    text: "You want to log out!",
-    buttons: ["Cancel", "Yes!"],
+        icon: "warning",
+        title: "Are you sure",
+        text: "You want to log out!",
+        buttons: ["Cancel", "Yes!"],
     }).then(function (value) {
         if (value) {
             window.location.href = url;
@@ -28,7 +29,7 @@ function copytoClipboard() {
 }
 function change_status(val, key, data) {
     var checkboxValue = val.checked;
-  var BASE_URL;
+    var BASE_URL;
     // var baseUrl=base_url();
     // var endpoint = "User/ChangeStatus";
     //   var fullUrl = baseUrl + endpoint;
@@ -60,7 +61,7 @@ function change_status(val, key, data) {
                 // Proceed with the status change
                 $.ajax({
                     type: "POST",
-                    url: BASE_URL+"User/ChangeStatus",
+                    url: BASE_URL + "User/ChangeStatus",
                     data: {
                         status: status,
                         key: key
@@ -109,7 +110,7 @@ function change_dashboard_status(val, key, data) {
     } else {
         $.ajax({
             type: "POST",
-            url: base_url+'/UserDashboard/change_dashboard_status',
+            url: base_url + '/UserDashboard/change_dashboard_status',
             data: {
                 status: status,
                 key: key
@@ -228,3 +229,229 @@ function image_validate(data, btn) {
         return false;
     }
 }
+function checkPDFAvailability() {
+    $.ajax({
+        url: BASE_URL + "User/check_pdf_availability",
+        type: "GET",
+        success: function (response) {
+            if (response == 1) {
+                $('#user_cv').prop('required', false);
+            } else {
+                //$('#user_cv').prop('required', true);
+            }
+        },
+    });
+}
+function removeInputGroup(btn) {
+    $(btn).closest('.items').remove();
+}
+function daysDifference(index) {
+    const fromDateElement = document.getElementById(`from_date${index}`);
+    const toDateElement = document.getElementById(`to_date${index}`);
+    const resultElement = document.getElementById(`result${index}`);
+
+    const fromDate = fromDateElement.value;
+    const toDate = toDateElement.value;
+
+// if (fromDate && !toDate) {
+//     alert('Please select the to date .');
+//     toDateElement.focus();
+//     return false;
+// }
+if (fromDate && toDate) {
+    const from = new Date(fromDate);
+    const to = new Date(toDate);
+    const diffTime = Math.abs(to - from);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const diffMonths = Math.floor(diffDays / 30);
+    const diffYears = Math.floor(diffMonths / 12);
+    const remainingMonths = diffMonths % 12;
+    resultElement.value = `${remainingMonths} months : ${diffYears} years`;
+} else {
+    resultElement.value = '';
+}
+}
+function initializeDates() {
+    const elements = document.querySelectorAll('[id^="from_date"], [id^="to_date"]');
+    elements.forEach((element) => {
+        const index = element.id.replace(/\D/g, '');
+        daysDifference(index);
+    });
+}
+
+window.onload = initializeDates;
+
+
+$(document).ready(function () {
+    checkPDFAvailability();
+    $('#submitButton').click(function () {
+        var formData = new FormData($('#aboutUsForm')[0]);
+        $.ajax({
+            url: BASE_URL + "UserDashboard/about_us",
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response == 1) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: "Your data was saved successfully!",
+                    });
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 2000);
+                } else if (response == 2) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops..",
+                        text: "Invalid data submitted. Please fill all field!",
+                    });
+                } else if (response == 3) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops..",
+                        text: "Kindly do any action first!",
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Something went wrong!",
+                    });
+                }
+            }
+
+        });
+    });
+
+    $("#add-class-eduction").click(function () {
+        var group = `<div class="items"><div class="item-content"><div class="mb-3"><label for="inputEmail1" class="form-label">Enter Qualification Type<span class="text-danger">*</span></label><input type="text" class="form-control" name="education_type[]" placeholder="Example : MCA" ></div><div class="mb-3"><label for="inputEmail1" class="form-label">Enter School/College/Institute/University Name <span class="text-danger">*</span></label><input type="text" class="form-control" name="institute[]" placeholder="Enter Your School/College/Institute/University Name" ></div><div class="mb-3"><label for="inputEmail1" class="form-label">Year of Passing<span class="text-danger">*</span></label><input class="form-control" name="year[]" type="month" id=""></div><div class="mt-3"><label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label></div><textarea  maxlength="40" class="form-control" name="description[]" aria-label="With textarea" style="height: 110px;" ></textarea></div><div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)"  title="Remove Colloum"><i class="bx bx-x"></i></button></div></div><hr></div>`;
+        $(this).closest('form').find('.append-area').append(group);
+    });
+    var i=2;
+    $("#add-class-experience").click(function () {
+     
+        var group = `<div class="items"><div class="row item-content"><div class="col-md-12 mb-3"><label for="work_type" class="form-label">Enter Work Type<span class="text-danger">*</span></label><input type="text" class="form-control" name="work_type[]" placeholder="Example : Web Developer" ></div><div class="col-md-12 mb-3"><label for="organisation_name" class="form-label">Enter Organisation Name <span class="text-danger">*</span></label><input type="text" class="form-control" name="organisation_name[]" placeholder="Enter Your Organisation Name" ></div><div class="col-md-12 mb-3"><label for="website_url" class="form-label">Enter Organisation Website URL <span class="text-danger">*</span></label><input type="url" class="form-control" name="website_url[]" placeholder="Enter Your Organisation Website URL" ></div><div class="col-md-6 mb-3"><label for="work_from" class="form-label">Work From<span class="text-danger">*</span></label><input class="form-control" name="work_from[]" type="month" id="from_date${i}" ></div><div class="col-md-6 mb-3"><label for="work_to" class="form-label">Work To<span class="text-danger">*</span> (Choose Current Month for Till Now)</label><input class="form-control" name="work_to[]" type="month" id="to_date${i}" onchange="daysDifference(${i})" placeholder="Till Now" ></div></div><div class="col-md-12 mb-3">
+                                            <label for="total-exp" class="form-label">Total Experience<span class="text-danger">*</span></label>
+                                            <input class="form-control"  type="text" id="result${i}" name="total[]"   readonly>
+                                        </div><div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)" title="Remove Colloum"><i class="bx bx-x"></i></button></div></div><hr></div>`;
+        $(this).closest('form').find('.append-area').append(group);
+i++;
+    });
+    $("#add-class-skills").click(function () {
+        var group = `<div class="items"><div class="row item-content">
+        <div class="col-md-12 mb-3"><label for="skill" class="form-label">Enter Your Skill<span class="text-danger">*</span></label><input type="text" name="skill[]" class="form-control" placeholder="Example : Java" ></div><div class="col-md-12 mb-3"><label for="percantage" class="form-label">Mark in Percentage (%)<span class="text-danger">*</span></label><select class="form-control"  name="percantage[]"><option value="0">0%</option><option value="10">10%</option><option value="20">20%</option><option value="30">30%</option><option value="40">40%</option><option value="50">50%</option><option value="60">60%</option><option value="70">70%</option><option value="80">80%</option><option value="90">90%</option><option value="100">100%</option></select></div></div><div class="row mt-3 mb-3"><div class="col-md-6 repeater-remove-btn"><button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)" title="Remove Colloum"><i class="bx bx-x"></i></button></div></div><hr></div>`;
+        $(this).closest('form').find('.append-area').append(group);
+    });
+    $('#submit_education').on('click', function () {
+        event.preventDefault();
+        $.ajax({
+            url: BASE_URL + "UserDashboard/save_education",
+            type: 'POST',
+            data: $('#education_form').serialize(),
+            success: function (response) {
+                //  alert(response);
+                if (response == 1) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: "Your data was saved successfully!",
+                    });
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 2000);
+                } else if (response == 2) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops..",
+                        text: "Invalid data submitted. Please fill all field!",
+                    });
+
+                } else if (response == 3) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops..",
+                        text: "Kindly do any action first!",
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Something went wrong!",
+                    });
+                }
+            }
+        });
+    });
+
+    $('#submit_skill').on('click', function () {
+        event.preventDefault();
+        // alert('hu');
+        $.ajax({
+            url: BASE_URL + "UserDashboard/save_skills",
+            type: 'POST',
+            data: $('#skill_form').serialize(),
+            success: function (response) {
+                if (response == 1) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: "Your data was saved successfully!",
+                    });
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 2000);
+                } else if (response == 2) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops..",
+                        text: "Invalid data submitted. Please fill all field!",
+                    });
+
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Something went wrong!",
+                    });
+                }
+            }
+        });
+    });
+    $('#submit_experience').on('click', function () {
+        event.preventDefault();
+        $.ajax({
+            url: BASE_URL+"UserDashboard/save_experience",
+            type: 'POST',
+            data: $('#experience_form').serialize(),
+            success: function (response) {
+                if (response == 1) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: "Your data was saved successfully!",
+                    });
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 2000);
+                } else if (response == 2) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops..",
+                        text: "Invalid data submitted. Please fill all field!",
+                    });
+
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Something went wrong!",
+                    });
+                }
+            }
+        });
+    });
+    //end 
+});

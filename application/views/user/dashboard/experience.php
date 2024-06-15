@@ -30,7 +30,7 @@
                             <!-- Repeater Heading -->
                             <div class="d-flex align-items-center justify-content-between">
                                 <h5 class="mb-0"></h5>
-                                <button type="button" class="btn btn-outline-primary  repeater-add-btn px-4" id="add-class" title="Add More Colloum"><i class="bx bx-plus"></i></button>
+                                <button type="button" class="btn btn-outline-primary  repeater-add-btn px-4" id="add-class-experience" title="Add More Colloum"><i class="bx bx-plus"></i></button>
                             </div>
                             <!-- Repeater Items -->
                           <?php
@@ -56,15 +56,15 @@
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="work_from" class="form-label">Work From<span class="text-danger">*</span></label>
-                                            <input class="form-control"  name="work_from[]" type="month" id=""  value="<?=$row->work_from?>">
+                                            <input class="form-control"  name="work_from[]" type="month" id="from_date<?=$row->id?>"  value="<?=$row->work_from?>">
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="work_to" class="form-label">Work To<span class="text-danger">*</span> (Choose Current Month for Till Now)</label>
-                                            <input class="form-control" name="work_to[]"  type="month" id=""  placeholder="Till Now"  value="<?=$row->work_to?>">
+                                            <input class="form-control" name="work_to[]"  type="month" id="to_date<?=$row->id?>" onchange="daysDifference(<?=$row->id?>)"  placeholder="Till Now"  value="<?=$row->work_to?>">
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <label for="total-exp" class="form-label">Total Experience<span class="text-danger">*</span></label>
-                                            <input class="form-control" name=""  type="number" id=""  placeholder=""  value="" readonly>
+                                            <input class="form-control" name="total[]"  type="text" id="result<?=$row->id?>" value="<?=$row->total?>" readonly>
                                         </div>
                                     </div>
                                     <?php if ($experience!=0) {?>
@@ -96,15 +96,15 @@
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="work_from" class="form-label">Work From<span class="text-danger">*</span></label>
-                                            <input class="form-control"  name="work_from[]" type="month" id="" >
+                                            <input class="form-control"  name="work_from[]" type="month" id="from_date1" >
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="work_to" class="form-label">Work To<span class="text-danger">*</span> (Choose Current Month for Till Now)</label>
-                                            <input class="form-control" name="work_to[]"  type="month" id=""  placeholder="Till Now" >
+                                            <input class="form-control" name="work_to[]"  type="month"  id="to_date1"  onchange="daysDifference(1)"   placeholder="Till Now" >
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <label for="total-exp" class="form-label">Total Experience<span class="text-danger">*</span></label>
-                                            <input class="form-control" name=""  type="number" id=""  placeholder=""  value="" readonly>
+                                            <input class="form-control" name="total[]"  type="text" id="result1" readonly>
                                         </div>
                                     </div>
                                     <!-- Repeater Remove Btn -->
@@ -132,57 +132,5 @@
             </div>
         </div>
         <!--end page wrapper -->
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
-        <script>
-              $(document).ready(function () {
-             $("#add-class").click(function () {
-                var group = `<div class="items"><div class="row item-content"><div class="col-md-12 mb-3"><label for="work_type" class="form-label">Enter Work Type<span class="text-danger">*</span></label><input type="text" class="form-control" name="work_type[]" placeholder="Example : Web Developer" ></div><div class="col-md-12 mb-3"><label for="organisation_name" class="form-label">Enter Organisation Name <span class="text-danger">*</span></label><input type="text" class="form-control" name="organisation_name[]" placeholder="Enter Your Organisation Name" ></div><div class="col-md-12 mb-3"><label for="website_url" class="form-label">Enter Organisation Website URL <span class="text-danger">*</span></label><input type="url" class="form-control" name="website_url[]" placeholder="Enter Your Organisation Website URL" ></div><div class="col-md-6 mb-3"><label for="work_from" class="form-label">Work From<span class="text-danger">*</span></label><input class="form-control" name="work_from[]" type="month" id="" ></div><div class="col-md-6 mb-3"><label for="work_to" class="form-label">Work To<span class="text-danger">*</span> (Choose Current Month for Till Now)</label><input class="form-control" name="work_to[]" type="month" id="" placeholder="Till Now" ></div></div><div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)" title="Remove Colloum"><i class="bx bx-x"></i></button></div></div><hr></div>`;
-                $(this).closest('form').find('.append-area').append(group);
-                //  $(this).parent().after(group);
-             });
-             $('#submit_experience').on('click', function() {
-                event.preventDefault();
-               // alert('hu');
-        $.ajax({
-            url: '<?php echo base_url("UserDashboard/save_experience"); ?>',
-            type: 'POST',
-            data: $('#experience_form').serialize(),
-         //   dataType: 'json',
-            success: function(response) {
-                if(response == 1) {
-                        Swal.fire({
-                        icon: "success",
-                        title: "Success",
-                        text: "Your data was saved successfully!",
-                        });
-                        setTimeout(function(){
-					window.location.reload();
-				},2000);
-                }else if(response == 2) {
-                            Swal.fire({
-                            icon: "error",
-                            title: "Oops..",
-                            text: "Invalid data submitted. Please fill all field!",
-                            });
-				
-                } else {
-                    Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Something went wrong!",
-                    });
-                }
-            }
-        });
-    });
-
-
-        });
-        function  removeInputGroup(btn) {
-            $(btn).closest('.items').remove();
-        }
         
-
-  
-    </script>
         <?php include_once('includes/footer.php') ?>

@@ -19,10 +19,12 @@
 <script src="<?= base_url() ?>admin-assets/js/quill.js"></script>
 <script src="<?= base_url() ?>admin-assets/assets/js/custom.js"></script>
 <!--app JS-->
+<script src="<?= base_url() ?>assets/js/backend.js"></script>
 <script src="<?= base_url() ?>admin-assets/js/app.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
 
 
 
@@ -31,6 +33,7 @@
 <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.3/dist/sweetalert2.min.css" rel="stylesheet">
 <?= $this->session->flashdata('error') ?>
 <?= $this->session->flashdata('success') ?>
+
 
 <script>
     new PerfectScrollbar(".app-container")
