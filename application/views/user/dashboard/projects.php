@@ -92,15 +92,16 @@
 
 
                                             <input class="form-control" type="file" id="faeture_image"
-                                                name="faeture_image" accept="image/*" 
+                                                name="faeture_image" accept="image/*"
                                                 onchange="add_preview(this, 'imagePreview', 'sp_img','submitButton','300','192')">
                                             <span id="sp_img" style="color:red"></span>
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <label for="inputEmail1" class="form-label">Project Description<span
                                                     class="text-danger">*</span> (Max 40 words Accepted)</label>
-                                            <textarea class="form-control" name="description" id="description" aria-label="With textarea"
-                                                style="height: 110px;" maxlength="40" required></textarea>
+                                            <textarea class="form-control" name="description" id="description"
+                                                aria-label="With textarea" style="height: 110px;" maxlength="40"
+                                                required></textarea>
                                         </div>
                                         <div class="col-md-12 text-end">
                                             <button type="submit" class="btn btn-outline-secondary w-25"
@@ -161,8 +162,8 @@
                                                 </td>
                                             </tr>
                                             <!-- =====Edit Modal===== -->
-                                            <div class="modal fade dynamic-modal" id="editProject_<?= $row->id ?>" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade dynamic-modal" id="editProject_<?= $row->id ?>"
+                                                tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -171,7 +172,7 @@
                                                                 aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form id="editForm"method="post" enctype="multipart/form-data">
+                                                            <form id="editForm" method="post" enctype="multipart/form-data">
                                                                 <div class="items">
                                                                     <!-- Repeater Content -->
                                                                     <div class="row item-content">
@@ -210,8 +211,8 @@
                                                                                 be in 330 × 192 px )</label>
 
                                                                             <input class="form-control" type="file"
-                                                                                id="faeture_image_update" name="faeture_image_update"
-                                                                                accept="image/*"
+                                                                                id="faeture_image_update"
+                                                                                name="faeture_image_update" accept="image/*"
                                                                                 onchange="add_preview(this, 'imagePreview', 'sp_img<?= $row->id ?>','editButton<?= $row->id ?>','330','192')">
                                                                             <img src="<?= base_url('assets/upload/Project_Image/' . $row->faeture_image) ?>"
                                                                                 alt="faeture_image_update" width="170"
@@ -303,7 +304,7 @@
                     description: {
                         required: true,
                     },
-                    faeture_image:{
+                    faeture_image: {
                         required: true,
                     }
                 },
@@ -351,67 +352,67 @@
                 }
             });
             $('#editForm').validate({
-    rules: {
-        project_name: {
-            required: true,
-        },
-        project_url: {
-            required: true,
-        },
-        working_role: {
-            required: true,
-        },
-        description: {
-            required: true,
-        },
-        feature_image: {  // corrected the typo here
-            required: true,
-        }
-    },
-    messages: {
-        project_name: {
-            required: "Enter Project Name",
-        },
-        project_url: {
-            required: "Enter Project URL",
-        },
-        working_role: {
-            required: "Enter Working Role",
-        },
-        description: {
-            required: "Enter Project Description",
-        },
-        feature_image: {  // corrected the typo here
-            required: "Please Choose Image",
-        }
-    },
-    submitHandler: function (form, e) {
-        e.preventDefault();  // prevent default form submission
+                rules: {
+                    project_name: {
+                        required: true,
+                    },
+                    project_url: {
+                        required: true,
+                    },
+                    working_role: {
+                        required: true,
+                    },
+                    description: {
+                        required: true,
+                    },
+                    feature_image: {  // corrected the typo here
+                        required: true,
+                    }
+                },
+                messages: {
+                    project_name: {
+                        required: "Enter Project Name",
+                    },
+                    project_url: {
+                        required: "Enter Project URL",
+                    },
+                    working_role: {
+                        required: "Enter Working Role",
+                    },
+                    description: {
+                        required: "Enter Project Description",
+                    },
+                    feature_image: {  // corrected the typo here
+                        required: "Please Choose Image",
+                    }
+                },
+                submitHandler: function (form, e) {
+                    e.preventDefault();  // prevent default form submission
 
-        var formData = new FormData(form);
-        $.ajax({
-            url: '<?= base_url() ?>UserDashboard/edit_project',
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                if (response == 1) {
-                    $('.updated-container').load(window.location.href + ' .updated-container', function () {
-                        $('.dynamic-modal').modal('hide');        
+                    var formData = new FormData(form);
+                    $.ajax({
+                        url: '<?= base_url() ?>UserDashboard/edit_project',
+                        type: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function (response) {
+                            if (response == 1) {
+                                $('.updated-container').load(window.location.href + ' .updated-container', function () {
+                                    $('.dynamic-modal').modal('hide');
                                 });
-                } else {
-                    // handle the case where the response is not 1
-                    alert('An error occurred. Please try again.');
+                            } else {
+                                // handle the case where the response is not 1
+                                alert('An error occurred. Please try again.');
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            // handle any errors from the server
+                            alert('An error occurred: ' + textStatus);
+                        }
+                    });
                 }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                // handle any errors from the server
-                alert('An error occurred: ' + textStatus);
-            }
-        });
-    }
-});
+            });
 
         });
 

@@ -27,6 +27,26 @@ function copytoClipboard() {
     // Alert the copied text
     alert("URL Copied");
 }
+function delete_project(id) {
+    var activeTabId = $('#pills-viewProject');
+    var confirmation = confirm("Are you sure you want to delete this project?");
+    if (confirmation) {
+        $.ajax({
+            url: "UserDashboard/delete_project" ,
+            type: 'POST',
+            success: function (response) {
+                if (response == 1) {
+                    $('.updated-container').load(window.location.href + ' .updated-container', function () {
+                        $(activeTabId).tab('show');
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+}
 function change_status(val, key, data) {
     var checkboxValue = val.checked;
     var BASE_URL;
@@ -204,7 +224,7 @@ function onlytxtuplodeimg(data) {
     }
 }
 function image_validate(data, btn) {
-
+alert(data);
     var myFile = data.value;
     var upld = myFile.split('.').pop().toLowerCase();
 

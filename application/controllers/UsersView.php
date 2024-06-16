@@ -18,10 +18,10 @@ class UsersView extends CI_Controller
 		
 		
 		$user_id = $this->session->userdata('user_id');
-		$data['aboutus_data'] = $this->UM->get_single_data('tbl_about','1',$user_id);
+		$data['aboutus_data'] = $this->UM->get_single_data('tbl_about',$user_id,'1');
 		$data['user_data'] = $this->UM->get_user_data();
 		$data['about_count'] = $this->db->where(['user_id' => $user_id])->get('tbl_about')->num_rows();
-		$user_image = $this->UM->get_single_data('tbl_user_image','1',$user_id);
+		$user_image = $this->UM->get_single_data('tbl_user_image',$user_id,'1');
 		$path = FCPATH . 'assets\upload\user_Images\\' . ($user_image->image ?? 'test');
 		if (file_exists($path)) {
 			$type = pathinfo($path, PATHINFO_EXTENSION);
