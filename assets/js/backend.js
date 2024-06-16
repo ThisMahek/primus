@@ -32,7 +32,7 @@ function delete_project(id) {
     var confirmation = confirm("Are you sure you want to delete this project?");
     if (confirmation) {
         $.ajax({
-            url: "UserDashboard/delete_project" ,
+            url: BASE_URL+"UserDashboard/delete_project/" + id,
             type: 'POST',
             success: function (response) {
                 if (response == 1) {
@@ -165,41 +165,7 @@ function onlyNumbers(event) {
     }
 }
 
-function add_preview(image, imageId, spanId, buttonId, img_height, img_width) {
-    var filePath = image.value;
-    var allowedExtensions = /(\.jpg|\.png|\.jpeg )$/i;
 
-    if (!allowedExtensions.exec(filePath)) {
-        document.getElementById(spanId).innerHTML = '\n Please upload file having extensions .jpg, .png, .jpeg only.';
-        document.getElementById(buttonId).disabled = true;
-    } else {
-        // Image preview
-        if (image.files && image.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                var img = new Image();
-                img.onload = function () {
-                    var width = this.width;
-                    var height = this.height;
-                    // Check image dimensions
-                    if (width > img_height || height > img_width) {
-                        document.getElementById(spanId).innerHTML = "Image dimensions should be less than or equal to " + img_height + "x" + img_width + ".";
-                        document.getElementById(buttonId).disabled = true;
-                        return false;
-                    }
-                    $('.image2')
-                        .attr('src', e.target.result)
-                        .width(110)
-                        .height(70);
-                    document.getElementById(spanId).innerHTML = "";
-                    document.getElementById(buttonId).disabled = false;
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(image.files[0]);
-        }
-    }
-}
 function onlytxtuplodeimg(data) {
 
     var myFile = data.value;
@@ -473,5 +439,71 @@ i++;
             }
         });
     });
+    
     //end 
 });
+function  editprojectmodal(id)
+{
+ $('#editProject').modal('show');
+}
+function editChangeproject(id){
+    editprojectmodal(id);
+            $.ajax({
+                  url: BASE_URL+"UserDashboard/get_single_project",
+                  type: "POST", 
+                  dataType: 'json',
+                 data: {id:id},
+                  success: function(response)
+                {
+                    if(response)
+                    {     
+                            var img=BASE_URL+"assets/upload/Project_Image/"+ response.faeture_image;
+                         $('#add_project_id').val(response.id);
+                          $('#project_name').val(response.project_name);
+                          $('#project_url').val(response.project_url);
+                          $('#working_role').val(response.working_role);
+                          $('#project_description').val(response.description);
+                          $('#project_image').attr('src', img);
+                          }   
+                  }
+            });
+             
+         }
+         function add_preview(image, imageId, spanId, buttonId, img_height, img_width) {
+            // alert(spanId);
+             var filePath = image.value;
+             var allowedExtensions = /(\.jpg|\.png|\.jpeg )$/i;
+           
+             if (!allowedExtensions.exec(filePath)) {
+           
+                 document.getElementById(spanId).innerHTML = '\n Please upload file having extensions .jpg, .png, .jpeg only.';
+                 document.getElementById(buttonId).disabled = true;
+             } else {
+                 // Image preview
+                 if (image.files && image.files[0]) {
+                     var reader = new FileReader();
+                     reader.onload = function (e) {
+                         var img = new Image();
+                         img.onload = function () {
+                             var width = this.width;
+                             var height = this.height;
+                             // Check image dimensions
+                             if (width > img_height || height > img_width) {
+                             //  alert(spanId);
+                                 document.getElementById(spanId).innerHTML = "Image dimensions should be less than or equal to " + img_height + "x" + img_width + ".";
+                                 document.getElementById(buttonId).disabled = true;
+                                 return false;
+                             }
+                             $('.image2')
+                                 .attr('src', e.target.result)
+                                 .width(110)
+                                 .height(70);
+                             document.getElementById(spanId).innerHTML = "";
+                             document.getElementById(buttonId).disabled = false;
+                         };
+                         img.src = e.target.result;
+                     };
+                     reader.readAsDataURL(image.files[0]);
+                 }
+             }
+           }

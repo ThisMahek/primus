@@ -10,6 +10,8 @@
 </div>
 
 <!--end wrapper-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
 
 <!-- Bootstrap JS -->
 <script src="<?= base_url() ?>admin-assets/js/bootstrap.bundle.min.js"></script>
@@ -17,15 +19,13 @@
 <script src="<?= base_url() ?>admin-assets/js/jquery.min.js"></script>
 <script src="<?= base_url() ?>admin-assets/js/index.js"></script>
 <script src="<?= base_url() ?>admin-assets/js/quill.js"></script>
-<script src="<?= base_url() ?>admin-assets/assets/js/custom.js"></script>
+<!-- <script src="<?= base_url() ?>admin-assets/assets/js/custom.js"></script> -->
 <!--app JS-->
 <script src="<?= base_url() ?>assets/js/backend.js"></script>
 <script src="<?= base_url() ?>admin-assets/js/app.js"></script>
 <script src="<?= base_url() ?>admin-assets/js/img-croper.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
 
 
 
@@ -43,4 +43,5 @@
     var quill = new Quill('#editor', {
         theme: 'snow'
     });
+  
 </script>

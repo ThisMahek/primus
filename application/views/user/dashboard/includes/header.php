@@ -71,4 +71,57 @@ $about_data=$this->db->select('designation')->where(['user_id'=>$user_id,'status
             </div>
         </nav>
     </div>
+    <!--edit project modal---->
+      <!-- Modal HTML -->
+<div class="modal fade dynamic-modal" id="editProject" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Project</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="editProjectForm" id="editProjectForm" enctype="multipart/form-data">
+                    <div class="items">
+                        <input type="hidden" name="operation" value="edit">
+                        <input type="hidden" name="add_project_id" id="add_project_id" >
+                        <input type="hidden" name="operation" value="edit">
+                        <div class="row item-content">
+                            <div class="col-md-12 mb-3">
+                                <label for="project_name" class="form-label">Project Name<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter Project Name" id="project_name" name="project_name">
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="project_url" class="form-label">Project URL</label>
+                                <input type="url" name="project_url" class="form-control" id="project_url" placeholder="Enter Project URL">
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="working_role" class="form-label">Your Working Role <span class="text-danger">*</span></label>
+                                <input type="text" name="working_role" class="form-control" id="working_role" placeholder="Example: Project Manager" >
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="faeture_image" class="form-label">Upload Feature Image<span class="text-danger">*</span> (Image must be in 330 × 192 px)</label>
+                                <input class="form-control" type="file" id="faeture_image" name="feature_image" accept="image/*" onchange="add_preview(this, 'imagePreview', 'sp_img_edit_project','editButton','330','192')">
+                                <img id="project_image" src="" alt="Project Image">
+                              
+                                <br />
+                                <span id="sp_img_edit_project" style="color:red"></span>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="description" class="form-label">Project Description<span class="text-danger">*</span> (Max 40 words Accepted)</label>
+                                <textarea class="form-control" name="description"  id="project_description"aria-label="With textarea" style="height: 110px;" maxlength="40"></textarea>
+                            </div>
+                            <div class="col-md-12 text-end">
+                                <button type="submit" class="btn btn-outline-secondary w-25" id="editButton">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+                                            <!-- ==================== -->
+    <!---edit project modal-->
 </header>

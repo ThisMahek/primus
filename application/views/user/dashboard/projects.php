@@ -63,8 +63,9 @@
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-addProject" role="tabpanel">
-                            <form id="yourFormId" name="yourFormId" method="post" enctype=multipart/form-data>
+                            <form id="addProjectForm" name="addprojectform" method="post" enctype=multipart/form-data>
                                 <div class="items" data-group="test">
+                                <input type="hidden" name="operation" value="add">
                                     <!-- Repeater Content -->
                                     <div class="row item-content">
                                         <div class="col-md-12 mb-3">
@@ -77,13 +78,13 @@
                                         <div class="col-md-12 mb-3">
                                             <label for="inputEmail1" class="form-label">Project URL</label>
                                             <input type="url" name="project_url" class="form-control" id="project_url"
-                                                placeholder="Enter Project URL" required>
+                                                placeholder="Enter Project URL" >
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <label for="inputEmail1" class="form-label">Your Working Role <span
                                                     class="text-danger">*</span></label>
                                             <input type="text" name="working_role" class="form-control"
-                                                id="working_role" placeholder="Example : Project Manager" required>
+                                                id="working_role" placeholder="Example : Project Manager" >
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <label for="inputEmail1" class="form-label">Upload Feature Image<span
@@ -93,19 +94,19 @@
 
                                             <input class="form-control" type="file" id="faeture_image"
                                                 name="faeture_image" accept="image/*"
-                                                onchange="add_preview(this, 'imagePreview', 'sp_img','submitButton','300','192')">
-                                            <span id="sp_img" style="color:red"></span>
+                                                onchange="add_preview(this, 'imagePreview', 'sp_img_add_project','projectsubmitButton','300','192')">
+                                            <span id="sp_img_add_project" style="color:red"></span>
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <label for="inputEmail1" class="form-label">Project Description<span
                                                     class="text-danger">*</span> (Max 40 words Accepted)</label>
                                             <textarea class="form-control" name="description" id="description"
                                                 aria-label="With textarea" style="height: 110px;" maxlength="40"
-                                                required></textarea>
+                                                ></textarea>
                                         </div>
                                         <div class="col-md-12 text-end">
                                             <button type="submit" class="btn btn-outline-secondary w-25"
-                                                id="submitButton">Save</button>
+                                                id="projectsubmitButton">Save</button>
                                         </div>
                                     </div>
                                 </div>
@@ -153,7 +154,7 @@
 
                                                     <button class="btn btn-outline-success " title="Edit Project"
                                                         data-id="<?= $row->id ?>" data-bs-toggle="modal"
-                                                        data-bs-target="#editProject_<?= $row->id ?>"><i
+                                                        data-bs-target="#editProject_<?= $row->id ?>" onclick="editChangeproject(<?=$row->id?>)"><i
                                                             class="bx bx-edit"></i></button>
                                                     <button class="btn btn-outline-success delete-btn"
                                                         title="Delete Project"
@@ -162,90 +163,7 @@
                                                 </td>
                                             </tr>
                                             <!-- =====Edit Modal===== -->
-                                            <div class="modal fade dynamic-modal" id="editProject_<?= $row->id ?>"
-                                                tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Edit Project</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form id="editForm" method="post" enctype="multipart/form-data">
-                                                                <div class="items">
-                                                                    <!-- Repeater Content -->
-                                                                    <div class="row item-content">
-                                                                        <div class="col-md-12 mb-3">
-                                                                            <input type="hidden" name="project_id"
-                                                                                value="<?= $row->id ?>">
-                                                                            <label for="inputEmail1"
-                                                                                class="form-label">Project Name<span
-                                                                                    class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control"
-                                                                                placeholder="Enter Project Name" required
-                                                                                id="project_name" name="project_name"
-                                                                                value="<?= $row->project_name ?>">
-                                                                        </div>
-                                                                        <div class="col-md-12 mb-3">
-                                                                            <label for="inputEmail1"
-                                                                                class="form-label">Project URL</label>
-                                                                            <input type="url" name="project_url"
-                                                                                class="form-control" id="project_url"
-                                                                                placeholder="Enter Project URL"
-                                                                                value="<?= $project_url ?>">
-                                                                        </div>
-                                                                        <div class="col-md-12 mb-3">
-                                                                            <label for="inputEmail1" class="form-label">Your
-                                                                                Working Role <span
-                                                                                    class="text-danger">*</span></label>
-                                                                            <input type="text" name="working_role"
-                                                                                class="form-control" id="working_role"
-                                                                                placeholder="Example : Project Manager"
-                                                                                required value="<?= $row->working_role ?>">
-                                                                        </div>
-                                                                        <div class="col-md-12 mb-3">
-                                                                            <label for="inputEmail1"
-                                                                                class="form-label">Upload Feature Image<span
-                                                                                    class="text-danger">*</span> (Image must
-                                                                                be in 330 × 192 px )</label>
-
-                                                                            <input class="form-control" type="file"
-                                                                                id="faeture_image_update"
-                                                                                name="faeture_image_update" accept="image/*"
-                                                                                onchange="add_preview(this, 'imagePreview', 'sp_img<?= $row->id ?>','editButton<?= $row->id ?>','330','192')">
-                                                                            <img src="<?= base_url('assets/upload/Project_Image/' . $row->faeture_image) ?>"
-                                                                                alt="faeture_image_update" width="170"
-                                                                                height="103">
-                                                                            <br />
-                                                                            <span id="sp_img<?= $row->id ?>"
-                                                                                style="color:red"></span>
-                                                                        </div>
-
-                                                                        <div class="col-md-12 mb-3">
-                                                                            <label for="inputEmail1"
-                                                                                class="form-label">Project Description<span
-                                                                                    class="text-danger">*</span> (Max 40
-                                                                                words Accepted)</label>
-                                                                            <textarea class="form-control"
-                                                                                name="description"
-                                                                                aria-label="With textarea"
-                                                                                style="height: 110px;" required
-                                                                                maxlength="40"><?= $row->description ?></textarea>
-                                                                        </div>
-                                                                        <div class="col-md-12 text-end">
-                                                                            <button type="submit"
-                                                                                class="btn btn-outline-secondary w-25"
-                                                                                id="editButton<?= $row->id ?>">Update</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- ==================== -->
+                                         
                                         <?php } ?>
                                     </tbody>
                                 </table>
@@ -257,193 +175,85 @@
         </div>
     </div>
     </div>
-    <!--end page wrapper -->
-    <!--jquery validation----->
+    <?php include_once ('includes/footer.php') ?>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"></script>
+  <script>
+$(document).ready(function() {
+    function handleFormSubmit(formSelector) {
+        $(formSelector).validate({
+            rules: {
+                project_name: { required: true },
+                project_url: { required: true },
+                working_role: { required: true },
+                description: { required: true },
+                faeture_image: { 
+                    required: function(element) {
+                    // Check if action is 'add' and conditionally require feature_image
+                    var action = $('#operation').val(); // Assuming action is stored in a hidden input with id 'action'
+                    return action === 'add';
+                }
+                 }
+            },
+            messages: {
+                project_name: { required: "Enter Project Name" },
+                project_url: { required: "Enter Project URL" },
+                working_role: { required: "Enter Working Role" },
+                description: { required: "Enter Project Description" },
+                faeture_image: { required: "Please Choose Image" }
+            },
+            submitHandler: function(form, e) {
+                e.preventDefault();
+                var formData = new FormData($(formSelector)[0]);
+                var operation = $(formSelector).find('input[name="operation"]').val();
+                var url = operation === 'add' ? BASE_URL + "UserDashboard/add_project" : BASE_URL + "UserDashboard/edit_project";
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-    <!--jquery validion end--->
-
-    <script>
-        function delete_project(id) {
-            var activeTabId = $('#pills-viewProject');
-            var confirmation = confirm("Are you sure you want to delete this project?");
-            if (confirmation) {
                 $.ajax({
-                    url: '<?= base_url('UserDashboard/delete_project/') ?>' + id,
+                    url: url,
                     type: 'POST',
-                    success: function (response) {
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
                         if (response == 1) {
-                            $('.updated-container').load(window.location.href + ' .updated-container', function () {
-                                $(activeTabId).tab('show');
+                            if(operation==='edit'){
+                                    $('#editProject').modal('hide');
+                                
+                            $('.updated-container').load(window.location.href + ' .updated-container', function() {
+                                $("#view_project").click();
+                                
+                                $(formSelector)[0].reset();
+                            });
+                        }else{
+                            $('.updated-container').load(window.location.href + ' .updated-container', function() {
+                                $("#view_project").click();
+                                
+                                $(formSelector)[0].reset();
                             });
                         }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(xhr.responseText);
+                        } else if (response == 2) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops..",
+                                text: "Invalid data submitted. Please fill all fields!",
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Something went wrong!",
+                            });
+                        }
                     }
                 });
             }
-        }
-        $(document).ready(function () {
-            // Attach click event handler to the button
-            // $('#yourFormId').submit(function (e) {
-            //     e.preventDefault(); // Prevent default form submission
-            // });
-            $('#yourFormId').validate({
-                rules: {
-                    project_name: {
-                        required: true,
-                    },
-                    project_url: {
-                        required: true,
-                    },
-                    working_role: {
-                        required: true,
-                    },
-                    description: {
-                        required: true,
-                    },
-                    faeture_image: {
-                        required: true,
-                    }
-                },
-                messages: {
-                    project_name: {
-                        required: "Enter Project Name",
-                    },
-                    project_url: {
-                        required: "Enter Project URL",
-                    },
-                    working_role: {
-                        required: "Enter Working Role",
-                    },
-                    description: {
-                        required: "Enter Project Description",
-                    },
-                    faeture_image: {
-                        required: "Please Choose Image",
-                    }
-                },
-                submitHandler: function (form, e) {
-                    e.preventDefault();
-
-                    var formData = new FormData($('#yourFormId')[0]);
-                    $.ajax({
-                        url: '<?= base_url() ?>UserDashboard/add_project',
-                        type: 'POST',
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        success: function (response) {
-                            if (response == 1) {
-                                $('.updated-container').load(window.location.href + ' .updated-container', function () {
-                                    $("#view_project").click();
-                                    $('#project_name').val('');
-                                    $('#project_url').val('');
-                                    $('#working_role').val('');
-                                    $('#description').val('');
-                                    $('#faeture_image').val('');
-                                });
-                            }
-
-                        }
-                    });
-                }
-            });
-            $('#editForm').validate({
-                rules: {
-                    project_name: {
-                        required: true,
-                    },
-                    project_url: {
-                        required: true,
-                    },
-                    working_role: {
-                        required: true,
-                    },
-                    description: {
-                        required: true,
-                    },
-                    feature_image: {  // corrected the typo here
-                        required: true,
-                    }
-                },
-                messages: {
-                    project_name: {
-                        required: "Enter Project Name",
-                    },
-                    project_url: {
-                        required: "Enter Project URL",
-                    },
-                    working_role: {
-                        required: "Enter Working Role",
-                    },
-                    description: {
-                        required: "Enter Project Description",
-                    },
-                    feature_image: {  // corrected the typo here
-                        required: "Please Choose Image",
-                    }
-                },
-                submitHandler: function (form, e) {
-                    e.preventDefault();  // prevent default form submission
-
-                    var formData = new FormData(form);
-                    $.ajax({
-                        url: '<?= base_url() ?>UserDashboard/edit_project',
-                        type: 'POST',
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        success: function (response) {
-                            if (response == 1) {
-                                $('.updated-container').load(window.location.href + ' .updated-container', function () {
-                                    $('.dynamic-modal').modal('hide');
-                                });
-                            } else {
-                                // handle the case where the response is not 1
-                                alert('An error occurred. Please try again.');
-                            }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            // handle any errors from the server
-                            alert('An error occurred: ' + textStatus);
-                        }
-                    });
-                }
-            });
-
         });
+    }
 
-
-        // $('#submitButton').click(function () {
-        //     submitForm();
-        // });
-        // function submitForm() {
-        //     var formData = new FormData($('#yourFormId')[0]);
-        //     $.ajax({
-        //         url: '<?= base_url() ?>UserDashboard/add_project',
-        //         type: 'POST',
-        //         data: formData,
-        //         contentType: false,
-        //         processData: false,
-        //         success: function (response) {
-        //             if (response == 1) {
-        //                 $('.updated-container').load(window.location.href + ' .updated-container', function () {
-        //                     $("#view_project").click();
-        //                 });
-        //                 $('#project_name').val();
-
-        //             }
-        //         },
-        //         error: function (xhr, status, error) {
-        //             console.error(xhr.responseText);
-        //         }
-        //     });
-        // }
-
+    handleFormSubmit('#addProjectForm');
+     handleFormSubmit('#editProjectForm');
+});
 
 
     </script>
-    <?php include_once ('includes/footer.php') ?>
+   
