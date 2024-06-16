@@ -37,7 +37,7 @@ class UserModel extends CI_Model
 public function show_user_data($user_id){
   return $this->db->select('tbl_user_image.image,tbl_about.introduction,tbl_about.cv')->join('tbl_user_image','tbl_about.user_id=tbl_user_image.user_id','left')->where(['tbl_user_image.status'=>1,'tbl_about.status'=>1,'tbl_about.user_id'=>$user_id])->get('tbl_about')->row();
 }
-public function get_data($table,$user_id,$status){
+public function get_data($table,$status,$user_id){
  return $this->db->where(['status'=>$status,'user_id'=>$user_id])->get($table)->result();
 }
 public function get_single_data($table,$user_id,$status){
