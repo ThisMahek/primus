@@ -73,14 +73,15 @@ class UsersView extends CI_Controller
 		$data['client_count'] = $this->db->where(['user_id' => $user_id])->get('tbl_client')->num_rows();
 		$this->load->view('user/dashboard/clients', $data);
 	}
+	
 	public function dashboard()
 	{
 		$data = [];
 		$user_id = $this->session->userdata('user_id');
 		$data['user_img'] = $this->UM->get_data('tbl_user_image','1',$user_id);
-		$data['total_project'] = $this->UM->total_project($user_id);
-		$data['total_client'] = $this->UM->total_client($user_id);
-		$data['total_experience'] = $this->UM->total_experience($user_id);
+		$data['total_project'] = $this->UM->get_count('tbl_project',$user_id);
+		$data['total_client'] = $this->UM->get_count('tbl_client',$user_id);
+	    //$data['total_experience']=$this->calculateTotalMonthsAndConvert();
 		$data['dashboard_data'] = $this->UM->get_data('tbl_dashboard','1',$user_id);
 		$user_image = $this->db->where('user_id', $user_id)->get('tbl_user_image')->row();
 		$path = FCPATH . 'assets\upload\user_Images\\' . ($user_image->image ?? 'kjdfdkfdk');
@@ -94,6 +95,9 @@ class UsersView extends CI_Controller
 
 		$user_data = $this->UM->get_user_data();
 		$data['name_id'] = $user_data->first_name . $user_data->last_name . $user_data->id;
+		// echo "<pre>";
+		// print_r($data);
+		// exit;
 		$this->load->view('user/dashboard/dashboard', $data);
 	}
 
@@ -109,6 +113,44 @@ class UsersView extends CI_Controller
 	{
 		$this->load->view('user/dashboard/test');
 	}
+// 	public function calculateTotalMonthsAndConvert() {
+//         // Initialize total months and total years
+//         $totalMonths = 0;
+//         $totalYears = 0;
+// 		$user_id=$this->session->userdata('user_id');
+// $data= $this->UM->get_data('tbl_experience','1',$user_id);
+//         // Calculate total months and years
+//         foreach ($data as $row) {
+//             // Split the string to extract months and years
+//             $parts = explode(' : ', $row->total);
+//             $months = (int) trim($parts[0]); // Extract months and convert to integer
+//             $years = (int) trim($parts[1]); // Extract years and convert to integer
+            
+//             // Aggregate total months and total years
+//             $totalMonths += $months;
+//             $totalYears += $years;
+//         }
+
+//         // Convert total months into years and months
+//         $yearsFromMonths = floor($totalMonths / 12);
+//         $monthsRemainder = $totalMonths % 12;
+
+//         // Display or further process the results
+//         echo "Total time: ";
+//         if ($yearsFromMonths > 0) {
+//             echo $yearsFromMonths . " year" . ($yearsFromMonths > 1 ? "s" : "");
+//             if ($monthsRemainder > 0) {
+//                 echo " and ";
+//             }
+//         }
+//         if ($monthsRemainder > 0) {
+//             echo $monthsRemainder . " month" . ($monthsRemainder > 1 ? "s" : "");
+//         }
+//         echo "<br>";
+        
+//         // Optionally, return the formatted time string instead of echoing it
+//         // return "Total time: " . $formattedTime;
+//     }
 
 }
 ?>

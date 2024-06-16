@@ -21,17 +21,9 @@ class UserModel extends CI_Model
     return $this->db->insert('tbl_user_image',$data);
   }
  
-  public function total_project($user_id) 
+   public function get_count($table,$user_id) 
   {
-    return $this->db->where(['status'=>1,'user_id'=>$user_id])->get('tbl_project')->num_rows();
-  }
-  public function total_client($user_id) 
-  {
-    return $this->db->where(['status'=>1,'user_id'=>$user_id])->get('tbl_client')->num_rows();
-  }
-  public function total_experience($user_id) 
-  {
-    return $this->db->where(['status'=>1,'user_id'=>$user_id])->get('tbl_experience')->num_rows();
+    return $this->db->where(['status'=>1,'user_id'=>$user_id])->get($table)->num_rows();
   }
 //start home data
 public function show_user_data($user_id){
