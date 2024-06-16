@@ -40,7 +40,7 @@ public function show_user_data($user_id){
 public function get_data($table,$status,$user_id){
  return $this->db->where(['status'=>$status,'user_id'=>$user_id])->get($table)->result();
 }
-public function get_single_data($table,$user_id,$status){
+public function get_single_data($table,$status,$user_id){
   return $this->db->where(['status'=>$status,'user_id'=>$user_id])->get($table)->row();
  }
  public function get_contactus_data($user_id){
@@ -53,72 +53,10 @@ public function get_single_data($table,$user_id,$status){
                   ->row();
   return $result;
 }
-// public function get_aboutus_data($user_id) 
-// {
-//   $userdata=  $this->db->where(['user_id'=>$user_id,'status'=>1])->get('tbl_about')->row();
-//   return   $userdata;
-// }
-// public function show_education($user_id){
-//   return $this->db->where(['status'=>1,'user_id'=>$user_id])->get('tbl_qualification')->result();
-//  }
-//  public function show_experience($user_id){
-//   return $this->db->where(['status'=>1,'user_id'=>$user_id])->get('tbl_experience')->result();
-//  }
-//  public function show_skills($user_id){
-//   return $this->db->where(['status'=>1,'user_id'=>$user_id])->get('tbl_skills')->result();
-//  }
-//  public function get_client_data(){
-//   $user_id=$this->session->userdata('user_id');
-//   $clientdata=  $this->db->where(['user_id'=>$user_id,'status'=>1])->get('tbl_client')->result();
-//   return $clientdata;
-// }
-// public function getTotalProjectData(){
-//   $user_id=$this->session->userdata('user_id');
-//   $projectdata=  $this->db->where(['user_id'=>$user_id,'status'=>1])->get('tbl_project')->result();
-//   return   $projectdata;
-// }
-
-// public function get_education_data(){
-//   $user_id=$this->session->userdata('user_id');
-//   $educationdata=  $this->db->where(['user_id'=>$user_id,'status'=>1])->get('tbl_qualification')->result();
-//   return   $educationdata;
-// }
-// public function get_skill_data(){
-//   $user_id=$this->session->userdata('user_id');
-//   $skilldata=  $this->db->where(['user_id'=>$user_id,'status'=>1])->get('tbl_skills')->result();
-//   return   $skilldata;
-// }
-// public function get_experience_data(){
-//   $user_id=$this->session->userdata('user_id');
-//   $experiencedata=  $this->db->where(['user_id'=>$user_id,'status'=>1])->get('tbl_experience')->result();
-//   return $experiencedata;
-// }
-
-
-// public function get_aboutus() 
-//   {
-//     $user_id=$this->session->userdata('user_id');
-//     $userdata=  $this->db->where(['user_id'=>$user_id,'status'=>1])->get('tbl_about')->row();
-//     return   $userdata;
-//   }
-  // public function dashboard_data($user_id) 
-  // {
-   
-  //   $userdata=  $this->db->where(['user_id'=>$user_id])->get('tbl_dashboard')->row();
-  //   return   $userdata;
-  // }
-
-  //  public function show_client($user_id){
-//   return $this->db->where(['status'=>1,'user_id'=>$user_id])->get('tbl_qualification')->result();
-//  }
 public function get_user_data(){
   $user_id=$this->session->userdata('user_id');
    $response= $this->db->where(['id'=>$user_id,'status'=>1])->get('tbl_users')->row();
    return   $response;
 }
- // public function user_image_data($user_id)
-  // {
-  //   return $this->db->where(['status'=>1,'user_id'=>$user_id])->get('tbl_user_image')->row();
-  // }
-//end home data
+
 }

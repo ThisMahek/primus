@@ -240,14 +240,28 @@ class UserDashboard extends CI_Controller
 	}
 	public function add_project()
 	{
+		$this->load->library('form_validation');
 
+		// Set validation rules
+		$this->form_validation->set_rules('project_name', 'Project Name', 'required');
+		$this->form_validation->set_rules('project_url', 'Project URL', 'required');
+		$this->form_validation->set_rules('working_role', 'Working Role', 'required');
+		$this->form_validation->set_rules('description', 'Description', 'required');
+
+		// Check if the form validation passes
+		if ($this->form_validation->run() == FALSE) {
+			// Validation failed, return errors
+			$errors = validation_errors();
+			echo 2;
+		}else{
+			//print_r($_FILES);exit;
 		$user_id = $this->session->userdata('user_id');
 		$file = $_FILES["faeture_image"];
 		$MyFileName = "";
 		if (strlen($file['name']) > 0) {
 			$image = $file["name"];
 			$config['upload_path'] = './assets/upload/Project_Image';
-			$config['allowed_types'] = 'jpg|png|jpeg';
+			$config['allowed_types'] = '*';
 			$config['file_name'] = $image;
 			$this->load->library("upload", $config);
 			$filestatus = $this->upload->do_upload('faeture_image');
@@ -256,8 +270,10 @@ class UserDashboard extends CI_Controller
 				$array['faeture_image'] = $MyFileName;
 			} else {
 				$error = array('error' => $this->upload->display_errors());
+				print_r($error);exit;
 				$result = $error;
 			}
+		
 		}
 		//End: File upload code
 		$array['project_name'] = $this->input->post('project_name');
@@ -272,6 +288,7 @@ class UserDashboard extends CI_Controller
 			echo 0;
 		}
 	}
+}
 	public function edit_project()
 	{
 		// Load form validation library
@@ -291,7 +308,7 @@ class UserDashboard extends CI_Controller
 		} else {
 			// Validation passed, proceed with file upload and database update
 
-			$id = $this->input->post('project_id');
+			$id = $this->input->post('add_project_id');
 			$user_id = $this->session->userdata('user_id');
 			$file = $_FILES["feature_image"]; // Corrected to match form input name
 			$MyFileName = "";
@@ -304,7 +321,7 @@ class UserDashboard extends CI_Controller
 				$filestatus = $this->upload->do_upload('feature_image'); // Corrected to match form input name
 				if ($filestatus == true) {
 					$MyFileName = $this->upload->data('file_name');
-					$array['feature_image'] = $MyFileName; // Corrected to match form input name
+					$array['faeture_image'] = $MyFileName; // Corrected to match form input name
 				} else {
 					$error = array('error' => $this->upload->display_errors());
 					echo json_encode(['status' => 0, 'errors' => $error]);
@@ -319,6 +336,7 @@ class UserDashboard extends CI_Controller
 			$array['user_id'] = $user_id;
 
 			$response = $this->db->where('id', $id)->update('tbl_project', $array);
+		//	echo $this->db->last_query();die();
 			if ($response) {
 				echo 1;
 			} else {
@@ -442,6 +460,13 @@ class UserDashboard extends CI_Controller
 		$data = $this->db->get('tbl_client')->result_array();
 		redirect(base_url() . "UserDashboard/clients");
 	}
+	public function get_single_project(){
+		$user_id=$this->session->userdata('user_id');
+		$result=$this->UM->get_single_data('tbl_project',$user_id,'1');
+       echo json_encode($result);
+	}
 }
+
+
 
 

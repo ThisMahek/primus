@@ -24,9 +24,11 @@ class Home extends CI_Controller {
 		$data['dashboard_data']=$this->UM->get_data('tbl_dashboard','1',$user_id);
 		$data['contact_data']=$this->UM->get_contactus_data($user_id);
 		$data['user_data'] = $user_data;
-		if(!empty($data['user_data']))
+		if(!empty($data['user_data'])){
 		$this->load->view('user/index',$data);
-		else
+		}
+		else{
 		$this->load->view('user/nodata');
+		}
 	}
 }
