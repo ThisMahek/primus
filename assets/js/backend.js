@@ -49,10 +49,7 @@ function delete_project(id) {
 }
 function change_status(val, key, data) {
     var checkboxValue = val.checked;
-    var BASE_URL;
-    // var baseUrl=base_url();
-    // var endpoint = "User/ChangeStatus";
-    //   var fullUrl = baseUrl + endpoint;
+
     var status = checkboxValue ? 1 : 0;
     Swal.fire({
         title: "Are you sure?",
