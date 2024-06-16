@@ -1,17 +1,17 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <?php include_once('includes/main-head.php') ?>
+        <?php include_once('admin/includes/main-head.php') ?>
         <style>
             .imageBox{background-image:url('<?=base_url()?>admin-assets/images/pro-pic.jpg');}
         </style>
     </head>
     <body>
         <!--sidebar wrapper -->
-        <?php include_once('includes/sidebar.php') ?>
+        <?php include_once('admin/includes/sidebar.php') ?>
         <!--end sidebar wrapper -->
         <!--start header -->
-        <?php include_once('includes/header.php') ?>
+        <?php include_once('admin/includes/header.php') ?>
         <!--end header -->
         <!--start page wrapper -->
         <div class="page-wrapper">
@@ -81,7 +81,7 @@
             </div>
         </div>
         <!--end page wrapper -->
-        <?php include_once('includes/footer.php') ?>
+        <?php include_once('admin/includes/footer.php') ?>
         <script src="<?=base_url()?>admin-assets/js/img-croper.js"></script>
     </body>
 </html>

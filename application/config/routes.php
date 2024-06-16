@@ -65,3 +65,6 @@ $route['(:any)/clients']='UsersView/clients';
 $route['(:any)/projects']='UsersView/projects';
 $route['(:any)/dashboard']='UsersView/dashboard';
 //for users pages
+//for 
+
+$route['Admin'] = 'Admin/index';

@@ -30,7 +30,6 @@ class UsersView extends CI_Controller
 		} else {
 			$data['base64'] = base_url() . 'admin-assets/images/pro-pic.jpg';
 		}
-		// print_r($data['base64']);exit;
 		$this->load->view('user/dashboard/aboutUs', $data);
 	}
 	public function education()
