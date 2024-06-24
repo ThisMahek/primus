@@ -187,7 +187,7 @@ function onlytxtuplodeimg(data) {
     }
 }
 function image_validate(data, btn) {
-alert(data);
+
     var myFile = data.value;
     var upld = myFile.split('.').pop().toLowerCase();
 
@@ -235,12 +235,6 @@ function daysDifference(index) {
 
     const fromDate = fromDateElement.value;
     const toDate = toDateElement.value;
-
-// if (fromDate && !toDate) {
-//     alert('Please select the to date .');
-//     toDateElement.focus();
-//     return false;
-// }
 if (fromDate && toDate) {
     const from = new Date(fromDate);
     const to = new Date(toDate);
@@ -313,7 +307,7 @@ $(document).ready(function () {
         var group = `<div class="items"><div class="item-content"><div class="mb-3"><label for="inputEmail1" class="form-label">Enter Qualification Type<span class="text-danger">*</span></label><input type="text" class="form-control" name="education_type[]" placeholder="Example : MCA" ></div><div class="mb-3"><label for="inputEmail1" class="form-label">Enter School/College/Institute/University Name <span class="text-danger">*</span></label><input type="text" class="form-control" name="institute[]" placeholder="Enter Your School/College/Institute/University Name" ></div><div class="mb-3"><label for="inputEmail1" class="form-label">Year of Passing<span class="text-danger">*</span></label><input class="form-control" name="year[]" type="month" id=""></div><div class="mt-3"><label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label></div><textarea  maxlength="40" class="form-control" name="description[]" aria-label="With textarea" style="height: 110px;" ></textarea></div><div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)"  title="Remove Colloum"><i class="bx bx-x"></i></button></div></div><hr></div>`;
         $(this).closest('form').find('.append-area').append(group);
     });
-    var i=2;
+    var i=0;
     $("#add-class-experience").click(function () {
      
         var group = `<div class="items"><div class="row item-content"><div class="col-md-12 mb-3"><label for="work_type" class="form-label">Enter Work Type<span class="text-danger">*</span></label><input type="text" class="form-control" name="work_type[]" placeholder="Example : Web Developer" ></div><div class="col-md-12 mb-3"><label for="organisation_name" class="form-label">Enter Organisation Name <span class="text-danger">*</span></label><input type="text" class="form-control" name="organisation_name[]" placeholder="Enter Your Organisation Name" ></div><div class="col-md-12 mb-3"><label for="website_url" class="form-label">Enter Organisation Website URL <span class="text-danger">*</span></label><input type="url" class="form-control" name="website_url[]" placeholder="Enter Your Organisation Website URL" ></div><div class="col-md-6 mb-3"><label for="work_from" class="form-label">Work From<span class="text-danger">*</span></label><input class="form-control" name="work_from[]" type="month" id="from_date${i}" ></div><div class="col-md-6 mb-3"><label for="work_to" class="form-label">Work To<span class="text-danger">*</span> (Choose Current Month for Till Now)</label><input class="form-control" name="work_to[]" type="month" id="to_date${i}" onchange="daysDifference(${i})" placeholder="Till Now" ></div></div><div class="col-md-12 mb-3">
@@ -321,7 +315,7 @@ $(document).ready(function () {
                                             <input class="form-control"  type="text" id="result${i}" name="total[]"   readonly>
                                         </div><div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)" title="Remove Colloum"><i class="bx bx-x"></i></button></div></div><hr></div>`;
         $(this).closest('form').find('.append-area').append(group);
-i++;
+i--;
     });
     $("#add-class-skills").click(function () {
         var group = `<div class="items"><div class="row item-content">

@@ -1,16 +1,17 @@
 <?php
-function calculateTotalMonthsAndConvert() {
+function calculateTotalMonthsAndConvert($user_id) {
     $ci =& get_instance();
     // Initialize total months and total years
     $totalMonths = 0;
     $totalYears = 0;
-    $user_id = $ci->session->userdata('user_id');
+
     $data =  $ci->UM->get_data('tbl_experience', '1', $user_id);
     // Check if $data is empty
     if (empty($data)) {
         echo "0";
         return;
     }
+
     // Calculate total months and years
     foreach ($data as $row) {
         // Split the string to extract months and years
@@ -24,22 +25,25 @@ function calculateTotalMonthsAndConvert() {
     }
 
     // Convert total months into years and months
-    $yearsFromMonths = floor($totalMonths / 12);
-    $monthsRemainder = $totalMonths % 12;
-    // Add the years calculated from total years
-    $yearsFromMonths += $totalYears;
-    if ($yearsFromMonths > 0) {
-        echo $yearsFromMonths . " year" . ($yearsFromMonths > 1 ? "s" : "");
+    $totalMonths += $totalYears * 12;  // Convert years to months and add to totalMonths
+    $totalYears = floor($totalMonths / 12);  // Calculate total years
+    $monthsRemainder = $totalMonths % 12;  // Calculate remaining months
+
+    // Build the result string
+    if ($totalYears > 0) {
         if ($monthsRemainder > 0) {
-            echo " and ";
+            $decimalYears = $totalYears + ($monthsRemainder / 12);
+            echo round($decimalYears, 1) ;
+        } else {
+            echo $totalYears ;
         }
+    } else {
+        echo ".". $monthsRemainder  . ($monthsRemainder > 1 ? "" : "");
     }
-    if ($monthsRemainder > 0) {
-        echo $monthsRemainder . " month" . ($monthsRemainder > 1 ? "s" : "");
-    }
+    
     echo "<br>";
 }
 
 // Example usage
-//calculateTotalMonthsAndConvert();
+// calculateTotalMonthsAndConvert(1);
 ?>

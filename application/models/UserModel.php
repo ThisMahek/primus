@@ -27,7 +27,7 @@ class UserModel extends CI_Model
   }
 //start home data
 public function show_user_data($user_id){
-  return $this->db->select('tbl_user_image.image,tbl_about.introduction,tbl_about.cv')->join('tbl_user_image','tbl_about.user_id=tbl_user_image.user_id','left')->where(['tbl_user_image.status'=>1,'tbl_about.status'=>1,'tbl_about.user_id'=>$user_id])->get('tbl_about')->row();
+  return $this->db->select('tbl_user_image.image,tbl_about.introduction,tbl_about.cv,tbl_about.designation,tbl_about.carrier_objective')->join('tbl_user_image','tbl_about.user_id=tbl_user_image.user_id','left')->where(['tbl_user_image.status'=>1,'tbl_about.status'=>1,'tbl_about.user_id'=>$user_id])->get('tbl_about')->row();
 }
 public function get_data($table,$status,$user_id){
  return $this->db->where(['status'=>$status,'user_id'=>$user_id])->get($table)->result();
@@ -36,7 +36,7 @@ public function get_single_data($table,$status,$user_id){
   return $this->db->where(['status'=>$status,'user_id'=>$user_id])->get($table)->row();
  }
  public function get_contactus_data($user_id){
-  $result = $this->db->select('CONCAT(tbl_country.name, ", ", tbl_state.name, ", ", tbl_city.name) AS address,CONCAT(tbl_country.phone_code ," ",tbl_users.mobile_no) as mobile,tbl_users.email_id')
+  $result = $this->db->select('CONCAT(tbl_country.name, ", ", tbl_state.name, ", ", tbl_city.name) AS address,CONCAT(tbl_users.mobile_no) as mobile,tbl_users.email_id')
                   ->join('tbl_country','tbl_country.id=tbl_users.country','left')
                   ->join('tbl_state','tbl_state.id=tbl_users.state','left')
                   ->join('tbl_city','tbl_city.id=tbl_users.city','left')

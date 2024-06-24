@@ -12,10 +12,10 @@
         <div class="col-xl-12">
           <div class="cv_banner_text text-center">
             <?php
-            if(!empty($aboutus_data->designation))
+            if(!empty($about_data->designation))
             {
             ?>
-            <h5><?=!empty($aboutus_data->designation)?$aboutus_data->designation:""?></h5>
+            <h5><?=!empty($about_data->designation)?$about_data->designation:""?></h5>
             <?php }?>
             <h1>Hello! <span><img src="<?=base_url()?>assets/images/hand.svg" class="img-fluid"></span> I Am</h1>
             <h1 class="cv_profile_name"></h1>
@@ -23,12 +23,12 @@
             <a href="#contactUs" class="btn btn-primary w-10 text-center">Contact Us</a>
           </div>
           <?php
-          if(!empty($aboutus_data->carrier_objective))
+          if(!empty($about_data->carrier_objective))
           {
           ?>
           <div class="cv_banner_box text-left mb-4 ">
             <h2>Carrier Objective</h2>
-            <p><?=!empty($aboutus_data->carrier_objective)?$aboutus_data->carrier_objective:""?></p>
+            <p><?=!empty($about_data->carrier_objective)?$about_data->carrier_objective:""?></p>
           </div>
           <?php }?>
 
@@ -37,7 +37,7 @@
     </div>
   </div>
   <?php
-  if(!empty($about_data->image) && !empty($aboutus_data->introduction) && !empty($about_data->cv))
+  if($user_data->is_about_us==1 && !empty($about_data->image) && !empty($about_data->introduction) && !empty($about_data->cv))
   {
   ?>
   <!--========== About Section Start============= -->
@@ -65,7 +65,7 @@
               <h2>About Me</h2>
               <div class="cv_about_box">
                 <h3>Who I’m</h3>
-                <p><?=!empty($aboutus_data->introduction)?$aboutus_data->introduction:""?></p>
+                <p><?=!empty($about_data->introduction)?$about_data->introduction:""?></p>
               </div>
               <div class="cv_about_btn">
                 <a href="<?=base_url()?><?=!empty($about_data->cv)?$about_data->cv:""?>" class="cv_btn" download>Download Resume</a>
@@ -80,67 +80,59 @@
   <!--============= About Section End================== -->
 <?php }?>
 
-
-<?php
-if($dashboard_data->is_experience==1 || $dashboard_data->is_project==1 || $dashboard_data->is_client==1)
-{
-  ?>
     <!--=========== Award Section Start======= -->
     <section class="cv_award_wrapper">
         <div class="container">
           <div class="row justify-content-center">
-          <?php
-          if($dashboard_data->is_experience==1 )
-          {
-          ?>
+          
             <div class="col-md-4 col-sm-6">
               <div class="cv_award_box">
                 <div class="cv_award_icon">
                   <img src="<?=base_url()?>assets/images/award-3.svg">
                 </div>
                 <div class="cv_award_text">
-                  <h1 class="timer" data-from="0" data-to="<?=$dashboard_data->total_experience?>" data-speed="2000"></h1>
-                  <h4>Years of Experience</h4>
+                  <h4> </h4>
+                 
+                  <h1>
+                  <?php calculateTotalMonthsAndConvert($user_id)?>
+                  </h1>
+                  <h4>Total Experience </h4>
+
+                 
                 </div>
               </div>
             </div>
-            <?php }?>
-            <?php
-          if($dashboard_data->is_client==1 )
-          {
-          ?>
+            
+        
             <div class="col-md-4 col-sm-6">
               <div class="cv_award_box">
                 <div class="cv_award_icon">
                   <img src="<?=base_url()?>assets/images/award-1.svg">
                 </div>
                 <div class="cv_award_text">
-                  <h1><span class="timer" data-from="0" data-to="<?=$dashboard_data->total_client?>" data-speed="2000"></span></h1>
+                  <h1><span class="timer" data-from="0" data-to="<?=$total_client?>" data-speed="2000"></span></h1>
                   <h4>Happy Clients</h4>
                 </div>
               </div>
             </div>
-            <?php }?>
-            <?php
-          if($dashboard_data->is_project==1 )
-          {
-          ?>
+=
+        
             <div class="col-md-4 col-sm-6">
               <div class="cv_award_box">
                 <div class="cv_award_icon">
                   <img src="<?=base_url()?>assets/images/award-2.svg">
                 </div>
                 <div class="cv_award_text">
-                  <h1 class="timer" data-from="0" data-to="<?=$dashboard_data->total_project?>" data-speed="2000"></h1>
+                  <h1 class="timer" data-from="0" data-to="<?=$total_project?>" data-speed="2000"></h1>
                   <h4>Project Done</h4>
                 </div>
               </div>
             </div>
-            <?php }?>
+       
           </div>
         </div>
       </section>
-      <?php }?>
+    
   <!--======== Award Section End========= -->
  
 <?php

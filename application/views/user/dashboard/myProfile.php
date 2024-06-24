@@ -38,15 +38,8 @@
 						<div class="col-md-6">
 						<label for="inputEmailAddress" class="form-label">Mobile No.<span class="text-danger">*<span></label>
 					
-                        <div class="input-group mb-3">
-                            <select name="" id="" class="form-select" style="max-width: 30%;">
-                                <option value="">+91</option>
-                                <?php
-                                    foreach ($countries as $country) {
-                                ?>
-                                <option value=""><?=$country->phone_code?></option>
-                                <?php }?>
-                            </select>
+                        <div class="input-group mb-6">
+                            
                             <input type="number" class="form-control" id="mobileNo" name="mobileNo" placeholder="Enter Your Mobile No." required>
                         </div>
 					</div>
@@ -89,32 +82,7 @@
                             </select>
                             <span id="city_error" class="error_msg"></span>
                         </div>
-                        <div class="col-md-6">
-                            <label for="inputEmailAddress" class="form-label">PIN Code<span
-                                    class="text-danger">*<span></label>
-                            <input type="number" class="form-control" id="pincode" name="pincode"
-                                placeholder="Enter PIN Code">
-                            <span id="pincode_error" class="error_msg"></span>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="inputChoosePassword" class="form-label">Password<span
-                                    class="text-danger">*<span></label>
-                            <div class="input-group" id="show_hide_password">
-                                <input type="password" class="form-control border-end-0" id="password" name="password"
-                                    placeholder="Enter Password"> <a href="javascript:;"
-                                    class="input-group-text bg-transparent"><i class='bx bx-hide'></i></a>
-                                <span id="password_error" class="error_msg"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="inputChoosePassword" class="form-label">Confirm Password<span
-                                    class="text-danger">*<span></label>
-                            <div class="input-group" id="show_hide_password">
-                                <input type="password" class="form-control border-end-0" id="confirmPassword"
-                                    name="confirmpassword" placeholder="Confirm Password"> <a href="javascript:;"
-                                    class="input-group-text bg-transparent"><i class='bx bx-hide'></i></a>
-                            </div>
-                        </div>
+                     
                         <div class="col-12 text-end">
                             <button type="submit" class="btn btn-primary w-25" id="register_button">Update</button>
                         </div>

@@ -95,9 +95,6 @@ class UsersView extends CI_Controller
 
 		$user_data = $this->UM->get_user_data();
 		$data['name_id'] = $user_data->first_name . $user_data->last_name . $user_data->id;
-		// echo "<pre>";
-		// print_r($data);
-		// exit;
 		$this->load->view('user/dashboard/dashboard', $data);
 	}
 

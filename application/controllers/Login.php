@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
+// session_start(); 
 class Login extends CI_Controller
 {
 
@@ -18,7 +18,7 @@ class Login extends CI_Controller
 
     public function ProcessLoginUser()
     {
-        
+        $this->load->library('session');
         $email=$this->input->post("email");
         $result = $this->UM->check_useremail($email)->num_rows();
         //print_r($result);exit;
@@ -32,12 +32,15 @@ class Login extends CI_Controller
                     'user_name'=>$res->first_name.$res->last_name,
                 );
                 $this->session->set_userdata($data);
-                echo 1;
-            } else {
-            echo 2;
+               echo json_encode(['status'=>1,'user_name'=>$this->session->userdata('user_name')]);
+            } 
+            else 
+            {
+            echo json_encode(['status'=>2]);
             }
+            // echo 4;
         } else {
-            echo 3;
+            echo json_encode(['status'=>3]);
         }
     }
     public function LogoutUser()

@@ -91,7 +91,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="inputEmail1" class="form-label">Year of Passing<span class="text-danger">*</span></label>
-                                            <input class="form-control" name="year[]"  type="month" id="">
+                                            <input class="form-control" name="year[]"  type="month" id="" max="<?php echo date('Y-m'); ?>">
                                         </div>
                                         <div class="mt-3">
                                             <label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label>

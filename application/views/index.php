@@ -102,132 +102,6 @@
         </div>
     </div>    
 </section>
-<!-- <div class="business-info-and-history" style="background-image: url(<?= base_url() ?>landingpage-assets/images/leafs.png);">
-    <section class="business-info-area" id="masureofbusiness">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-10 mx-auto">
-                    <div class="agency-section-title text-center section-title-style2">
-                        <h2 class="main-title">Why Primus Profile ?</h2>
-                        <p>Build a comprehensive digital profile that reflects your skills, experiences, and interests. Customize your profile with images, videos, and personal details to make a lasting impression.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row info-block-style2">
-                <div class="col-md-6 col-lg-4">
-                    <div class="single-info-block text-center wow fadeInUp" data-wow-delay=".5s">
-                        <h3 class="small">Showcase Your Expertise</h3>
-                        <p>Highlight your expertise and accomplishments through rich media content, project portfolios, and endorsements from peers. Stand out from the crowd and attract opportunities that align with your skills.</p>
-                        <div class="leaf leaf-2">
-                            <img src="<?= base_url() ?>landingpage-assets/images/single-leaf-2.png" alt>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="single-info-block text-center wow fadeInUp">
-                        <h3 class="small">User-Friendly Interface</h3>
-                        <p>Enjoy a seamless user experience with our intuitive interface and easy-to-use tools. Whether you're a seasoned professional or new to digital profiles, our platform makes it simple to create and manage your online presence.</p>
-                        <div class="leaf leaf-1">
-                            <img src="<?= base_url() ?>landingpage-assets/images/single-leaf-1.png" alt>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="single-info-block text-center wow fadeInUp" data-wow-delay=".8s">
-                        <h3 class="small">Privacy and Security</h3>
-                        <p>Rest assured that your data is safe and secure with advanced privacy controls and encryption measures. Control who can view your profile and what information is shared, ensuring your online presence is protected.</p><br>
-                        <div class="leaf leaf-3">
-                            <img src="<?= base_url() ?>landingpage-assets/images/single-leaf-3.png" alt>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-</div>
-
-<section class="xs-section-padding">
-<div class="container">
-<div class="row">
-<div class="col-lg-6">
-<div class="agency-intro">
-<div class="agency-section-title">
-<h3 class="sub-title">How to be</h3>
-<h4 class="main-title">Follow Four Easy <em>steps</em></h4>
-<span class="watermark-title">USE</span>
-</div><br>
-<p>We work systematically to integrate corporate responsibility in our core business and make our expertise available the benefit of the societies where we</p>
-
-</div>
-</div>
-<div class="col-lg-6">
-<div class="agency-intro-video">
-<img src="<?= base_url() ?>landingpage-assets/images/video/video-1.jpg" alt="video image">
-<a href="https://www.youtube.com/watch?v=BJq4d1-lHq8" class="xs-video-popup video-content btn-gradient">
-<i class="icon icon-play2"></i>
-</a>
-</div>
-</div>
-</div>
-</div>
-</section> -->
-
-
-
-
-
-<!-- <div class="xs-section-padding hr-timeline-section">
-<div class="container">
-<div class="row hr-timeline-group">
-<div class="col-md-6 col-lg-3">
-<div class="hr-single-timeline wow bounceIn">
-<span class="number-count"></span>
-<div class="hr-timeline-content-wraper">
-<div class="hr-timeline-content">
-<i class="icon icon-working_process_icons_1"></i>
-<p>Sign Up</p>
-</div>
-</div>
-</div>
-</div>
-<div class="col-md-6 col-lg-3">
-<div class="hr-single-timeline color-1 wow bounceIn" data-wow-delay=".5s">
-<span class="number-count"></span>
-<div class="hr-timeline-content-wraper">
-<div class="hr-timeline-content">
-<i class="icon icon-working_process_icons_2"></i>
-<p>Login</p>
-</div>
-</div>
-</div>
-</div>
-<div class="col-md-6 col-lg-3">
-<div class="hr-single-timeline color-2 wow bounceIn" data-wow-delay=".7s">
-<span class="number-count"></span>
-<div class="hr-timeline-content-wraper">
-<div class="hr-timeline-content">
-<i class="icon icon-working_process_icons_3"></i>
-<p>Add Your Details</p>
-</div>
-</div>
-</div>
-</div>
-<div class="col-md-6 col-lg-3">
-<div class="hr-single-timeline color-3 wow bounceIn" data-wow-delay=".9s">
-<span class="number-count"></span>
-<div class="hr-timeline-content-wraper">
-<div class="hr-timeline-content">
-<i class="icon icon-working_process_icons_4"></i>
-<p>Share your link with Others</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="timeline-wave">
-<img src="<?= base_url() ?>landingpage-assets/img/steps.png" alt>
-</div> -->
 </div>
 <?php include_once('includes/footer.php') ?>
 <?php include_once('includes/footer-script.php') ?>
@@ -351,7 +225,7 @@
                                     title: "Success!",
                                     text: "You are registered successfully!Please Login",
                                     icon: "success",
-                                    timer: 3000,
+                                    timer: 2000,
                                     showConfirmButton: false,
                                     willClose: () => {
                                     // Perform an action after the alert closes, e.g., redirect to another page
@@ -419,26 +293,26 @@
                     e.preventDefault();
                     let email = $('#user_email').val();
                     let password = $('#password').val();
-                    <?php
-$dashboard_url = base_url() . $this->session->userdata('user_name') . '/dashboard';
-?>
+                   
 
                     $.ajax({
                         type: "POST",
                         url: "<?= base_url() ?>/Login/ProcessLoginUser",
+                        dataType:"json",
                         data: {
                             email: email,
                             password: password
                         },
                         success: function (response) {
-                            let messageDiv = $('#messageDiv');
-                            if (response == 1) {
+                            let messageDiv = $('#messageDiv');    
+                            if (response.status == 1) {
                                 $('#login_form_id')[0].reset();
-                                window.location = "<?php echo $dashboard_url; ?>";
+                                let dashboard_url = '<?= base_url() ?>' + response.user_name + '/dashboard';
+                               window.location= dashboard_url;
                             }
-                            else if (response == 2) {
+                            else if (response.status == 2) {
                                 messageDiv.html('<div class="alert alert-danger">Invalid Password!</div>');
-                            } else if (response == 3) {
+                            } else if (response.status == 3) {
                                 messageDiv.html('<div class="alert alert-danger">Invalid Id and Password</div>');
                             } else {
                                 messageDiv.html('<div class="alert alert-danger">Something went wrong</div>');
