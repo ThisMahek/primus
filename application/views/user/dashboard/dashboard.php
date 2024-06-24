@@ -26,7 +26,7 @@
                                                 <h6 class="mb-0 text-uppercase">Total Experiance</h6>
                                             </div>
                                         </div><hr/>
-                                        <h2 class="text-center"><?php calculateTotalMonthsAndConvert()?></h2>
+                                        <h2 class="text-center"><?php calculateTotalMonthsAndConvert( $this->session->userdata('user_id'))?></h2>
                                         <!-- <input type="text" value="0" class="form-control" name="total_experience" readonly> -->
                                 </div>
                             </div>

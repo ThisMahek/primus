@@ -15,6 +15,9 @@ class Home extends CI_Controller {
 		$user_id=$user_data->id;
 		$data['user_name'] = $user_data->first_name." ".$user_data->last_name; 
 		$data['about_data']=$this->UM->show_user_data($user_id); 
+		// echo "<pre>";
+		// print_r($data['about_data']);
+		// exit;
 		$data['aboutus_data']=$this->UM->get_data('tbl_about','1',$user_id);
 		$data['education_data']=$this->UM->get_data('tbl_qualification','1',$user_id);
 		$data['experience_data']=$this->UM->get_data('tbl_experience','1',$user_id);
@@ -23,12 +26,15 @@ class Home extends CI_Controller {
 		$data['project_data']=$this->UM->get_data('tbl_project','1',$user_id);
 		$data['dashboard_data']=$this->UM->get_data('tbl_dashboard','1',$user_id);
 		$data['contact_data']=$this->UM->get_contactus_data($user_id);
+		$data['total_project'] = $this->UM->get_count('tbl_project',$user_id);
+		$data['total_client'] = $this->UM->get_count('tbl_client',$user_id);
 		$data['user_data'] = $user_data;
-		if(!empty($data['user_data'])){
+		$data['user_id'] = $user_id;
+		//if(!empty($data['user_data'])){
 		$this->load->view('user/index',$data);
-		}
-		else{
-		$this->load->view('user/nodata');
-		}
+		// }
+		// else{
+		// $this->load->view('user/nodata');
+		// }
 	}
 }

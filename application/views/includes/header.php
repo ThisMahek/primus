@@ -38,7 +38,7 @@
                        
                     </div>
                     <div id="messageDiv" style="color:red"></div>
-                    <form  action="#" method="POST" id="login_form_id" class="subscribe-form">
+                    <form id="login_form_id" class="subscribe-form">
                         <div class="col-md-12 mb-3 pl-0">
                             <input type="text" placeholder="Email Id"  name="user_email" id="user_email" class="form-control">
 
