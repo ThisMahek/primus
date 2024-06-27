@@ -80,7 +80,8 @@
                                    <?php if ($key!=0) {?>
                                     <div class="row mt-3">
                                         <div class="col-md-6 repeater-remove-btn">
-                                            <button class="btn btn-outline-danger remove-btn px-4" title="Remove Colloum" onclick="removeInputGroup(this)" ><i class="bx bx-x"></i></button>
+                                            
+                                            <button  type="button" class="btn btn-outline-danger remove-btn px-4" title="Remove Colloum" onclick="remove_db_data(<?=$row->id?>,'tbl_client')"  ><i class="bx bx-x"></i></button>
                                         </div>
                                     </div>
                                 

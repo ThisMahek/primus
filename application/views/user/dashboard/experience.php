@@ -56,11 +56,11 @@
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="work_from" class="form-label">Work From<span class="text-danger">*</span></label>
-                                            <input class="form-control"  name="work_from[]" type="month" id="from_date<?=$row->id?>"  value="<?=$row->work_from?>">
+                                            <input class="form-control"  name="work_from[]" max="<?=date('Y-m')?>" type="month" id="from_date<?=$row->id?>" onchange="daysDifference(<?=$row->id?>)" value="<?=$row->work_from?>">
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="work_to" class="form-label">Work To<span class="text-danger">*</span> (Choose Current Month for Till Now)</label>
-                                            <input class="form-control" name="work_to[]"  type="month" id="to_date<?=$row->id?>" onchange="daysDifference(<?=$row->id?>)"  placeholder="Till Now"  value="<?=$row->work_to?>">
+                                            <input class="form-control" name="work_to[]" max="<?=date('Y-m')?>" type="month" id="to_date<?=$row->id?>" onchange="daysDifference(<?=$row->id?>)"  placeholder="Till Now"  value="<?=$row->work_to?>">
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <label for="total-exp" class="form-label">Total Experience<span class="text-danger">*</span></label>
@@ -71,7 +71,7 @@
                                     <!-- Repeater Remove Btn -->
                                     <div class="row mt-3">
                                         <div class="col-md-6 repeater-remove-btn">
-                                            <button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)" title="Remove Colloum"><i class="bx bx-x"></i></button>
+                                            <button type="button" onclick="remove_db_data(<?=$row->id?>,'tbl_experience')" class="btn btn-outline-danger remove-btn px-4"  title="Remove Colloum"><i class="bx bx-x"></i></button>
                                         </div>
                                     </div>
                                     <?php }?>
@@ -96,11 +96,11 @@
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="work_from" class="form-label">Work From<span class="text-danger">*</span></label>
-                                            <input class="form-control"  name="work_from[]" type="month" id="from_date1" >
+                                            <input class="form-control"  name="work_from[]" type="month" max="<?=date('Y-m')?>"id="from_date1" onchange="daysDifference(1)">
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="work_to" class="form-label">Work To<span class="text-danger">*</span> (Choose Current Month for Till Now)</label>
-                                            <input class="form-control" name="work_to[]"  type="month"  id="to_date1"  onchange="daysDifference(1)"   placeholder="Till Now" >
+                                            <input class="form-control" name="work_to[]"  type="month"  max="<?=date('Y-m')?>"id="to_date1"  onchange="daysDifference(1)"   placeholder="Till Now" >
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <label for="total-exp" class="form-label">Total Experience<span class="text-danger">*</span></label>

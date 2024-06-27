@@ -64,6 +64,8 @@ $route['(:any)/skills']='UsersView/skills';
 $route['(:any)/clients']='UsersView/clients';
 $route['(:any)/projects']='UsersView/projects';
 $route['(:any)/dashboard']='UsersView/dashboard';
+$route['(:any)/my-profile']='UsersView/myProfile';
+$route['(:any)/change-password']='UsersView/changePassword';
 //for users pages
 //for 
 

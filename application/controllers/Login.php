@@ -8,12 +8,16 @@ class Login extends CI_Controller
     {
         parent::__construct();
         $this->load->model("UserModel", "UM");
-
     }
     public function index()
 	{
-		$data['countries']=$this->UM->get_country();
-		$this->load->view('index',$data);
+        if (!$this->session->userdata('user_id')) {
+            // If session does not exist, redirect to the login page
+            $data['countries'] = $this->UM->get_country();
+            $this->load->view('index', $data);
+        } else {
+            redirect(base_url().$this->session->userdata('user_name').'/'.'dashboard');
+        }
 	}
 
     public function ProcessLoginUser()

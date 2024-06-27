@@ -73,14 +73,11 @@
                                     
                                         // Render remove button except for the first element ?>
                     <!-- Repeater Remove Btn -->
-                    <div class="row mt-3 mb-5">
+                        <div class="row mt-3 mb-5">
                         <div class="col-md-6 repeater-remove-btn">
-                        
-                            <a class="btn btn-outline-danger remove-btn px-4" title="Remove Column" onclick="removeInputGroup(this)"><i class="bx bx-x"></i></a>
-                           
+                        <button type="button" onclick="remove_db_data(<?=$skill->id?>,'tbl_skills')" class="btn btn-outline-danger remove-btn px-4"  title="Remove Colloum"><i class="bx bx-x"></i></button>
                         </div> 
-                        
-                    </div>
+                        </div>
                 <?php } ?>
                                 </div>
                                 <?php }
