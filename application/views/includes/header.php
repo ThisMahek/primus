@@ -63,7 +63,7 @@
         <div class="modal-content">
             <div class="xs-search-panel">
                 <!-- <form action="#" method="POST" class="xs-search-group"> -->
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Enter Your Email Id.">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Enter Your Email Id. jj">
                     <a href="#modal-popup-1" type="submit" data-toggle="modal" data-target="#modal-popup-1" class="search-button mfp-close languageSwitcher-button xs-modal-popup"><i class="icon icon-arrow-right"></i></a>
                 <!-- </form> -->
             </div>

@@ -507,6 +507,47 @@ class UserDashboard extends CI_Controller
 		}
 	}
 }
+public function update_profile()
+{
+
+	$this->form_validation->set_rules('first_name', 'First Name', 'required');
+	$this->form_validation->set_rules('last_name', 'Last Name', 'required');
+	$this->form_validation->set_rules('mobile_no', 'Mobile Number', 'required');
+	$this->form_validation->set_rules('country', 'Country', 'required');
+	$this->form_validation->set_rules('state', 'State', 'required');
+	$this->form_validation->set_rules('city', 'City', 'required');
+	$this->form_validation->set_rules('designation', 'Designation', 'required');
+	// Run the form validation
+	if ($this->form_validation->run() == FALSE) {
+		//  echo validation_errors();
+		echo 2;
+	} else {
+		$mobile=$this->input->post('mobile_no');
+		$user_id=$this->input->post('user_id');
+		$check_phone_data = $this->db->where('id!=',$user_id)->where('mobile_no', $mobile)->get('tbl_users')->num_rows();
+		if ($check_phone_data > 0) {
+			echo 4;
+		} else{
+			$update_array = array(
+				'first_name' => $this->input->post('first_name'),
+				'last_name' => $this->input->post('last_name'),
+				'mobile_no' => $mobile,
+				'country' => $this->input->post('country'),
+				'state' => $this->input->post('state'),
+				'city' => $this->input->post('city'),
+				'designation' => $this->input->post('designation'),
+			);
+			
+			$result = $this->db->where('id',$user_id)->update('tbl_users', $update_array);
+			if ($result) {
+				echo 1;
+			} else {
+				echo 0;
+			}
+		}
+	}
+}
+
 }
 
 
