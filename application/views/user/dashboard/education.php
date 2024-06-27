@@ -54,7 +54,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="inputEmail1" class="form-label">Year of Passing<span class="text-danger">*</span></label>
-                                            <input class="form-control" name="year[]"  value="<?=$row->year?>"type="month" id="">
+                                            <input class="form-control" name="year[]"  value="<?=$row->year?>" type="month" max="<?php echo date('Y-m'); ?>">
                                         </div>
                                         <div class="mt-3">
                                             <label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label>
@@ -68,7 +68,7 @@
                                     <?php if ($key!=0) {?>
                                     <div class="row mt-3">
                                         <div class="col-md-6 repeater-remove-btn">
-                                            <button class="btn btn-outline-danger remove-btn px-4" title="Remove Colloum" onclick="removeInputGroup(this)" ><i class="bx bx-x"></i></button>
+                                          <button type="button"  class="btn btn-outline-danger remove-btn px-4" title="Remove Colloum" onclick="remove_db_data(<?=$row->id?>,'tbl_qualification')" ><i class="bx bx-x"></i></button>
                                         </div>
                                     </div>
                                 

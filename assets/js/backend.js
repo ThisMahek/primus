@@ -235,19 +235,27 @@ function daysDifference(index) {
 
     const fromDate = fromDateElement.value;
     const toDate = toDateElement.value;
-if (fromDate && toDate) {
-    const from = new Date(fromDate);
-    const to = new Date(toDate);
-    const diffTime = Math.abs(to - from);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    const diffMonths = Math.floor(diffDays / 30);
-    const diffYears = Math.floor(diffMonths / 12);
-    const remainingMonths = diffMonths % 12;
-    resultElement.value = `${remainingMonths} months : ${diffYears} years`;
-} else {
-    resultElement.value = '';
+
+    if (fromDate && toDate) {
+        const from = new Date(fromDate);
+        const to = new Date(toDate);
+        
+        let fromYear = from.getFullYear();
+        let fromMonth = from.getMonth();
+        let toYear = to.getFullYear();
+        let toMonth = to.getMonth();
+
+        let monthDiff = (toYear * 12 + toMonth) - (fromYear * 12 + fromMonth);
+        
+        const diffYears = Math.floor(monthDiff / 12);
+        const remainingMonths = monthDiff % 12;
+
+        resultElement.value = `${remainingMonths} months : ${diffYears} years`;
+    } else {
+        resultElement.value = '';
+    }
 }
-}
+
 function initializeDates() {
     const elements = document.querySelectorAll('[id^="from_date"], [id^="to_date"]');
     elements.forEach((element) => {
@@ -260,6 +268,7 @@ window.onload = initializeDates;
 
 
 $(document).ready(function () {
+    
     checkPDFAvailability();
     $('#submitButton').click(function () {
         var formData = new FormData($('#aboutUsForm')[0]);
@@ -304,13 +313,14 @@ $(document).ready(function () {
     });
 
     $("#add-class-eduction").click(function () {
-        var group = `<div class="items"><div class="item-content"><div class="mb-3"><label for="inputEmail1" class="form-label">Enter Qualification Type<span class="text-danger">*</span></label><input type="text" class="form-control" name="education_type[]" placeholder="Example : MCA" ></div><div class="mb-3"><label for="inputEmail1" class="form-label">Enter School/College/Institute/University Name <span class="text-danger">*</span></label><input type="text" class="form-control" name="institute[]" placeholder="Enter Your School/College/Institute/University Name" ></div><div class="mb-3"><label for="inputEmail1" class="form-label">Year of Passing<span class="text-danger">*</span></label><input class="form-control" name="year[]" type="month" id=""></div><div class="mt-3"><label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label></div><textarea  maxlength="40" class="form-control" name="description[]" aria-label="With textarea" style="height: 110px;" ></textarea></div><div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)"  title="Remove Colloum"><i class="bx bx-x"></i></button></div></div><hr></div>`;
+         
+        var group = `<div class="items"><div class="item-content"><div class="mb-3"><label for="inputEmail1" class="form-label">Enter Qualification Type<span class="text-danger">*</span></label><input type="text" class="form-control" name="education_type[]" placeholder="Example : MCA" ></div><div class="mb-3"><label for="inputEmail1" class="form-label">Enter School/College/Institute/University Name <span class="text-danger">*</span></label><input type="text" class="form-control" name="institute[]" placeholder="Enter Your School/College/Institute/University Name" ></div><div class="mb-3"><label for="inputEmail1" class="form-label">Year of Passing<span class="text-danger">*</span></label><input class="form-control" name="year[]" max="` + currentYearMonth + `" type="month" id=""></div><div class="mt-3"><label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label></div><textarea  maxlength="40" class="form-control" name="description[]" aria-label="With textarea" style="height: 110px;" ></textarea></div><div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)"  title="Remove Colloum"><i class="bx bx-x"></i></button></div></div><hr></div>`;
         $(this).closest('form').find('.append-area').append(group);
     });
     var i=0;
     $("#add-class-experience").click(function () {
      
-        var group = `<div class="items"><div class="row item-content"><div class="col-md-12 mb-3"><label for="work_type" class="form-label">Enter Work Type<span class="text-danger">*</span></label><input type="text" class="form-control" name="work_type[]" placeholder="Example : Web Developer" ></div><div class="col-md-12 mb-3"><label for="organisation_name" class="form-label">Enter Organisation Name <span class="text-danger">*</span></label><input type="text" class="form-control" name="organisation_name[]" placeholder="Enter Your Organisation Name" ></div><div class="col-md-12 mb-3"><label for="website_url" class="form-label">Enter Organisation Website URL <span class="text-danger">*</span></label><input type="url" class="form-control" name="website_url[]" placeholder="Enter Your Organisation Website URL" ></div><div class="col-md-6 mb-3"><label for="work_from" class="form-label">Work From<span class="text-danger">*</span></label><input class="form-control" name="work_from[]" type="month" id="from_date${i}" ></div><div class="col-md-6 mb-3"><label for="work_to" class="form-label">Work To<span class="text-danger">*</span> (Choose Current Month for Till Now)</label><input class="form-control" name="work_to[]" type="month" id="to_date${i}" onchange="daysDifference(${i})" placeholder="Till Now" ></div></div><div class="col-md-12 mb-3">
+        var group = `<div class="items"><div class="row item-content"><div class="col-md-12 mb-3"><label for="work_type" class="form-label">Enter Work Type<span class="text-danger">*</span></label><input type="text" class="form-control" name="work_type[]" placeholder="Example : Web Developer" ></div><div class="col-md-12 mb-3"><label for="organisation_name" class="form-label">Enter Organisation Name <span class="text-danger">*</span></label><input type="text" class="form-control" name="organisation_name[]" placeholder="Enter Your Organisation Name" ></div><div class="col-md-12 mb-3"><label for="website_url" class="form-label">Enter Organisation Website URL <span class="text-danger">*</span></label><input type="url" class="form-control" name="website_url[]" placeholder="Enter Your Organisation Website URL" ></div><div class="col-md-6 mb-3"><label for="work_from" onchange="daysDifference(${i})" class="form-label">Work From<span class="text-danger">*</span></label><input class="form-control" name="work_from[]"max="` + currentYearMonth + `"  type="month" id="from_date${i}" ></div><div class="col-md-6 mb-3"><label for="work_to" class="form-label">Work To<span class="text-danger">*</span> (Choose Current Month for Till Now)</label><input class="form-control" name="work_to[]"max="` + currentYearMonth + `"  type="month" id="to_date${i}" onchange="daysDifference(${i})" placeholder="Till Now" ></div></div><div class="col-md-12 mb-3">
                                             <label for="total-exp" class="form-label">Total Experience<span class="text-danger">*</span></label>
                                             <input class="form-control"  type="text" id="result${i}" name="total[]"   readonly>
                                         </div><div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)" title="Remove Colloum"><i class="bx bx-x"></i></button></div></div><hr></div>`;
@@ -430,6 +440,8 @@ i--;
             }
         });
     });
+   
+   
     
     //end 
 });
@@ -460,6 +472,44 @@ function editChangeproject(id){
             });
              
          }
+         function remove_db_data(id, tbl) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "want to delete this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: BASE_URL + 'UserDashboard/delete_data',
+                        type: "POST",
+                        data: { id: id, tbl: tbl },
+                        success: function(response) {
+                            if (response == 1) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Success",
+                                    text: "Data deleted successfully!",
+                                });
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 2000);
+                            } else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Oops..",
+                                    text: "Unable to delete data!",
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        }
+                 
          function add_preview(image, imageId, spanId, buttonId, img_height, img_width) {
             // alert(spanId);
              var filePath = image.value;

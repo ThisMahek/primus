@@ -355,7 +355,7 @@
                         url: '<?= base_url() ?>User/get_city',
                         data: {
                             state_id: state_id,
-                            country_id: country_id
+                           // country_id: country_id
                         },
                         success: function (html) {
                             $('#city').html(html);

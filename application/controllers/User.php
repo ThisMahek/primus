@@ -9,15 +9,17 @@ class User extends CI_Controller
         parent::__construct();
         $this->load->model('UserModel', 'UM');
     }
-
+   
     public function get_state()
     {
         $country_id = $this->input->post('country_id');
+        $state_id = $this->input->post('state_id');
         $states = $this->UM->get_state($country_id);
         if (!empty($states)) {
             echo '<option value="">Select State</option>';
             foreach ($states as $state) {
-                echo '<option value="' . $state->id . '">' . $state->name . '</option>';
+                $selected=($state->id == $state_id)?'selected':'';
+                echo '<option value="' . $state->id . '" '. $selected.'> '. $state->name . '</option>';
             }
         } else {
             echo '<option value="">State not available</option>';
@@ -26,12 +28,14 @@ class User extends CI_Controller
     public function get_city()
     {
         $state_id = $this->input->post('state_id');
-        $country_id = $this->input->post('country_id');
-        $cities = $this->UM->get_city($state_id, $country_id);
+       // $country_id = $this->input->post('country_id');
+        $city_id = $this->input->post('city_id');
+        $cities = $this->UM->get_city($state_id);
         if (!empty($cities)) {
             echo '<option value="">Select City</option>';
             foreach ($cities as $city) {
-                echo '<option value="' . $city->id . '">' . $city->name . '</option>';
+                $selected=($city->id == $city_id)?'selected':'';
+                echo '<option value="' . $city->id . '" '. $selected.'>' . $city->name . '</option>';
             }
         } else {
             echo '<option value="">City not available</option>';

@@ -100,7 +100,9 @@ class UsersView extends CI_Controller
 
 	public function myProfile()
 	{
-		$this->load->view('user/dashboard/myProfile');
+		$data['user_data']=$this->UM->get_user_data();
+        $data['countries']=$this->UM->get_country();
+		$this->load->view('user/dashboard/myProfile',$data);
 	}
 	public function changePassword()
 	{

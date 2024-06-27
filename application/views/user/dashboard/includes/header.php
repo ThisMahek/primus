@@ -58,9 +58,9 @@ $about_data=$this->db->select('designation')->where(['user_id'=>$user_id,'status
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item d-flex align-items-center" href="<?=base_url()?>UserDashboard/myProfile"><i class="bx bx-user fs-5"></i><span>My Profile</span></a>
+                    <li><a class="dropdown-item d-flex align-items-center" href="<?=base_url()?><?=$this->session->userdata('user_name')?>/my-profile"><i class="bx bx-user fs-5"></i><span>My Profile</span></a>
                     </li>
-                    <li><a class="dropdown-item d-flex align-items-center" href="<?=base_url()?>UserDashboard/changePassword"><i class="bx bx-lock fs-5"></i><span>Change Password</span></a>
+                    <li><a class="dropdown-item d-flex align-items-center" href="<?=base_url()?><?=$this->session->userdata('user_name')?>/change-password"><i class="bx bx-lock fs-5"></i><span>Change Password</span></a>
                     </li>
                     <li>
                         <div class="dropdown-divider mb-0"></div>

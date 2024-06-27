@@ -47,9 +47,9 @@ class UserDashboard extends CI_Controller
 			echo 2;
 		} else {
 			$user_id = $this->session->userdata('user_id');
-			if (!empty($ids)) {
-				$response = $this->db->where_not_in('id', $ids)->delete('tbl_skills');
-			}
+			// if (!empty($ids)) {
+			// 	$response = $this->db->where_not_in('id', $ids)->delete('tbl_skills');
+			// }
 			for ($i = 0; $i < count($skills); $i++) {
 				$data = array(
 					'skill' => $skills[$i],
@@ -95,9 +95,9 @@ class UserDashboard extends CI_Controller
 		} else {
 			// Validation passed, proceed with saving data
 			$user_id = $this->session->userdata('user_id');
-			if (!empty($ids)) {
-				$this->db->where_not_in('id', $ids)->delete('tbl_experience');
-			}
+			// if (!empty($ids)) {
+			// 	$this->db->where_not_in('id', $ids)->delete('tbl_experience');
+			// }
 			for ($i = 0; $i < count($work_type); $i++) {
 				$data = array(
 					'work_type' => trim($work_type[$i]),
@@ -142,9 +142,9 @@ class UserDashboard extends CI_Controller
 			echo 2;
 		} else {
 			$user_id = $this->session->userdata('user_id');
-			if (!empty($ids)) {
-				$response = $this->db->where_not_in('id', $ids)->delete('tbl_qualification');
-			}
+			// if (!empty($ids)) {
+			// 	$response = $this->db->where_not_in('id', $ids)->delete('tbl_qualification');
+			// }
 			for ($i = 0; $i < count($education_type); $i++) {
 				$data = array(
 					'education_type' => trim($education_type[$i]),
@@ -454,7 +454,7 @@ class UserDashboard extends CI_Controller
 				}
 				//	echo $this->db->last_query();die();
 			}
-			$this->db->where_not_in('id', $collect_keeping_id)->where('user_id', $user_id)->delete('tbl_client');
+			//$this->db->where_not_in('id', $collect_keeping_id)->where('user_id', $user_id)->delete('tbl_client');
 		}
 
 		$data = $this->db->get('tbl_client')->result_array();
@@ -465,6 +465,48 @@ class UserDashboard extends CI_Controller
 		$result=$this->UM->get_single_data('tbl_project',$user_id,'1');
        echo json_encode($result);
 	}
+	public function delete_data(){
+		$id=$this->input->post('id');
+		$tbl_name=$this->input->post('tbl');
+		$x=$this->db->where('id',$id)->delete($tbl_name);
+		if($x){
+           echo 1;
+		}else{
+			echo 0;
+		}
+	}
+	public function update_change_password(){
+		
+		// Set validation rules
+		$this->form_validation->set_rules('current_password', 'Current Password', 'required');
+		$this->form_validation->set_rules('new_password', 'New Password', 'required');
+		// Check if the form validation passes
+		if ($this->form_validation->run() == FALSE) {
+			$errors = validation_errors();
+			echo 4;
+		} else {
+		$old_password=$this->input->post('current_password');
+		$new_password=$this->input->post('new_password');
+		$user_data=$this->UM->get_user_data();
+		$user_id=$this->session->userdata('user_id');
+		
+		if($user_data->password == md5($old_password)){
+			if($user_data->password!=md5($new_password)){
+              $update_array=array('password'=>md5($new_password));
+			$result=  $this->db->where('id',$user_id)->update('tbl_users',$update_array);
+               if($result){
+                     echo 1;
+			   }else{
+				echo 0;
+			   }
+			}else{
+				echo 3;
+			}
+		}else{
+			echo 2;
+		}
+	}
+}
 }
 
 

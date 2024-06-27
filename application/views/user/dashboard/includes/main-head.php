@@ -1,6 +1,7 @@
 <!-- Required meta tags -->
 <script>
 const BASE_URL="<?php echo base_url()?>";
+const currentYearMonth="<?php echo date('Y-m')?>";
 </script>
 
 <meta charset="utf-8">
