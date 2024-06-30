@@ -8,6 +8,7 @@ class UserDashboard extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('UserModel', 'UM');
+		$this->load->library('form_validation');
 		//$this->load->library('input');
 		// if (!$this->session->userdata('user_id')) {
 		// 	redirect(base_url());
@@ -547,7 +548,57 @@ public function update_profile()
 		}
 	}
 }
+public function check_email_forgot_password(){
+	
+	// $this->load->library('form_validation');
+	// $this->form_validation->set_rules('forgot_email', '', 'required');
+	// // Run the form validation
+	// if ($this->form_validation->run() == FALSE) {
+	// 	//  echo validation_errors();
+	// 	echo 2;
+	// }else{
+		$email='mahek@gmail.com';//$this->input->post('forgot_email');
+		$result=$this->db->where('email_id',$email)->get('tbl_users')->row();
+		if(!empty($result)){
+			echo 1;
+			
+		 //$this->load->config('email'); 
+			$this->load->library('email'); 
+				$config['protocol'] = 'smtp';
+				$config['smtp_host'] = 'smtp.hostinger.com';
+				$config['smtp_port'] = '465';
+				$config['smtp_user'] = 'verification@planktox.in';
+				$config['smtp_pass'] = 'Thisisnot0k@123';
+				//$config['mailtype'] = 'html';
+			//	$config['charset'] = 'iso-8859-1';
+			//	$config['wordwrap'] = TRUE;
+				$this->email->initialize($config);
+			$from_email = "verification@planktox.in"; 
+         $to_email = "vermamahak44@gmail.com";
+         $this->email->from($from_email, 'Your Name'); 
+         $this->email->to($to_email);
+         $this->email->subject('Email Test'); 
+         $this->email->message('Testing the email class.'); 
+  
+         //Send mail 
+         if($this->email->send()) 
+		 {
+             echo 4;
+		 }
+        //  $this->session->set_flashdata("email_sent","Email sent successfully."); 
+         else 
+		 {
+			//echo 5;
+		echo show_error($this->email->print_debugger());;
+		 }
+        // $this->session->set_flashdata("email_sent","Error in sending Email."); 
 
+		}else{
+			echo 0;
+		}
+	//}
+
+}
 }
 
 

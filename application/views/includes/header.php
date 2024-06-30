@@ -62,10 +62,11 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="xs-search-panel">
-                <!-- <form action="#" method="POST" class="xs-search-group"> -->
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Enter Your Email Id. jj">
-                    <a href="#modal-popup-1" type="submit" data-toggle="modal" data-target="#modal-popup-1" class="search-button mfp-close languageSwitcher-button xs-modal-popup"><i class="icon icon-arrow-right"></i></a>
-                <!-- </form> -->
+                <form action="#" method="POST" class="xs-search-group">
+                    <input type="email" class="form-control" name="forgot_email" id="forgot_email" placeholder="Enter Your Email Id.">
+                    <a onclick="check_email_for_forgot_password()" type="submit" ><i class="icon icon-arrow-right"></i></a>
+                    <!-- <a href="#modal-popup-1" type="submit" data-toggle="modal" data-target="#modal-popup-1" class="search-button mfp-close languageSwitcher-button xs-modal-popup"><i class="icon icon-arrow-right"></i></a> -->
+                </form>
             </div>
         </div>
     </div>
@@ -95,6 +96,19 @@
     function myFunction() {
         document.getElementById("panel").style.display = "block";  
     document.getElementById("otp-form").style.display = "none";
+    }
+    function check_email_for_forgot_password(){
+
+        var forgot_email=$('#forgot_email').val();
+        //alert(email);
+        $.ajax({
+            type:"POST",
+            url:"<?=base_url()?>UserDashboard/check_email_forgot_password",
+            data:{forgot_email:forgot_email},
+            success:function(response){
+                alert(response);
+            }
+        });
     }
 </script>
 <!-- ======================= -->
