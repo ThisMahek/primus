@@ -64,8 +64,8 @@
             <div class="xs-search-panel">
                 <form action="#" method="POST" class="xs-search-group">
                     <input type="email" class="form-control" name="forgot_email" id="forgot_email" placeholder="Enter Your Email Id.">
-                    <a onclick="check_email_for_forgot_password()" type="submit" ><i class="icon icon-arrow-right"></i></a>
-                    <!-- <a href="#modal-popup-1" type="submit" data-toggle="modal" data-target="#modal-popup-1" class="search-button mfp-close languageSwitcher-button xs-modal-popup"><i class="icon icon-arrow-right"></i></a> -->
+                    <!-- <a onclick="check_email_for_forgot_password()" type="submit" ><i class="icon icon-arrow-right"></i></a> -->
+                     <a onclick="check_email_for_forgot_password()" href="#modal-popup-1" type="submit" data-toggle="modal" data-target="#modal-popup-1" class="search-button mfp-close languageSwitcher-button xs-modal-popup"><i class="icon icon-arrow-right"></i></a> 
                 </form>
             </div>
         </div>
@@ -93,10 +93,10 @@
 
 <!-- ====Set New Password==== -->
 <script>
-        function myFunction() {
-        document.getElementById("panel").style.display = "block";  
-        document.getElementById("otp-form").style.display = "none";
-        }
+        // function myFunction() {
+        // document.getElementById("panel").style.display = "block";  
+        // document.getElementById("otp-form").style.display = "none";
+        // }
     function check_email_for_forgot_password(){
         var forgot_email=$('#forgot_email').val();
         $.ajax({
@@ -106,8 +106,8 @@
             success:function(response){
                 if(response==1){
                    $('#modal-popup-2').hide();
-                //    $('#modal-popup-1').modal('show');
-                   $('#otp-modal').show();
+                    $('#modal-popup-1').modal('show');
+                   //$('#otp-modal').show();
                 }else{
 
                 }

@@ -21,7 +21,7 @@
                 <div class="menu-title">Application</div>
             </a>
             <ul>
-                <li> <a href="<?=base_url()?>admin/totalUsers"><i class='bx bx-radio-circle'></i>Users</a>
+                <li> <a href="<?=base_url()?>admin/users"><i class='bx bx-radio-circle'></i>Users</a>
                 </li>
             </ul>
         </li>
