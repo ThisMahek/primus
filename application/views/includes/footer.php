@@ -10,7 +10,7 @@
                         <li><a href="https://www.instagram.com/" target="_blank"><i class="fa fa-instagram"></i></a></li>
                         <li><a href="https://bd.linkedin.com/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
                     </ul>
-                    <p>&copy; 2018, Agencify. Design by <a href="https://themeforest.net/user/xpeedstudio/portfolio" target="_blank">XpeedStudio</a>. All Rights Reserved.</p>
+                    <p>&copy; 2018, . Design by <a href="#" target="_blank"></a>. All Rights Reserved.</p>
                  </div>
             </div>
         </div>
