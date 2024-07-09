@@ -254,42 +254,43 @@ class UserDashboard extends CI_Controller
 			// Validation failed, return errors
 			$errors = validation_errors();
 			echo 2;
-		}else{
-			//print_r($_FILES);exit;
-		$user_id = $this->session->userdata('user_id');
-		$file = $_FILES["faeture_image"];
-		$MyFileName = "";
-		if (strlen($file['name']) > 0) {
-			$image = $file["name"];
-			$config['upload_path'] = './assets/upload/Project_Image';
-			$config['allowed_types'] = '*';
-			$config['file_name'] = $image;
-			$this->load->library("upload", $config);
-			$filestatus = $this->upload->do_upload('faeture_image');
-			if ($filestatus == true) {
-				$MyFileName = $this->upload->data('file_name');
-				$array['faeture_image'] = $MyFileName;
-			} else {
-				$error = array('error' => $this->upload->display_errors());
-				print_r($error);exit;
-				$result = $error;
-			}
-		
-		}
-		//End: File upload code
-		$array['project_name'] = $this->input->post('project_name');
-		$array['working_role'] = $this->input->post('working_role');
-		$array['description'] = $this->input->post('description');
-		$array['project_url'] = $this->input->post('project_url');
-		$array['user_id'] = $user_id;
-		$response = $this->db->insert('tbl_project', $array);
-		if ($response) {
-			echo 1;
 		} else {
-			echo 0;
+			//print_r($_FILES);exit;
+			$user_id = $this->session->userdata('user_id');
+			$file = $_FILES["faeture_image"];
+			$MyFileName = "";
+			if (strlen($file['name']) > 0) {
+				$image = $file["name"];
+				$config['upload_path'] = './assets/upload/Project_Image';
+				$config['allowed_types'] = '*';
+				$config['file_name'] = $image;
+				$this->load->library("upload", $config);
+				$filestatus = $this->upload->do_upload('faeture_image');
+				if ($filestatus == true) {
+					$MyFileName = $this->upload->data('file_name');
+					$array['faeture_image'] = $MyFileName;
+				} else {
+					$error = array('error' => $this->upload->display_errors());
+					print_r($error);
+					exit;
+					$result = $error;
+				}
+
+			}
+			//End: File upload code
+			$array['project_name'] = $this->input->post('project_name');
+			$array['working_role'] = $this->input->post('working_role');
+			$array['description'] = $this->input->post('description');
+			$array['project_url'] = $this->input->post('project_url');
+			$array['user_id'] = $user_id;
+			$response = $this->db->insert('tbl_project', $array);
+			if ($response) {
+				echo 1;
+			} else {
+				echo 0;
+			}
 		}
 	}
-}
 	public function edit_project()
 	{
 		// Load form validation library
@@ -337,7 +338,7 @@ class UserDashboard extends CI_Controller
 			$array['user_id'] = $user_id;
 
 			$response = $this->db->where('id', $id)->update('tbl_project', $array);
-		//	echo $this->db->last_query();die();
+			//	echo $this->db->last_query();die();
 			if ($response) {
 				echo 1;
 			} else {
@@ -461,23 +462,26 @@ class UserDashboard extends CI_Controller
 		$data = $this->db->get('tbl_client')->result_array();
 		redirect(base_url() . "UserDashboard/clients");
 	}
-	public function get_single_project(){
-		$user_id=$this->session->userdata('user_id');
-		$result=$this->UM->get_single_data('tbl_project',$user_id,'1');
-       echo json_encode($result);
+	public function get_single_project()
+	{
+		$user_id = $this->session->userdata('user_id');
+		$result = $this->UM->get_single_data('tbl_project', $user_id, '1');
+		echo json_encode($result);
 	}
-	public function delete_data(){
-		$id=$this->input->post('id');
-		$tbl_name=$this->input->post('tbl');
-		$x=$this->db->where('id',$id)->delete($tbl_name);
-		if($x){
-           echo 1;
-		}else{
+	public function delete_data()
+	{
+		$id = $this->input->post('id');
+		$tbl_name = $this->input->post('tbl');
+		$x = $this->db->where('id', $id)->delete($tbl_name);
+		if ($x) {
+			echo 1;
+		} else {
 			echo 0;
 		}
 	}
-	public function update_change_password(){
-		
+	public function update_change_password()
+	{
+
 		// Set validation rules
 		$this->form_validation->set_rules('current_password', 'Current Password', 'required');
 		$this->form_validation->set_rules('new_password', 'New Password', 'required');
@@ -486,119 +490,108 @@ class UserDashboard extends CI_Controller
 			$errors = validation_errors();
 			echo 4;
 		} else {
-		$old_password=$this->input->post('current_password');
-		$new_password=$this->input->post('new_password');
-		$user_data=$this->UM->get_user_data();
-		$user_id=$this->session->userdata('user_id');
-		
-		if($user_data->password == md5($old_password)){
-			if($user_data->password!=md5($new_password)){
-              $update_array=array('password'=>md5($new_password));
-			$result=  $this->db->where('id',$user_id)->update('tbl_users',$update_array);
-               if($result){
-                     echo 1;
-			   }else{
-				echo 0;
-			   }
-			}else{
-				echo 3;
+			$old_password = $this->input->post('current_password');
+			$new_password = $this->input->post('new_password');
+			$user_data = $this->UM->get_user_data();
+			$user_id = $this->session->userdata('user_id');
+
+			if ($user_data->password == md5($old_password)) {
+				if ($user_data->password != md5($new_password)) {
+					$update_array = array('password' => md5($new_password));
+					$result = $this->db->where('id', $user_id)->update('tbl_users', $update_array);
+					if ($result) {
+						echo 1;
+					} else {
+						echo 0;
+					}
+				} else {
+					echo 3;
+				}
+			} else {
+				echo 2;
 			}
-		}else{
-			echo 2;
 		}
 	}
-}
-public function update_profile()
-{
+	public function update_profile()
+	{
 
-	$this->form_validation->set_rules('first_name', 'First Name', 'required');
-	$this->form_validation->set_rules('last_name', 'Last Name', 'required');
-	$this->form_validation->set_rules('mobile_no', 'Mobile Number', 'required');
-	$this->form_validation->set_rules('country', 'Country', 'required');
-	$this->form_validation->set_rules('state', 'State', 'required');
-	$this->form_validation->set_rules('city', 'City', 'required');
-	$this->form_validation->set_rules('designation', 'Designation', 'required');
-	// Run the form validation
-	if ($this->form_validation->run() == FALSE) {
-		//  echo validation_errors();
-		echo 2;
-	} else {
-		$mobile=$this->input->post('mobile_no');
-		$user_id=$this->input->post('user_id');
-		$check_phone_data = $this->db->where('id!=',$user_id)->where('mobile_no', $mobile)->get('tbl_users')->num_rows();
-		if ($check_phone_data > 0) {
-			echo 4;
-		} else{
-			$update_array = array(
-				'first_name' => $this->input->post('first_name'),
-				'last_name' => $this->input->post('last_name'),
-				'mobile_no' => $mobile,
-				'country' => $this->input->post('country'),
-				'state' => $this->input->post('state'),
-				'city' => $this->input->post('city'),
-				'designation' => $this->input->post('designation'),
-			);
-			
-			$result = $this->db->where('id',$user_id)->update('tbl_users', $update_array);
-			if ($result) {
+		$this->form_validation->set_rules('first_name', 'First Name', 'required');
+		$this->form_validation->set_rules('last_name', 'Last Name', 'required');
+		$this->form_validation->set_rules('mobile_no', 'Mobile Number', 'required');
+		$this->form_validation->set_rules('country', 'Country', 'required');
+		$this->form_validation->set_rules('state', 'State', 'required');
+		$this->form_validation->set_rules('city', 'City', 'required');
+		$this->form_validation->set_rules('designation', 'Designation', 'required');
+		// Run the form validation
+		if ($this->form_validation->run() == FALSE) {
+			//  echo validation_errors();
+			echo 2;
+		} else {
+			$mobile = $this->input->post('mobile_no');
+			$user_id = $this->input->post('user_id');
+			$check_phone_data = $this->db->where('id!=', $user_id)->where('mobile_no', $mobile)->get('tbl_users')->num_rows();
+			if ($check_phone_data > 0) {
+				echo 4;
+			} else {
+				$update_array = array(
+					'first_name' => $this->input->post('first_name'),
+					'last_name' => $this->input->post('last_name'),
+					'mobile_no' => $mobile,
+					'country' => $this->input->post('country'),
+					'state' => $this->input->post('state'),
+					'city' => $this->input->post('city'),
+					'designation' => $this->input->post('designation'),
+				);
+
+				$result = $this->db->where('id', $user_id)->update('tbl_users', $update_array);
+				if ($result) {
+					echo 1;
+				} else {
+					echo 0;
+				}
+			}
+		}
+	}
+	public function check_email_forgot_password()
+	{
+
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('forgot_email', '', 'required');
+		// Run the form validation
+		if ($this->form_validation->run() == FALSE) {
+			//  echo validation_errors();
+			echo 2;
+		} else {
+			$email = $this->input->post('forgot_email');
+			$result = $this->db->where('email_id', $email)->get('tbl_users')->row();
+			if (!empty($result)) {
 				echo 1;
+				// $this->load->library('email'); 
+				// $config['protocol'] = 'smtp';
+				// $config['smtp_host'] = 'smtp.hostinger.com';
+				// $config['smtp_port'] = '465';
+				// $config['smtp_user'] = 'verification@planktox.in';
+				// $config['smtp_pass'] = 'Thisisnot0k@123';
+				// $this->email->initialize($config);
+				// $from_email = "verification@planktox.in"; 
+				// $to_email = "vermamahak44@gmail.com";
+				// $this->email->from($from_email, 'Your Name'); 
+				// $this->email->to($to_email);
+				// $this->email->subject('Email Test'); 
+				// $this->email->message('Testing the email class.');  
+				// if($this->email->send()) 
+				// {
+				// echo 4;
+				// } 
+				// else 
+				// {
+				// echo show_error($this->email->print_debugger());;
+				// }
 			} else {
 				echo 0;
 			}
 		}
 	}
-}
-public function check_email_forgot_password(){
-	
-	// $this->load->library('form_validation');
-	// $this->form_validation->set_rules('forgot_email', '', 'required');
-	// // Run the form validation
-	// if ($this->form_validation->run() == FALSE) {
-	// 	//  echo validation_errors();
-	// 	echo 2;
-	// }else{
-		$email='mahek@gmail.com';//$this->input->post('forgot_email');
-		$result=$this->db->where('email_id',$email)->get('tbl_users')->row();
-		if(!empty($result)){
-			echo 1;
-			
-		 //$this->load->config('email'); 
-			$this->load->library('email'); 
-				$config['protocol'] = 'smtp';
-				$config['smtp_host'] = 'smtp.hostinger.com';
-				$config['smtp_port'] = '465';
-				$config['smtp_user'] = 'verification@planktox.in';
-				$config['smtp_pass'] = 'Thisisnot0k@123';
-				//$config['mailtype'] = 'html';
-			//	$config['charset'] = 'iso-8859-1';
-			//	$config['wordwrap'] = TRUE;
-				$this->email->initialize($config);
-			$from_email = "verification@planktox.in"; 
-         $to_email = "vermamahak44@gmail.com";
-         $this->email->from($from_email, 'Your Name'); 
-         $this->email->to($to_email);
-         $this->email->subject('Email Test'); 
-         $this->email->message('Testing the email class.'); 
-  
-         //Send mail 
-         if($this->email->send()) 
-		 {
-             echo 4;
-		 }
-        //  $this->session->set_flashdata("email_sent","Email sent successfully."); 
-         else 
-		 {
-			//echo 5;
-		echo show_error($this->email->print_debugger());;
-		 }
-        // $this->session->set_flashdata("email_sent","Error in sending Email."); 
-
-		}else{
-			echo 0;
-		}
-	//}
-
-}
 }
 
 

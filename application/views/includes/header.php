@@ -46,7 +46,7 @@
                         <br/>
                         <div class="col-md-12 mb-5 pl-0">
                             <input type="password" placeholder="Enter Password" name="password" id="password" class="form-control">
-                            <a href="#modal-popup-2" class="close-side-widget languageSwitcher-button xs-modal-popup f-end" data-toggle="modal" data-target="#exampleModal">Forgote Password ?</a>
+                            <a href="#modal-popup-2" class="close-side-widget languageSwitcher-button xs-modal-popup f-end" data-toggle="modal" data-target="#exampleModal">Forgot Password ?</a>
                         </div>
                         <div class="col-md-12 text-left pl-0">
                             <button type="submit" class="long-arrow-btn version-white text-right" >SUBMIT <span class="long-arrow"></span></button>
@@ -71,7 +71,6 @@
         </div>
     </div>
 </div>
-
 <div class="zoom-anim-dialog mfp-hide modal-searchPanel" id="modal-popup-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -79,7 +78,7 @@
                 <!-- <form action="#" method="POST" class="xs-search-group" id="otp-form"> -->
                     <input type="number" class="form-control mb-2" name="otp" id="otp" placeholder="Enter 4 Digit OTP">
                     <p>* 4 Digit OTP Send to Your Registerd Email address</p>
-                    <a href="#" type="submit" onclick="myFunction()"  class="search-button mfp-close"><i class="icon icon-arrow-right"></i></a>
+                    <a href="#" type="submit" onclick="myFunction()" class="search-button mfp-close"><i class="icon icon-arrow-right"></i></a>
                 <!-- </form> -->
                 <!-- <form action="#" method="POST" class="xs-search-group" id="panel"> -->
                     <input type="password" class="form-control mb-2" name="newPassword" id="newPassword" placeholder="New Password">
@@ -91,22 +90,27 @@
     </div>
 </div>
 
+
 <!-- ====Set New Password==== -->
 <script>
-    function myFunction() {
+        function myFunction() {
         document.getElementById("panel").style.display = "block";  
-    document.getElementById("otp-form").style.display = "none";
-    }
+        document.getElementById("otp-form").style.display = "none";
+        }
     function check_email_for_forgot_password(){
-
         var forgot_email=$('#forgot_email').val();
-        //alert(email);
         $.ajax({
             type:"POST",
             url:"<?=base_url()?>UserDashboard/check_email_forgot_password",
             data:{forgot_email:forgot_email},
             success:function(response){
-                alert(response);
+                if(response==1){
+                   $('#modal-popup-2').hide();
+                //    $('#modal-popup-1').modal('show');
+                   $('#otp-modal').show();
+                }else{
+
+                }
             }
         });
     }
