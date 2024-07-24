@@ -15,7 +15,7 @@
     <!--start page wrapper -->
     <div class="page-wrapper">
         <div class="page-content">
-            <div class="card">
+            <div class="card" id="client-container">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <hr />
-                    <form action="<?= base_url() ?>UserDashboard/save_client" method="post" enctype="multipart/form-data">
+                    <form id="clientForm" enctype="multipart/form-data">
                         <div class="append-area">
                             <!-- Repeater Heading -->
                             <div class="d-flex align-items-center justify-content-between">
@@ -58,7 +58,7 @@
                                             
                                             <input type="file" name="logo[]" class="form-control" accept="image/*"  hidden>
                                                      <?php }else{?>
-                                                        <input type="file" name="logo[]" class="form-control"  accept="image/*"   onchange="add_preview(this, 'imagePreview', 'sp_img','client_button','170','256')">
+                                                        <input type="file" name="logo[]" class="form-control"  accept="image/*"   onchange="add_preview(this, 'imagePreview', 'sp_img','client_button','330','192')">
                                                         <span id="sp_img" style="color:red"></span>
                                                          <?php }?>
                                                      
@@ -98,13 +98,13 @@
                                     <div class="col-md-12 mb-3">
                                         <label for="logo" class="form-label">Upload Logo of Your Clients<span
                                                 class="text-danger">* </span>(Logo must be in 170 × 103 px)</label>
-                                        <input type="file" name="logo[]" class="form-control"  accept="image/*"  required onchange="add_preview(this, 'imagePreview', 'sp_img','client_button','170','256')">
+                                        <input type="file" name="logo[]" class="form-control"  accept="image/*"   onchange="add_preview(this, 'imagePreview', 'sp_img','client_button','330','192')">
                                         <span id="sp_img" style="color:red"></span>
                                     </div>
                                     <div class="col-md-12 mb-3">
                                         <label for="url" class="form-label">Client's Website URL<span
                                                 class="text-danger">*</span></label>
-                                        <input name="url[]" type="url" class="form-control" required>
+                                        <input name="url[]" type="url" class="form-control" >
                                     </div>
                                 </div>
                                 <!-- Repeater Remove Btn -->
@@ -114,8 +114,15 @@
 <?php }?>
                         </div>
                         <div class="col-md-12 text-end">
-                            <button type="submit" class="btn btn-outline-secondary w-25" id="client_button">Save</button>
-                        </div>
+                           
+                        
+                       <?php if(!empty($client_data)){
+                                ?>
+                                 <button  class="btn btn-outline-secondary w-25" id="client_button">Update</button>
+                                <?php }else{?>
+                                    <button  class="btn btn-outline-secondary w-25" id="client_button">Save</button>
+                                    <?php }?>
+                                    </div>
                     </form>
                 </div>
             </div>
@@ -123,19 +130,59 @@
     </div>
     <!--end page wrapper -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
-        <script>
-              $(document).ready(function () {
-                let i=1;
-             $("#add-class").click(function () {
-                i++;
-                var group = `<div class="items"><div class="row item-content"><div class="col-md-12 mb-3"><label for="logo" class="form-label">Upload Logo of Your Clients<span class="text-danger">* </span>(Logo must be in 170 × 103 px)
-                </label> <input type="hidden" name="id[]" value=""> <input type="hidden" name="previous_file_name[]" value=""><input type="file" name="logo[]" accept="image/*"  onchange="add_preview(this, 'imagePreview','sp_img'+${i},'client_button','300','192')" class="form-control" required>  <span id="sp_img${i}" style="color:red"></span></div><div class="col-md-12 mb-3"><label for="url" class="form-label">Client's Website URL<span class="text-danger">*</span></label><input name="url[]" type="url" class="form-control" required></div></div><div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button class="btn btn-outline-danger remove-btn px-4" title="Remove Colloum"><i class="bx bx-x" onclick="removeInputGroup(this)" ></i></button></div></div><hr></div>`;
-                $(this).closest('form').find('.append-area').append(group);
-             });
+    <script>
+    $(document).ready(function () {
+        let i = 1;
+        $("#add-class").click(function () {
+            i++;
+            var group = `<div class="items"><div class="row item-content"><div class="col-md-12 mb-3"><label for="logo" class="form-label">Upload Logo of Your Clients<span class="text-danger">* </span>(Logo must be in 170 × 103 px)</label> <input type="hidden" name="id[]" value=""> <input type="hidden" name="previous_file_name[]" value=""><input type="file" name="logo[]" accept="image/*" onchange="add_preview(this, 'imagePreview','sp_img'+${i},'client_button','300','192')" class="form-control" > <span id="sp_img${i}" style="color:red"></span></div><div class="col-md-12 mb-3"><label for="url" class="form-label">Client's Website URL<span class="text-danger">*</span></label><input name="url[]" type="url" class="form-control" ></div></div><div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button type="button" class="btn btn-outline-danger remove-btn px-4" title="Remove Colloum"><i class="bx bx-x" onclick="removeInputGroup(this)"></i></button></div></div><hr></div>`;
+            $(this).closest('form').find('.append-area').append(group);
         });
-        function  removeInputGroup(btn) {
-            $(btn).closest('.items').remove();
-        }
-    </script>
+
+        $('#clientForm').on('submit', function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                url: '<?= base_url() ?>UserDashboard/save_client',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    var res = JSON.parse(response);
+                    if (res.status === 'success') {
+                       // alert(res.message);
+                       Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Your data was saved successfully!'
+                        }).then(function() {
+                            // Example: Reload only specific part of the page
+                            location.reload(); // Implement this function to update specific content
+                        });
+                       
+                    } else {
+                        Swal.fire({
+                        icon: "error",
+                        title: "Oops..",
+                        text: "Invalid data submitted. Please fill all field!",
+                    });
+
+                        //alert('Error: ' + res.message);
+                    }
+                },
+                error: function () {
+                    alert('An error occurred. Please try again.');
+                }
+            });
+        });
+    });
+
+    function removeInputGroup(btn) {
+        $(btn).closest('.items').remove();
+    }
+</script>
+
     <?php include_once('includes/footer.php') ?>
-   
+</body>
+</html>

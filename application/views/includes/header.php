@@ -64,13 +64,16 @@
             <div class="xs-search-panel">
                 <form action="#" method="POST" class="xs-search-group">
                     <input type="email" class="form-control" name="forgot_email" id="forgot_email" placeholder="Enter Your Email Id.">
+
                     <a onclick="check_email_for_forgot_password()" type="submit" class="search-button mfp-close languageSwitcher-button"><i class="icon icon-arrow-right"></i></a>
                    <!-- <a href="#modal-popup-1" type="submit" data-toggle="modal" data-target="#modal-popup-1" class="search-button mfp-close languageSwitcher-button xs-modal-popup"><i class="icon icon-arrow-right"></i></a>  -->
                 </form>
+
             </div>
         </div>
     </div>
 </div>
+
 <!-- <div class="zoom-anim-dialog  modal-searchPanel modal" id="modal-popup-1">
 <div style="display:none" id="modal-popup-1">
     <form action="#" method="POST" class="xs-search-group" id="otp-form">
@@ -80,16 +83,20 @@
     </form>
 </div>
 </div> -->
-<div class="zoom-anim-dialog  modal-searchPanel modal" id="modal-popup-1">
+
+<div class="zoom-anim-dialog mfp-hide modal-searchPanel" id="modal-popup-11" style="z-index:0;">
+
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="xs-search-panel">
                 <form action="#" method="POST" class="xs-search-group" id="otp-form">
                     <input type="number" class="form-control mb-2" name="otp" id="otp" placeholder="Enter 4 Digit OTP" style="border: 1px solid;color:black;">
                     <p>* 4 Digit OTP Send to Your Registerd Email address</p>
+
                     <a href="#" type="submit" onclick="myFunction()" class="search-button mfp-close" style="color:black;"><i class="icon icon-arrow-right"></i></a>
                 </form>
                 <form action="#" method="POST" class="xs-search-group" id="panel">
+
                     <input type="password" class="form-control mb-2" name="newPassword" id="newPassword" placeholder="New Password">
                     <input type="password" class="form-control mb-2" name="ConfirmnewPassword" id="ConfirmnewPassword" placeholder="Confirm New Password">
                     <a href="#" type="submit"  class="search-otp-button mfp-close"><i class="icon icon-arrow-right"></i></a>
@@ -98,6 +105,7 @@
         </div>
     </div>
 </div>
+
 
 
 <!-- ====Set New Password==== -->
@@ -114,11 +122,14 @@
             data:{forgot_email:forgot_email},
             success:function(response){
                 if(response==1){
-                   $('#modal-popup-2').hide();
-                   $('.mfp-wrap').hide();
-                //    $('#modal-popup-1').modal('show');
-                   document.getElementById("modal-popup-1").style.display = "block";
-                //    $('#otp-modal').show();
+
+                   //$('#modal-popup-2').hide();
+                  // $('#modal-popup-1').show();
+                //   $('[data-modal-popup-1]').click();
+                    document.getElementById("modal-popup-11").style.display = "block";  
+        document.getElementById("modal-popup-2").style.display = "none";
+                   //$('#otp-modal').show();
+
                 }else{
 
                 }

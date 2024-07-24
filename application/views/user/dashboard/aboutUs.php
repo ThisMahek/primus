@@ -82,7 +82,7 @@
                         <div class="mt-3">
                             <label for="file" class="mb-2">Add Your Introduction <span class="text-danger">*</span>
                                 (Only 100 words Accepted)</label>
-                            <input type="text" name="introduction" minlength="10" maxlength="100" class="form-control"
+                            <input type="text" name="introduction"  class="form-control"
                                 value="<?= !empty($aboutus_data->introduction) ? $aboutus_data->introduction : "" ?>">
 
                         </div>

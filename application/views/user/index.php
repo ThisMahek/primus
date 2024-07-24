@@ -23,7 +23,7 @@
             <a href="#contactUs" class="btn btn-primary w-10 text-center">Contact Us</a>
           </div>
           <?php
-          if(!empty($about_data->carrier_objective))
+          if(!empty($about_data->carrier_objective) && $user_data->is_about_us==1)
           {
           ?>
           <div class="cv_banner_box text-left mb-4 ">
@@ -189,10 +189,11 @@ if($user_data->is_experience==1){
         </div>
         <div class="col-xl-12">
         <?php
+        $i=1;
             foreach ($experience_data as $expre) {
             ?>
           <div class="cv_exp_box">
-            <h2>01</h2>
+            <h2><?=$i++?></h2>
             <div class="cv_exp_com">
               <span>
                 <h3><?=$expre->work_type?></h3>
@@ -331,11 +332,15 @@ if($user_data->is_project==1){
             <div class="col-12">
               <div class="cv_project_content">
                 <?php
-                foreach($project_data as $p_data){
+                foreach($project_data as $index=>$p_data){
+                  if($index==3)
+                  {
+                  break;
+                  }
                 ?>
                 <div class="cv_project_box">
                   <div class="cv_project_img">
-                  <a href="<?=$p_data->project_url?>">  <img src="<?=base_url()?>assets/upload/Project_Image/<?=$p_data->faeture_image?>" class="img-fluid"></a>
+                  <a href="<?=$p_data->project_url?>"  target="_blank">  <img src="<?=base_url()?>assets/upload/Project_Image/<?=$p_data->faeture_image?>" class="img-fluid"></a>
                   </div>
                   <div class="cv_project_text">
                     <div class="cv_project_heading">
@@ -353,23 +358,34 @@ if($user_data->is_project==1){
                
               <?php }?>
                 <span id="viewMore">
+                <?php
+
+                foreach($project_data as $index=>$p_data){
+                  if ($index == 0 || $index == 1 || $index == 2) {
+                    continue; // Skip the 0th, 1st, and 2nd indices
+                
+                }
+                ?>
                   <div class="cv_project_box">
                     <div class="cv_project_img">
-                      <img src="<?=base_url()?>assets/images/proj-3.webp" class="img-fluid">
+                    <a href="<?=$p_data->project_url?>" target="_blank"> 
+                      <img src="<?=base_url()?>assets/upload/Project_Image/<?=$p_data->faeture_image?>" class="img-fluid">
+</a>
                     </div>
                     <div class="cv_project_text">
                       <div class="cv_project_heading">
-                        <p>Development</p>
+                        <p><?=$p_data->working_role?></p>
                         <span>
                           <img src="<?=base_url()?>assets/images/time.svg">
                           1 Month Ago
                         </span>
                       </div>
                       <div class="cv_project_title">
-                        <p>Best Wireframe Tools For Web Designers.</p>
+                        <p><?=$p_data->description?></p>
                       </div>
                     </div>
                   </div>
+                  <?php }?>
                 </span>
               </div>
             </div>
