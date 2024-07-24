@@ -32,8 +32,8 @@
                     <hr />
                     <ul class="nav nav-pills mb-3" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a class="btn btn-outline-primary active" data-bs-toggle="pill" href="#pills-addProject" role="tab"
-                                aria-selected="true" >
+                            <a class="btn btn-outline-primary active" data-bs-toggle="pill" href="#pills-addProject"
+                                role="tab" aria-selected="true">
                                 <div class="d-flex align-items-center">
                                     <div class="tab-icon"><i class='bx bx-plus font-18 me-1'></i>
                                     </div>
@@ -42,8 +42,8 @@
                             </a>
                         </li>
                         <li class="nav-item" role="presentation" style="right: 2%;position: absolute;">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#pills-viewProject" role="tab"
-                                aria-selected="false">
+                            <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#pills-viewProject"
+                                role="tab" aria-selected="false">
                                 <div class="d-flex align-items-center">
                                     <div class="tab-icon"><i class='bx bx-list-ul font-18 me-1'></i>
                                     </div>
@@ -65,7 +65,7 @@
                         <div class="tab-pane fade show active" id="pills-addProject" role="tabpanel">
                             <form id="addProjectForm" name="addprojectform" method="post" enctype=multipart/form-data>
                                 <div class="items" data-group="test">
-                                <input type="hidden" name="operation" value="add">
+                                    <input type="hidden" name="operation" value="add">
                                     <!-- Repeater Content -->
                                     <div class="row item-content">
                                         <div class="col-md-12 mb-3">
@@ -78,13 +78,13 @@
                                         <div class="col-md-12 mb-3">
                                             <label for="inputEmail1" class="form-label">Project URL</label>
                                             <input type="url" name="project_url" class="form-control" id="project_url"
-                                                placeholder="Enter Project URL" >
+                                                placeholder="Enter Project URL">
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <label for="inputEmail1" class="form-label">Your Working Role <span
                                                     class="text-danger">*</span></label>
                                             <input type="text" name="working_role" class="form-control"
-                                                id="working_role" placeholder="Example : Project Manager" >
+                                                id="working_role" placeholder="Example : Project Manager">
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <label for="inputEmail1" class="form-label">Upload Feature Image<span
@@ -101,8 +101,8 @@
                                             <label for="inputEmail1" class="form-label">Project Description<span
                                                     class="text-danger">*</span> (Max 40 words Accepted)</label>
                                             <textarea class="form-control" name="description" id="description"
-                                                aria-label="With textarea" style="height: 110px;" maxlength="40"
-                                                ></textarea>
+                                                aria-label="With textarea" style="height: 110px;"
+                                               ></textarea>
                                         </div>
                                         <div class="col-md-12 text-end">
                                             <button type="submit" class="btn btn-outline-secondary w-25"
@@ -154,7 +154,8 @@
 
                                                     <button class="btn btn-outline-success " title="Edit Project"
                                                         data-id="<?= $row->id ?>" data-bs-toggle="modal"
-                                                        data-bs-target="#editProject_<?= $row->id ?>" onclick="editChangeproject(<?=$row->id?>)"><i
+                                                        data-bs-target="#editProject_<?= $row->id ?>"
+                                                        onclick="editChangeproject(<?= $row->id ?>)"><i
                                                             class="bx bx-edit"></i></button>
                                                     <button class="btn btn-outline-success delete-btn"
                                                         title="Delete Project"
@@ -163,7 +164,7 @@
                                                 </td>
                                             </tr>
                                             <!-- =====Edit Modal===== -->
-                                         
+
                                         <?php } ?>
                                     </tbody>
                                 </table>
@@ -176,84 +177,98 @@
     </div>
     </div>
     <?php include_once ('includes/footer.php') ?>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"></script>
-  <script>
-$(document).ready(function() {
-    function handleFormSubmit(formSelector) {
-        $(formSelector).validate({
-            rules: {
-                project_name: { required: true },
-                project_url: { required: true },
-                working_role: { required: true },
-                description: { required: true },
-                faeture_image: { 
-                    required: function(element) {
-                    // Check if action is 'add' and conditionally require feature_image
-                    var action = $('#operation').val(); // Assuming action is stored in a hidden input with id 'action'
-                    return action === 'add';
-                }
-                 }
-            },
-            messages: {
-                project_name: { required: "Enter Project Name" },
-                project_url: { required: "Enter Project URL" },
-                working_role: { required: "Enter Working Role" },
-                description: { required: "Enter Project Description" },
-                faeture_image: { required: "Please Choose Image" }
-            },
-            submitHandler: function(form, e) {
-                e.preventDefault();
-                var formData = new FormData($(formSelector)[0]);
-                var operation = $(formSelector).find('input[name="operation"]').val();
-                var url = operation === 'add' ? BASE_URL + "UserDashboard/add_project" : BASE_URL + "UserDashboard/edit_project";
+    <script>
+        $(document).ready(function () {
+            function handleFormSubmit(formSelector) {
+                $(formSelector).validate({
+                    rules: {
+                        project_name: { required: true },
+                        project_url: { required: true },
+                        working_role: { required: true },
+                        description: { required: true },
+                        faeture_image: {
+                            required: function (element) {
+                                // Check if action is 'add' and conditionally require feature_image
+                                var action = $('#operation').val(); // Assuming action is stored in a hidden input with id 'action'
+                                return action === 'add';
+                            }
+                        }
+                    },
+                    messages: {
+                        project_name: { required: "Enter Project Name" },
+                        project_url: { required: "Enter Project URL" },
+                        working_role: { required: "Enter Working Role" },
+                        description: { required: "Enter Project Description" },
+                        faeture_image: { required: "Please Choose Image" }
+                    },
+                    submitHandler: function (form, e) {
+                        e.preventDefault();
+                        var formData = new FormData($(formSelector)[0]);
+                        var operation = $(formSelector).find('input[name="operation"]').val();
+                        var url = operation === 'add' ? BASE_URL + "UserDashboard/add_project" : BASE_URL + "UserDashboard/edit_project";
 
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        if (response == 1) {
-                            if(operation==='edit'){
-                                    $('#editProject').modal('hide');
-                                
-                            $('.updated-container').load(window.location.href + ' .updated-container', function() {
-                                $("#view_project").click();
-                                
-                                $(formSelector)[0].reset();
-                            });
-                        }else{
-                            $('.updated-container').load(window.location.href + ' .updated-container', function() {
-                                $("#view_project").click();
-                                
-                                $(formSelector)[0].reset();
-                            });
-                        }
-                        } else if (response == 2) {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Oops..",
-                                text: "Invalid data submitted. Please fill all fields!",
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Oops...",
-                                text: "Something went wrong!",
-                            });
-                        }
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            success: function (response) {
+                               
+                                if (response == 1) {
+                                    if (operation === 'edit') {
+                                        $('#editProject').modal('hide');
+                                        $('.updated-container').load(window.location.href + ' .updated-container', function () {
+                                            $("#view_project").click();
+                                            $(formSelector)[0].reset();
+                                            Swal.fire({
+                                                icon: "success",
+                                                title: "Success",
+                                                text: "Your data was updated successfully!",
+                                            });
+                                        });
+                                    } else {
+                                       
+                                        $('.updated-container').load(window.location.href + ' .updated-container', function () {
+                                            $("#view_project").click();
+                                            $(formSelector)[0].reset();
+                                            Swal.fire({
+                                                icon: "success",
+                                                title: "Success",
+                                                text: "Your data was added successfully!",
+                                            });
+                                        });
+                                    }
+                                } else if (response == 2) {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Oops..",
+                                        text: "Invalid data submitted. Please fill all fields!",
+                                    });
+                                } else if (response == 4) {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Oops...",
+                                        text: "Description must not exceed 40 words!",
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Oops...",
+                                        text: "Something went wrong!",
+                                    });
+                                }
+                            }
+                        });
                     }
                 });
             }
-        });
-    }
 
-    handleFormSubmit('#addProjectForm');
-     handleFormSubmit('#editProjectForm');
-});
+            handleFormSubmit('#addProjectForm');
+            handleFormSubmit('#editProjectForm');
+        });
 
 
     </script>
-   

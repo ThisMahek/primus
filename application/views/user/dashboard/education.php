@@ -60,7 +60,7 @@
                                             <label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label>
 </div>
                                         <!-- <div id="editor" > -->
-                                        <textarea class="form-control" maxlength="40" name="description[]" aria-label="With textarea" style="height: 110px;" ><?=$row->description?>
+                                        <textarea class="form-control" name="description[]" aria-label="With textarea" style="height: 110px;" ><?=$row->description?>
                                     </textarea>
                                     </div>
                                    
@@ -97,7 +97,7 @@
                                             <label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label>
 </div>
                                         <!-- <div id="editor" > -->
-                                        <textarea class="form-control" maxlength="40"  name="description[]" aria-label="With textarea" style="height: 110px;" ></textarea>
+                                        <textarea class="form-control" name="description[]" aria-label="With textarea" style="height: 110px;" ></textarea>
                                     </div>
                                     <!-- Repeater Remove Btn -->
                                     <div class="row mt-3">
