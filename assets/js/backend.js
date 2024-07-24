@@ -228,6 +228,33 @@ function checkPDFAvailability() {
 function removeInputGroup(btn) {
     $(btn).closest('.items').remove();
 }
+// function daysDifference(index) {
+//     const fromDateElement = document.getElementById(`from_date${index}`);
+//     const toDateElement = document.getElementById(`to_date${index}`);
+//     const resultElement = document.getElementById(`result${index}`);
+
+//     const fromDate = fromDateElement.value;
+//     const toDate = toDateElement.value;
+
+//     if (fromDate && toDate) {
+//         const from = new Date(fromDate);
+//         const to = new Date(toDate);
+        
+//         let fromYear = from.getFullYear();
+//         let fromMonth = from.getMonth();
+//         let toYear = to.getFullYear();
+//         let toMonth = to.getMonth();
+
+//         let monthDiff = (toYear * 12 + toMonth) - (fromYear * 12 + fromMonth);
+        
+//         const diffYears = Math.floor(monthDiff / 12);
+//         const remainingMonths = monthDiff % 12;
+
+//         resultElement.value = `${remainingMonths} months : ${diffYears} years`;
+//     } else {
+//         resultElement.value = '';
+//     }
+// }
 function daysDifference(index) {
     const fromDateElement = document.getElementById(`from_date${index}`);
     const toDateElement = document.getElementById(`to_date${index}`);
@@ -239,18 +266,22 @@ function daysDifference(index) {
     if (fromDate && toDate) {
         const from = new Date(fromDate);
         const to = new Date(toDate);
-        
-        let fromYear = from.getFullYear();
-        let fromMonth = from.getMonth();
-        let toYear = to.getFullYear();
-        let toMonth = to.getMonth();
 
-        let monthDiff = (toYear * 12 + toMonth) - (fromYear * 12 + fromMonth);
-        
-        const diffYears = Math.floor(monthDiff / 12);
-        const remainingMonths = monthDiff % 12;
+        if (from > to) {
+           alert('From date cannot be greater than To date');
+        } else {
+            let fromYear = from.getFullYear();
+            let fromMonth = from.getMonth();
+            let toYear = to.getFullYear();
+            let toMonth = to.getMonth();
 
-        resultElement.value = `${remainingMonths} months : ${diffYears} years`;
+            let monthDiff = (toYear * 12 + toMonth) - (fromYear * 12 + fromMonth);
+
+            const diffYears = Math.floor(monthDiff / 12);
+            const remainingMonths = monthDiff % 12;
+
+            resultElement.value = `${remainingMonths} months : ${diffYears} years`;
+        }
     } else {
         resultElement.value = '';
     }
@@ -300,6 +331,12 @@ $(document).ready(function () {
                         title: "Oops..",
                         text: "Kindly do any action first!",
                     });
+                } else if (response == 4) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Introduction must not exceed 100 words!",
+                    });
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -314,7 +351,7 @@ $(document).ready(function () {
 
     $("#add-class-eduction").click(function () {
          
-        var group = `<div class="items"><div class="item-content"><div class="mb-3"><label for="inputEmail1" class="form-label">Enter Qualification Type<span class="text-danger">*</span></label><input type="text" class="form-control" name="education_type[]" placeholder="Example : MCA" ></div><div class="mb-3"><label for="inputEmail1" class="form-label">Enter School/College/Institute/University Name <span class="text-danger">*</span></label><input type="text" class="form-control" name="institute[]" placeholder="Enter Your School/College/Institute/University Name" ></div><div class="mb-3"><label for="inputEmail1" class="form-label">Year of Passing<span class="text-danger">*</span></label><input class="form-control" name="year[]" max="` + currentYearMonth + `" type="month" id=""></div><div class="mt-3"><label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label></div><textarea  maxlength="40" class="form-control" name="description[]" aria-label="With textarea" style="height: 110px;" ></textarea></div><div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)"  title="Remove Colloum"><i class="bx bx-x"></i></button></div></div><hr></div>`;
+        var group = `<div class="items"><div class="item-content"><div class="mb-3"><label for="inputEmail1" class="form-label">Enter Qualification Type<span class="text-danger">*</span></label><input type="text" class="form-control" name="education_type[]" placeholder="Example : MCA" ></div><div class="mb-3"><label for="inputEmail1" class="form-label">Enter School/College/Institute/University Name <span class="text-danger">*</span></label><input type="text" class="form-control" name="institute[]" placeholder="Enter Your School/College/Institute/University Name" ></div><div class="mb-3"><label for="inputEmail1" class="form-label">Year of Passing<span class="text-danger">*</span></label><input class="form-control" name="year[]" max="` + currentYearMonth + `" type="month" id=""></div><div class="mt-3"><label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label></div><textarea  class="form-control" name="description[]" aria-label="With textarea" style="height: 110px;" ></textarea></div><div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)"  title="Remove Colloum"><i class="bx bx-x"></i></button></div></div><hr></div>`;
         $(this).closest('form').find('.append-area').append(group);
     });
     var i=0;
@@ -361,6 +398,12 @@ i--;
                         icon: "error",
                         title: "Oops..",
                         text: "Kindly do any action first!",
+                    });
+                }  else if (response == 4) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Description must not exceed 40 words!",
                     });
                 } else {
                     Swal.fire({

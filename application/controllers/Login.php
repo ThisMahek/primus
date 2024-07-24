@@ -16,7 +16,7 @@ class Login extends CI_Controller
             $data['countries'] = $this->UM->get_country();
             $this->load->view('index', $data);
         } else {
-            redirect(base_url().$this->session->userdata('user_name').'/'.'dashboard');
+            redirect(base_url().$this->session->userdata('user_name').$this->session->userdata('user_id').'/'.'dashboard');
         }
 	}
 

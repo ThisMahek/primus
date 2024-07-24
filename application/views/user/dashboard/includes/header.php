@@ -58,9 +58,9 @@ $about_data=$this->db->select('designation')->where(['user_id'=>$user_id,'status
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item d-flex align-items-center" href="<?=base_url()?><?=$this->session->userdata('user_name')?>/my-profile"><i class="bx bx-user fs-5"></i><span>My Profile</span></a>
+                    <li><a class="dropdown-item d-flex align-items-center" href="<?=base_url()?><?=$this->session->userdata('user_name').$this->session->userdata('user_id')?>/my-profile"><i class="bx bx-user fs-5"></i><span>My Profile</span></a>
                     </li>
-                    <li><a class="dropdown-item d-flex align-items-center" href="<?=base_url()?><?=$this->session->userdata('user_name')?>/change-password"><i class="bx bx-lock fs-5"></i><span>Change Password</span></a>
+                    <li><a class="dropdown-item d-flex align-items-center" href="<?=base_url()?><?=$this->session->userdata('user_name').$this->session->userdata('user_id')?>/change-password"><i class="bx bx-lock fs-5"></i><span>Change Password</span></a>
                     </li>
                     <li>
                         <div class="dropdown-divider mb-0"></div>
@@ -109,7 +109,7 @@ $about_data=$this->db->select('designation')->where(['user_id'=>$user_id,'status
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label for="description" class="form-label">Project Description<span class="text-danger">*</span> (Max 40 words Accepted)</label>
-                                <textarea class="form-control" name="description"  id="project_description"aria-label="With textarea" style="height: 110px;" maxlength="40"></textarea>
+                                <textarea class="form-control" name="description"  id="project_description"aria-label="With textarea" style="height: 110px;" ></textarea>
                             </div>
                             <div class="col-md-12 text-end">
                                 <button type="submit" class="btn btn-outline-secondary w-25" id="editButton">Update</button>
