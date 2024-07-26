@@ -124,71 +124,72 @@ class UserDashboard extends CI_Controller
 			}
 		}
 	}
-	public function save_education() {
-        // Get the input data
-        $ids = $this->input->post('delete_id');
-        $education_type = $this->input->post('education_type');
-        $institute = $this->input->post('institute');
-        $year = $this->input->post('year');
-        $description = $this->input->post('description');
-        // Check if all fields are blank
-        $all_blank = true;
-        for ($i = 0; $i < count($education_type); $i++) {
-            if (!empty(trim($education_type[$i])) || !empty(trim($institute[$i])) || !empty(trim($year[$i])) || !empty(trim($description[$i]))) {
-                $all_blank = false;
-                break;
-            }
-        }
-        if ($all_blank) {
-            echo 2; // Specific error code for all fields being blank
-            return;
-        }
+	public function save_education()
+	{
+		// Get the input data
+		$ids = $this->input->post('delete_id');
+		$education_type = $this->input->post('education_type');
+		$institute = $this->input->post('institute');
+		$year = $this->input->post('year');
+		$description = $this->input->post('description');
+		// Check if all fields are blank
+		$all_blank = true;
+		for ($i = 0; $i < count($education_type); $i++) {
+			if (!empty(trim($education_type[$i])) || !empty(trim($institute[$i])) || !empty(trim($year[$i])) || !empty(trim($description[$i]))) {
+				$all_blank = false;
+				break;
+			}
+		}
+		if ($all_blank) {
+			echo 2; // Specific error code for all fields being blank
+			return;
+		}
 		$this->set_word_limit(40);
-        // Set validation rules for each input field
-        for ($i = 0; $i < count($education_type); $i++) {
-            $this->form_validation->set_rules('education_type[' . $i . ']', 'Education Type', 'required');
-            $this->form_validation->set_rules('institute[' . $i . ']', 'Institute', 'required');
-            $this->form_validation->set_rules('year[' . $i . ']', 'Year', 'required');
-            $this->form_validation->set_rules('description[' . $i . ']', 'Description', 'callback_validate_words');
-        }
+		// Set validation rules for each input field
+		for ($i = 0; $i < count($education_type); $i++) {
+			$this->form_validation->set_rules('education_type[' . $i . ']', 'Education Type', 'required');
+			$this->form_validation->set_rules('institute[' . $i . ']', 'Institute', 'required');
+			$this->form_validation->set_rules('year[' . $i . ']', 'Year', 'required');
+			$this->form_validation->set_rules('description[' . $i . ']', 'Description', 'callback_validate_words');
+		}
 
-        if ($this->form_validation->run() == FALSE) {
-            // Capture validation errors
-            $validation_errors = validation_errors();
+		if ($this->form_validation->run() == FALSE) {
+			// Capture validation errors
+			$validation_errors = validation_errors();
 
-            // Check if the error is specifically for the description field
-            if (strpos($validation_errors, 'Description') !== false) {
-                echo 4; // Specific error code for description validation issues
-            } else {
-                echo 2; // General validation error
-            }
-            return;
-        }
+			// Check if the error is specifically for the description field
+			if (strpos($validation_errors, 'Description') !== false) {
+				echo 4; // Specific error code for description validation issues
+			} else {
+				echo 2; // General validation error
+			}
+			return;
+		}
 
-        // Process each education record
-        $user_id = $this->session->userdata('user_id');
-        for ($i = 0; $i < count($education_type); $i++) {
-            $data = array(
-                'education_type' => trim($education_type[$i]),
-                'institute' => trim($institute[$i]),
-                'year' => trim($year[$i]),
-                'description' => trim($description[$i]),
-                'user_id' => $user_id,
-            );
-            if (isset($ids[$i]) && !empty($ids[$i])) {
-                $response = $this->db->where('id', $ids[$i])->update('tbl_qualification', $data);
-            } else {
-                $response = $this->db->insert('tbl_qualification', $data);
-            }
-        }
+		// Process each education record
+		$user_id = $this->session->userdata('user_id');
+		for ($i = 0; $i < count($education_type); $i++) {
+			$data = array(
+				'education_type' => trim($education_type[$i]),
+				'institute' => trim($institute[$i]),
+				'year' => trim($year[$i]),
+				'description' => trim($description[$i]),
+				'user_id' => $user_id,
+			);
+			if (isset($ids[$i]) && !empty($ids[$i])) {
+				$response = $this->db->where('id', $ids[$i])->update('tbl_qualification', $data);
+			} else {
+				$response = $this->db->insert('tbl_qualification', $data);
+			}
+		}
 
-        if ($response) {
-            echo 1;
-        } else {
-            echo 0;
-        }
-    }
-	
+		if ($response) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+	}
+
 	public function about_us()
 	{
 		$this->load->library('form_validation');
@@ -211,8 +212,8 @@ class UserDashboard extends CI_Controller
 				echo 2;
 			}
 		} else {
-			
-		
+
+
 			$file = $_FILES["user_cv"];
 			$MyFileName = "";
 			if (!empty($userdata) && isset($userdata->cv)) {
@@ -237,10 +238,11 @@ class UserDashboard extends CI_Controller
 					$result = $error;
 				}
 			}
-		
-		
+
+
 			//End: File upload code
-			$array['introduction'] =$this->input->post('introduction');;
+			$array['introduction'] = $this->input->post('introduction');
+			;
 			$array['designation'] = $this->input->post('designation');
 			$array['carrier_objective'] = $this->input->post('carrier_objective');
 			$array['user_id'] = $user_id;
@@ -261,25 +263,27 @@ class UserDashboard extends CI_Controller
 			}
 		}
 	}
-	
-    public function set_word_limit($limit) {
-        $this->word_limit = $limit;
-    }
 
-    public function validate_words($field_name) {
-        // Remove any HTML tags and trim extra spaces
-	
-        $words = trim($field_name);
-        // Count words
-        $word_count = str_word_count($words);
-        // Check if the word count is within the limit
-        if ($word_count > $this->word_limit) {
-            $this->form_validation->set_message('validate_words', 'The {field} must not exceed ' . $this->word_limit . ' words.');
-            return FALSE;
-        } else {
-            return TRUE;
-        }
-    }
+	public function set_word_limit($limit)
+	{
+		$this->word_limit = $limit;
+	}
+
+	public function validate_words($field_name)
+	{
+		// Remove any HTML tags and trim extra spaces
+
+		$words = trim($field_name);
+		// Count words
+		$word_count = str_word_count($words);
+		// Check if the word count is within the limit
+		if ($word_count > $this->word_limit) {
+			$this->form_validation->set_message('validate_words', 'The {field} must not exceed ' . $this->word_limit . ' words.');
+			return FALSE;
+		} else {
+			return TRUE;
+		}
+	}
 	public function delete_project($id)
 	{
 		$response = $this->db->where('id', $id)->delete('tbl_project');
@@ -467,110 +471,110 @@ class UserDashboard extends CI_Controller
 
 
 	public function save_client()
-{
-    $this->load->library('form_validation');
-    $user_id = $this->session->userdata('user_id');
-    $collect_keeping_id = [0];
+	{
+		$this->load->library('form_validation');
+		$user_id = $this->session->userdata('user_id');
+		$collect_keeping_id = [0];
 
-    // Validate URLs
-    foreach ($this->input->post('url') as $key => $url) {
-        $this->form_validation->set_rules("url[{$key}]", "Client's Website URL #{$key}", 'required|valid_url');
-    }
+		// Validate URLs
+		foreach ($this->input->post('url') as $key => $url) {
+			$this->form_validation->set_rules("url[{$key}]", "Client's Website URL #{$key}", 'required|valid_url');
+		}
 
-    // Custom validation for the logo field
-    $logos = $_FILES['logo']['name'];
-    $previous_file_names = $this->input->post('previous_file_name');
+		// Custom validation for the logo field
+		$logos = $_FILES['logo']['name'];
+		$previous_file_names = $this->input->post('previous_file_name');
 
-    $logo_is_valid = true;
-    foreach ($logos as $key => $logo) {
-        if (empty($logo) && empty($previous_file_names[$key])) {
-            $logo_is_valid = false;
-            break;
-        }
-    }
+		$logo_is_valid = true;
+		foreach ($logos as $key => $logo) {
+			if (empty($logo) && empty($previous_file_names[$key])) {
+				$logo_is_valid = false;
+				break;
+			}
+		}
 
-    if ($this->form_validation->run() == FALSE || !$logo_is_valid) {
-        $errors = validation_errors();
-        if (!$logo_is_valid) {
-            $errors .= "<p>The Client Logo field is required for each entry.</p>";
-        }
-        echo json_encode(['status' => 'error', 'message' => $errors,'response'=>0]);
-        return;
-    }
+		if ($this->form_validation->run() == FALSE || !$logo_is_valid) {
+			$errors = validation_errors();
+			if (!$logo_is_valid) {
+				$errors .= "<p>The Client Logo field is required for each entry.</p>";
+			}
+			echo json_encode(['status' => 'error', 'message' => $errors, 'response' => 0]);
+			return;
+		}
 
-    if (isset($logos)) {
-        $config = array(
-            'upload_path' => './assets/upload/logo',
-            'allowed_types' => 'jpg|gif|png|jpeg|PNG',
-            'overwrite' => 1
-        );
-        $this->load->library('upload', $config);
-        $url = $this->input->post('url');
-        $id = $this->input->post('id');
+		if (isset($logos)) {
+			$config = array(
+				'upload_path' => './assets/upload/logo',
+				'allowed_types' => 'jpg|gif|png|jpeg|PNG',
+				'overwrite' => 1
+			);
+			$this->load->library('upload', $config);
+			$url = $this->input->post('url');
+			$id = $this->input->post('id');
 
-        foreach ($logos as $key => $fileName) {
-            $_FILES['userfile'] = array(
-                'name' => $fileName,
-                'type' => $_FILES['logo']['type'][$key],
-                'tmp_name' => $_FILES['logo']['tmp_name'][$key],
-                'error' => $_FILES['logo']['error'][$key],
-                'size' => $_FILES['logo']['size'][$key],
-            );
-            $this->upload->initialize($config);
+			foreach ($logos as $key => $fileName) {
+				$_FILES['userfile'] = array(
+					'name' => $fileName,
+					'type' => $_FILES['logo']['type'][$key],
+					'tmp_name' => $_FILES['logo']['tmp_name'][$key],
+					'error' => $_FILES['logo']['error'][$key],
+					'size' => $_FILES['logo']['size'][$key],
+				);
+				$this->upload->initialize($config);
 
-            if ($this->upload->do_upload('userfile')) {
-                $uploadData = $this->upload->data();
-                $imageFileName = $uploadData['file_name'];
-            } else {
-                $imageFileName = $previous_file_names[$key];
-            }
+				if ($this->upload->do_upload('userfile')) {
+					$uploadData = $this->upload->data();
+					$imageFileName = $uploadData['file_name'];
+				} else {
+					$imageFileName = $previous_file_names[$key];
+				}
 
-            $data = array(
-                'url' => $url[$key],
-                'logo' => $imageFileName,
-                'user_id' => $user_id
-            );
-            if (!empty($id[$key])) {
-                $this->db->where('id', $id[$key])->update('tbl_client', $data);
-                $collect_keeping_id[] = $id[$key];
-            } else {
-                $this->db->insert('tbl_client', $data);
-                $collect_keeping_id[] = $this->db->insert_id();
-            }
-        }
-    }
+				$data = array(
+					'url' => $url[$key],
+					'logo' => $imageFileName,
+					'user_id' => $user_id
+				);
+				if (!empty($id[$key])) {
+					$this->db->where('id', $id[$key])->update('tbl_client', $data);
+					$collect_keeping_id[] = $id[$key];
+				} else {
+					$this->db->insert('tbl_client', $data);
+					$collect_keeping_id[] = $this->db->insert_id();
+				}
+			}
+		}
 
-    $data = $this->db->get('tbl_client')->result_array();
-    echo json_encode(['status' => 'success', 'message' => 'Clients saved successfully!', 'data' => $data,'response'=>1]);
-}
+		$data = $this->db->get('tbl_client')->result_array();
+		echo json_encode(['status' => 'success', 'message' => 'Clients saved successfully!', 'data' => $data, 'response' => 1]);
+	}
 
-// Callback function to validate file
-public function file_check($str)
-{
-    if (isset($_FILES['userfile']['name']) && $_FILES['userfile']['name'] != "") {
-        $allowed_mime_type_arr = array('image/jpeg', 'image/png', 'image/jpg');
-        $mime = get_mime_by_extension($_FILES['userfile']['name']);
-        if (isset($mime) && in_array($mime, $allowed_mime_type_arr)) {
-            if ($_FILES['userfile']['size'] < 1048576) { // 1MB
-                return TRUE;
-            } else {
-                $this->form_validation->set_message('file_check', 'The file size should be less than 1MB');
-                return FALSE;
-            }
-        } else {
-            $this->form_validation->set_message('file_check', 'Please select only jpg/png file.');
-            return FALSE;
-        }
-    } else {
-        $this->form_validation->set_message('file_check', 'Please choose a file to upload.');
-        return FALSE;
-    }
-}
+	// Callback function to validate file
+	public function file_check($str)
+	{
+		if (isset($_FILES['userfile']['name']) && $_FILES['userfile']['name'] != "") {
+			$allowed_mime_type_arr = array('image/jpeg', 'image/png', 'image/jpg');
+			$mime = get_mime_by_extension($_FILES['userfile']['name']);
+			if (isset($mime) && in_array($mime, $allowed_mime_type_arr)) {
+				if ($_FILES['userfile']['size'] < 1048576) { // 1MB
+					return TRUE;
+				} else {
+					$this->form_validation->set_message('file_check', 'The file size should be less than 1MB');
+					return FALSE;
+				}
+			} else {
+				$this->form_validation->set_message('file_check', 'Please select only jpg/png file.');
+				return FALSE;
+			}
+		} else {
+			$this->form_validation->set_message('file_check', 'Please choose a file to upload.');
+			return FALSE;
+		}
+	}
 
 	public function get_single_project()
 	{
 		$user_id = $this->session->userdata('user_id');
-		$result = $this->UM->get_single_data('tbl_project',1, $user_id);
+		$result = $this->UM->get_single_data('tbl_project', 1, $user_id);
 		echo json_encode($result);
 	}
 	public function delete_data()
@@ -661,7 +665,7 @@ public function file_check($str)
 	{
 
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('forgot_email', '', 'required');
+		$this->form_validation->set_rules('forgot_email', 'forgot_email', 'required');
 		// Run the form validation
 		if ($this->form_validation->run() == FALSE) {
 			//  echo validation_errors();
@@ -670,22 +674,21 @@ public function file_check($str)
 			$email = $this->input->post('forgot_email');
 			$result = $this->db->where('email_id', $email)->get('tbl_users')->row();
 			if (!empty($result)) {
-			// 	$otp = rand(0000,9999);
-			// 	$note = 'Your one time password is '. $otp .' please don\'t  share it.';
-			// 	$getotp = $this->db->where('email',$email)->get('get_otp')->row();
-			// 	$data=array(
-			// 				   'email'=>$email,
-			// 					'otp'=>$otp,
-			// 					'note'=>$note
-			// 				);
-        	//    if(!empty($getotp))
-        	//    {
-        	//             $res = $this->db->where('email',$email)->update('get_otp',$data);      
-        	//    }
-        	//    else
-        	//    {
-        	//          $res = $this->db->insert('get_otp',$data);   
-        	//    }
+				$forgot_otp = rand(0, 9999);
+				$forgot_otp = str_pad($forgot_otp, 4, '0', STR_PAD_LEFT);
+				// 	$note = 'Your one time password is '. $otp .' please don\'t  share it.';
+				$get_forgot_otp = $this->db->where('email', $email)->get('get_otp')->row();
+				$data = array(
+					'email' => $email,
+					'otp' => $forgot_otp,
+					'status' => 0
+				);
+				if (!empty($get_forgot_otp)) {
+					$res = $this->db->where('email', $email)->update('get_otp', $data);
+				} else {
+					$res = $this->db->insert('get_otp', $data);
+				}
+				$this->session->set_userdata('user_forgot_password_email',$email);
 				echo 1;
 				// $this->load->library('email'); 
 				// $config['protocol'] = 'smtp';
@@ -711,6 +714,39 @@ public function file_check($str)
 			} else {
 				echo 0;
 			}
+		}
+	}
+	public function verify_otp_forgot_password(){
+		$otp = $this->input->post('forgot_otp');
+		$email = $this->session->userdata('user_forgot_password_email');
+		$otp_entry = $this->db->where(['email' => $email, 'otp' => $otp,'status'=>0])->get('get_otp')->row();
+		if($otp_entry) {
+			$current_time = time();
+			$otp_creation_time = strtotime($otp_entry->created_at);
+			//echo $otp_creation_time;die();
+			$time_difference = $current_time - $otp_creation_time;
+			//echo $time_difference;die();
+			if($time_difference <= 86400) {
+				echo 1; // OTP is valid
+				$update_otp_array=$this->db->where('email',$email)->update('get_otp',array('status'=>1));
+				
+			} else {
+				echo 0; // OTP has expired
+			}
+		} else {
+			echo 2; // OTP is invalid
+		}
+	}
+	public function change_otp_password(){
+		$password=$this->input->post('forgot_password');
+		$email = $this->session->userdata('user_forgot_password_email');
+		$user_data=$this->db->where('email_id',$email)->get('tbl_users')->row();
+		$update_response=$this->db->where('email_id',$user_data->email_id)->update('tbl_users',array('password'=>md5($password)));
+        if($update_response){
+          echo 1;
+		  $this->session->unset_userdata('user_forgot_password_email');
+		}else{
+             echo 0;
 		}
 	}
 }
