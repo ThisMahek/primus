@@ -991,7 +991,8 @@ button:focus {
     width: 70px;
     border-radius: 0 50px 50px 0
 }
-
+#modal-popup-1 .modal-content{background: transparent;border:none;margin-top: 30%;
+}
 
 .modal-searchPanel .xs-search-group .search-button {
     background-color: transparent;
@@ -1001,7 +1002,7 @@ button:focus {
     position: absolute;
     right:5px;
     cursor: pointer;
-    top: 70%;
+    top: 64%;
     -webkit-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);

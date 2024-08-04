@@ -100,6 +100,9 @@
                                         <div class="col-md-12 mb-3">
                                             <label for="inputEmail1" class="form-label">Project Description<span
                                                     class="text-danger">*</span> (Max 40 words Accepted)</label>
+                                                    <div id="editor" name="introduction">
+                                                        
+                                                    </div>
                                             <textarea class="form-control" name="description" id="description"
                                                 aria-label="With textarea" style="height: 110px;"
                                                ></textarea>

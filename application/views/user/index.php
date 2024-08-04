@@ -22,7 +22,7 @@
           
             <a href="#contactUs" class="btn btn-primary w-10 text-center">Contact Us</a>
           </div>
-          <?php
+          <!-- <?php
           if(!empty($about_data->carrier_objective) && $user_data->is_about_us==1)
           {
           ?>
@@ -30,9 +30,45 @@
             <h2>Carrier Objective</h2>
             <p><?=!empty($about_data->carrier_objective)?$about_data->carrier_objective:""?></p>
           </div>
-          <?php }?>
-
-        </div>
+          <?php }?> -->
+          <div class="row mb-5">
+            <div class="col-md-4 col-sm-6">
+              <div class="cv_award_box">
+                <div class="cv_award_icon">
+                  <img src="<?=base_url()?>assets/images/award-3.svg">
+                </div>
+                <div class="cv_award_text">
+                  <h4> </h4>
+                  <h1>
+                  <?php calculateTotalMonthsAndConvert($user_id)?>
+                  </h1>
+                  <h4>Total Experience </h4>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <div class="cv_award_box">
+                <div class="cv_award_icon">
+                  <img src="<?=base_url()?>assets/images/award-1.svg">
+                </div>
+                <div class="cv_award_text">
+                  <h1><span class="timer" data-from="0" data-to="<?=$total_client?>" data-speed="2000"></span></h1>
+                  <h4>Happy Clients</h4>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <div class="cv_award_box">
+                <div class="cv_award_icon">
+                  <img src="<?=base_url()?>assets/images/award-2.svg">
+                </div>
+                <div class="cv_award_text">
+                  <h1 class="timer" data-from="0" data-to="<?=$total_project?>" data-speed="2000"></h1>
+                  <h4>Project Done</h4>
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
     </div>
   </div>
@@ -81,7 +117,7 @@
 <?php }?>
 
     <!--=========== Award Section Start======= -->
-    <section class="cv_award_wrapper">
+    <!-- <section class="cv_award_wrapper">
         <div class="container">
           <div class="row justify-content-center">
           
@@ -131,7 +167,7 @@
        
           </div>
         </div>
-      </section>
+      </section> -->
     
   <!--======== Award Section End========= -->
  
@@ -429,8 +465,65 @@ if($user_data->is_client==1){
       </section>
       <?php }?>
   <!--==== Client Section End ======-->
+  <!--==== Awards & Achivements Section Start=== -->
+  <section class="cv_project_wrapper">
+    <div class="cv_container container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="cv_sec_heading">
+            <h2>Awards & Achievements</h2>
+            <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="cv_project_content">
+            <div class="cv_project_box">
+              <div class="cv_project_img">
+                <img src="assets/images/proj-1.webp" class="img-fluid">
+              </div>
+              <div class="cv_project_text">
+                <div class="cv_project_heading">
+                  <p>Development</p>
+                </div>
+                <div class="cv_project_title">
+                  <p>Best Wireframe Tools For Web Designers.</p>
+                </div>
+              </div>
+            </div>
+            <div class="cv_project_box">
+              <div class="cv_project_img">
+                <img src="assets/images/proj-2.webp" class="img-fluid">
+              </div>
+              <div class="cv_project_text">
+                <div class="cv_project_heading">
+                  <p>Development</p>
+                </div>
+                <div class="cv_project_title">
+                  <p>Best Wireframe Tools For Web Designers.</p>
+                </div>
+              </div>
+            </div>
+            <div class="cv_project_box">
+              <div class="cv_project_img">
+                <img src="assets/images/proj-3.webp" class="img-fluid">
+              </div>
+              <div class="cv_project_text">
+                <div class="cv_project_heading">
+                  <p>Development</p>
+                </div>
+                <div class="cv_project_title">
+                  <p>Best Wireframe Tools For Web Designers.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--=== Awards & Achivements Section End==== -->
   <!--==== Contact Section Start=== -->
-    <section class="cv_address_wrapper">
+    <section class="cv_address_wrapper" id="contactUs">
         <div class="container">
           <div class="row justify-content-center">
           <div class="col-12">
@@ -447,7 +540,6 @@ if($user_data->is_client==1){
                 <div class="cv_address_text">
                   <h5>Phone</h5>
                   <a href="javascript:void(0);"><?=isset($contact_data->mobile)?$contact_data->mobile:""?></a>
-                 
                 </div>
               </div>
             </div>

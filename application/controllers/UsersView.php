@@ -112,6 +112,15 @@ class UsersView extends CI_Controller
 	{
 		$this->load->view('user/dashboard/test');
 	}
+	public function social_media()
+	{
+		$this->load->view('user/dashboard/social_media');
+	}
+	public function award_archiments()
+	{
+		$this->load->view('user/dashboard/award_archiments');
+	}
+	
 // 	public function calculateTotalMonthsAndConvert() {
 //         // Initialize total months and total years
 //         $totalMonths = 0;

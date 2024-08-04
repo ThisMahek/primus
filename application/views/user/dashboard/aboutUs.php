@@ -28,10 +28,7 @@
                                 <h6 class="mb-0 text-uppercase">Upload Your Profile Pic.</h6>
                             </div>
                             <hr>
-
                             <div class="col-md-5 text-center">
-
-
                                 <div class="imageBox">
                                     <div class="thumbBox"></div>
                                     <div class="spinner" style="display: none">Loading...</div>
@@ -69,7 +66,7 @@
                             <h6 class="mb-4 text-uppercase">Add About Us</h6>
                         </div>
                         <div class="col-md-6 ">
-                            <div class="form-check form-switch text-end">
+                            <div class="form-check form-switch text-end">  
                                 <input class="form-check-input" type="checkbox"
                                     <?= $user_data->is_about_us == 1 ? 'checked' : "" ?> id="flexSwitchCheckChecked"
                                     onchange="change_status(this,'is_about_us','<?= $about_count ?>')">
@@ -82,8 +79,12 @@
                         <div class="mt-3">
                             <label for="file" class="mb-2">Add Your Introduction <span class="text-danger">*</span>
                                 (Only 100 words Accepted)</label>
-                            <input type="text" name="introduction"  class="form-control"
-                                value="<?= !empty($aboutus_data->introduction) ? $aboutus_data->introduction : "" ?>">
+                                
+                                <div id="editor" name="introduction">
+                                    <?= !empty($aboutus_data->introduction) ? $aboutus_data->introduction : "" ?>
+                                </div>    
+                            <!-- <input type="text" name="introduction"  class="form-control"
+                                value="<?= !empty($aboutus_data->introduction) ? $aboutus_data->introduction : "" ?>"> -->
 
                         </div>
 
@@ -93,12 +94,12 @@
                             <input type="text" name="designation" minlength="10" class="form-control"
                                 value="<?= !empty($aboutus_data->designation) ? $aboutus_data->designation : "" ?>">
                         </div>
-                        <div class="mt-3">
+                        <!-- <div class="mt-3">
 
                             <label for="file" class="mb-2">Carrier Objective <span class="text-danger">*</span></label>
                             <textarea class="form-control" name="carrier_objective" aria-label="With textarea"
                                 style="height: 110px;"><?= !empty($aboutus_data->carrier_objective) ? $aboutus_data->carrier_objective : "" ?></textarea>
-                        </div>
+                        </div> -->
 
 
                         <!-- <div id="editor" required>
