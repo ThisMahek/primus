@@ -70,8 +70,8 @@
             <div class="xs-search-panel">
                 <form action="#" method="POST" class="xs-search-group">
                     <input type="email" class="form-control" name="forgot_email" id="forgot_email"
-                        placeholder="Enter Your Email Id.">
-                    <span id="check_forgot_email" style="color:red"></span>
+                        placeholder="Enter Your Email Id."><br>
+                    <span id="check_forgot_email" class="text-danger m-3 p-3"></span>
                     <a onclick="check_email_for_forgot_password()" type="submit"
                         class="search-button mfp-close languageSwitcher-button"><i
                             class="icon icon-arrow-right"></i></a>
@@ -90,31 +90,30 @@
     </form>
 </div>
 </div> -->
+
 <div class="zoom-anim-dialog  modal-searchPanel modal" id="modal-popup-1">
+
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="xs-search-panel">
                 <form action="#" method="POST" class="xs-search-group" id="otp-form">
+                
                     <input maxlength="4" minleght="4" type="text" class="form-control mb-2" name="forgot_otp"
                         id="forgot_otp" placeholder="Enter 4 Digit OTP"
-                        onkeypress="return (event.charCode > 47 && event.charCode < 58)"
-                        style="border: 1px solid;color:black;">
-                    <span id="otp_error" style="color:red"></span>
-                    <p>* 4 Digit OTP Send to Your Registerd Email address</p>
-                    <a href="#" type="submit" onclick="verify_otp_forgot_password()" class="search-button mfp-close"
-                        style="color:black;"><i class="icon icon-arrow-right"></i></a>
+                        onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+                        <span id="otp_error" class="text-danger m-3 p-3"></span>
+                    <p class="m-3 p-3">* 4 Digit OTP Send to Your Registerd Email address</p>
+                    <a href="#" type="submit" onclick="verify_otp_forgot_password()" class="search-button mfp-close"><i class="icon icon-arrow-right"></i></a>
                 </form>
                 <form action="#" method="POST" class="xs-search-group" id="panel">
                     <input type="password" class="form-control mb-2" name="newPassword" id="forgot_password"
-                        placeholder="New Password" style="border:1px solid;color:black;">
-                    <span id="forgot_password_error" style="color:red"></span>
+                        placeholder="New Password">
+                    <span id="forgot_password_error" class="text-danger m-3 p-3"></span>
                     <input type="password" class="form-control mb-2" name="ConfirmnewPassword"
-                        id="confirm_forgot_password" placeholder="Confirm New Password"
-                        style="border:1px solid;color:black;">
+                        id="confirm_forgot_password" placeholder="Confirm New Password">
 
-                    <span id="confirm_password_error" style="color:red"></span>
-                    <a href="#" onclick="change_otp_password()" type="submit" class="search-otp-button mfp-close"
-                        style="color:black;"><i class="icon icon-arrow-right"></i></a>
+                    <span id="confirm_password_error" class="text-danger m-3 p-3"></span>
+                    <a href="#" onclick="change_otp_password()" type="submit" class="search-otp-button mfp-close"><i class="icon icon-arrow-right"></i></a>
                 </form>
             </div>
         </div>

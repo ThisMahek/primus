@@ -51,5 +51,18 @@
                 <div class="menu-title">Clients</div>
             </a>
         </li>
+        <li>
+            <a class="<?= ($this->uri->segment(2) == 'social_media') ? 'active' : '' ?>" href="<?= base_url($user_name . '/social_media') ?>">
+                <div class="parent-icon"><i class="bx bx-group"></i></div>
+                <div class="menu-title">Social Media</div>
+            </a>
+        </li>
+        <li>
+            <a class="<?= ($this->uri->segment(2) == 'award_archiments') ? 'active' : '' ?>" href="<?= base_url($user_name . '/award_archiments') ?>">
+                <div class="parent-icon"><i class="bx bx-group"></i></div>
+                <div class="menu-title">Awards Achievements</div>
+            </a>
+        </li>
+        
     </ul>
 </div>
