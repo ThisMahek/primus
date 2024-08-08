@@ -38,11 +38,11 @@
                 <form action="#"  id="xs-contact-form" class="contact-form input-material" method="post">
                     <div class="row">
                         <div class="col-md-6 mb-4">
-                            <input type="text" placeholder="Enter your First Name"  id="firstName" name="firstName" class="form-control">
+                            <input type="text" placeholder="Enter your First Name" onkeypress=" return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)"  id="firstName" name="firstName" class="form-control">
                             <!-- <span id="firstname_error" class="error_msg"></span> -->
                         </div>
                         <div class="col-md-6 mb-4">
-                            <input type="text" placeholder="Enter your Last Name" id="lastName" name="lastName" class="form-control">
+                            <input type="text" placeholder="Enter your Last Name"  onkeypress=" return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)" id="lastName" name="lastName" class="form-control">
                             <span id="lastname_error" class="error_msg"></span>
                         </div>
                         <div class="col-md-6 mb-4">
@@ -193,8 +193,8 @@
 
                     e.preventDefault();
                     //alert(form);
-                    let first_name = $('#firstName').val();
-                    let last_name = $('#lastName').val();
+                    let first_name = $('#firstName').val().trim();
+                    let last_name = $('#lastName').val().trim();
                     let mobile_no = $('#mobileNo').val();
                     let email_id = $('#emailId').val();
                     let country = $('#country').val();

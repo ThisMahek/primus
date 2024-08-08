@@ -43,7 +43,27 @@ function calculateTotalMonthsAndConvert($user_id) {
     
     echo "<br>";
 }
-
+if (!function_exists('generate_slug')) {
+    function generate_slug($first_name, $last_name, $user_id) {
+        $string = $first_name . ' ' . $last_name . ' ' . $user_id;
+        $slug = strtolower($string);
+        $slug = preg_replace('/[^a-z0-9]/', '', $slug);
+        return $slug;
+    }
+}
+function ensureHttps($url=null) {
+    
+    if (empty($url) || strpos($url, '#') !== false) {
+        return null; // or handle it in a way that fits your needs
+    }
+   if (strpos($url, 'https://') === 0) {
+        return $url; 
+    }
+    if (strpos($url, 'http://') === 0) {
+        return 'https://' . substr($url, 7);
+    }
+    return 'https://' . $url;
+}
 // Example usage
 // calculateTotalMonthsAndConvert(1);
 ?>

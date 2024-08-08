@@ -1,4 +1,4 @@
-<?php $user_name=$this->session->userdata('user_name').$this->session->userdata('user_id')?>
+<?php $user_name=$this->session->userdata('slug')?>
 <div class="wrapper">
     <div class="sidebar-wrapper" data-simplebar="true">
         <div class="sidebar-header">
