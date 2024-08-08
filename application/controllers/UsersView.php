@@ -11,6 +11,7 @@ class UsersView extends CI_Controller
 		if (!$this->session->userdata('user_id')) {
 			redirect(base_url());
 		}
+		
 	}
 
 	public function aboutUs()
@@ -114,51 +115,16 @@ class UsersView extends CI_Controller
 	}
 	public function social_media()
 	{
-		$this->load->view('user/dashboard/social_media');
+		$user_id=$this->session->userdata('user_id');
+		$data['social_media'] = $this->UM->get_single_data('social_media','1',$user_id);
+		$this->load->view('user/dashboard/social_media',$data);
 	}
 	public function award_archiments()
 	{
 		$this->load->view('user/dashboard/award_archiments');
 	}
 	
-// 	public function calculateTotalMonthsAndConvert() {
-//         // Initialize total months and total years
-//         $totalMonths = 0;
-//         $totalYears = 0;
-// 		$user_id=$this->session->userdata('user_id');
-// $data= $this->UM->get_data('tbl_experience','1',$user_id);
-//         // Calculate total months and years
-//         foreach ($data as $row) {
-//             // Split the string to extract months and years
-//             $parts = explode(' : ', $row->total);
-//             $months = (int) trim($parts[0]); // Extract months and convert to integer
-//             $years = (int) trim($parts[1]); // Extract years and convert to integer
-            
-//             // Aggregate total months and total years
-//             $totalMonths += $months;
-//             $totalYears += $years;
-//         }
 
-//         // Convert total months into years and months
-//         $yearsFromMonths = floor($totalMonths / 12);
-//         $monthsRemainder = $totalMonths % 12;
-
-//         // Display or further process the results
-//         echo "Total time: ";
-//         if ($yearsFromMonths > 0) {
-//             echo $yearsFromMonths . " year" . ($yearsFromMonths > 1 ? "s" : "");
-//             if ($monthsRemainder > 0) {
-//                 echo " and ";
-//             }
-//         }
-//         if ($monthsRemainder > 0) {
-//             echo $monthsRemainder . " month" . ($monthsRemainder > 1 ? "s" : "");
-//         }
-//         echo "<br>";
-        
-//         // Optionally, return the formatted time string instead of echoing it
-//         // return "Total time: " . $formattedTime;
-//     }
 
 }
 ?>

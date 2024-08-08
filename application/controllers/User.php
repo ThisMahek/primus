@@ -69,9 +69,13 @@ class User extends CI_Controller
             } else if ($check_phone_data > 0) {
                 echo 3;
             } else {
+                $first_name=$this->input->post('first_name');
+                $last_name=$this->input->post('last_name');
+                $user_id = $this->UM->get_next_user_id();
+                $slug = generate_slug($first_name, $last_name, $user_id);
                 $insert_array = array(
-                    'first_name' => $this->input->post('first_name'),
-                    'last_name' => $this->input->post('last_name'),
+                    'first_name' => $first_name,
+                    'last_name' => $last_name,
                     'mobile_no' => $mobile,
                     'email_id' => $email,
                     'country' => $this->input->post('country'),
@@ -79,8 +83,10 @@ class User extends CI_Controller
                     'city' => $this->input->post('city'),
                     'designation' => $this->input->post('designation'),
                     'password' => md5($this->input->post('password')),
-                    'status'=>1
+                    'status'=>1,
+                    'slug'=>$slug,
                 );
+                
                 $result = $this->db->insert('tbl_users', $insert_array);
                 if ($result) {
                     echo 1;

@@ -1,4 +1,9 @@
 <!--=== Required meta tags ===-->
+<!-- Required meta tags -->
+<script>
+const user_name_website="<?=$user_name?>";
+// alert(user_name_website);
+</script>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <!--=== custom css ===-->

@@ -36,7 +36,7 @@
 			var username = lastPart.replace(/[\d_]+$/, '');
 			
 			 window.ityped.init(document.querySelector('.cv_profile_name'),{
-                strings: [username],
+                strings: [user_name_website],
                 loop: false,
                 typeSpeed:  300,
                 backSpeed:  500,

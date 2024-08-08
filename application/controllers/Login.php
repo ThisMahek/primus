@@ -25,7 +25,7 @@ class Login extends CI_Controller
         $this->load->library('session');
         $email=$this->input->post("email");
         $result = $this->UM->check_useremail($email)->num_rows();
-        //print_r($result);exit;
+    
         if ($result == 1) {
             $password = md5($this->input->post("password"));
             $res = $this->UM->check_useremail($email)->row();
@@ -33,10 +33,13 @@ class Login extends CI_Controller
                 $data = array(
                     'user_id' => $res->id,
                     'user_email' => $res->email_id,
-                    'user_name'=>$res->first_name.$res->last_name,
+                    'user_name'=>$res->first_name.' '.$res->last_name,
+                    'slug'=>$res->slug,
+                    'first_name'=>$res->first_name,
+                    'last_name'=>$res->last_name
                 );
                 $this->session->set_userdata($data);
-               echo json_encode(['status'=>1,'user_name'=>$this->session->userdata('user_name')]);
+               echo json_encode(['status'=>1,'user_name'=>$this->session->userdata('slug')]);
             } 
             else 
             {

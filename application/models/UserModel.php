@@ -50,5 +50,12 @@ public function get_user_data(){
    $response= $this->db->where(['id'=>$user_id,'status'=>1])->get('tbl_users')->row();
    return   $response;
 }
+public function get_next_user_id() {
+  // Assuming user_id is auto-incrementing
+  $this->db->select_max('id');
+  $query = $this->db->get('tbl_users');
+  $row = $query->row();
+  return $row->id + 1;
+}
 
 }

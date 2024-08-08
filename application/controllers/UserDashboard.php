@@ -642,9 +642,11 @@ class UserDashboard extends CI_Controller
 			if ($check_phone_data > 0) {
 				echo 4;
 			} else {
+				$first_name=$this->input->post('first_name');
+				$last_name=$this->input->post('last_name');
 				$update_array = array(
-					'first_name' => $this->input->post('first_name'),
-					'last_name' => $this->input->post('last_name'),
+					'first_name' => $first_name,//$this->input->post('first_name'),
+					'last_name' => $last_name,//$this->input->post('last_name'),
 					'mobile_no' => $mobile,
 					'country' => $this->input->post('country'),
 					'state' => $this->input->post('state'),
@@ -652,7 +654,20 @@ class UserDashboard extends CI_Controller
 					'designation' => $this->input->post('designation'),
 				);
 
+             if($this->session->userdata('first_name')!= $first_name || $this->session->userdata('last_name')!= $last_name)
+			 {
+				$slug=generate_slug($first_name, $last_name, $user_id);
+				$update_array['slug'] = $slug;
+				$this->session->set_userdata('slug',$slug);
+				$this->session->set_userdata('user_name',$first_name.' '.$last_name);
+				
+			 }
+
+
+
+
 				$result = $this->db->where('id', $user_id)->update('tbl_users', $update_array);
+				//echo $this->db->last_query();die();
 				if ($result) {
 					echo 1;
 				} else {
@@ -749,6 +764,106 @@ class UserDashboard extends CI_Controller
              echo 0;
 		}
 	}
+	public function add_social_media_old() {
+		$linkdin_id = trim($this->input->post('linkdin_id'));
+		$facebook_id = trim($this->input->post('facebook_id'));
+		$twitter_id = trim($this->input->post('twitter_id'));
+		$pinterest_id = trim($this->input->post('pinterest_id'));
+		$instragram_id = trim($this->input->post('instragram_id'));
+		$user_id = $this->session->userdata('user_id');
+		$social_media_data = $this->UM->get_single_data('social_media', '1', $user_id);
+		
+		$array = array(
+			'facebook_id' => !empty($facebook_id) ? $facebook_id : null,
+			'linkdin_id' => !empty($linkdin_id) ? $linkdin_id : null,
+			'twitter_id' => !empty($twitter_id) ? $twitter_id : null,
+			'pinterest_id' => !empty($pinterest_id) ? $pinterest_id : null,
+			'instragram_id' => !empty($instragram_id) ? $instragram_id : null,
+			'user_id' => $user_id,
+			'status' => 1
+		);
+		
+		if (!empty($social_media_data)) {
+			$result = $this->db->where('user_id', $user_id)->update('social_media', $array);
+			//echo $this->db->last_query(); die();
+			//echo 'update';
+			redirect($_SERVER["HTTP_REFERER"]);
+		} else {
+			$result = $this->db->insert('social_media', $array);
+			redirect($_SERVER["HTTP_REFERER"]);
+		}
+	}
+	public function add_social_media() {
+		$linkdin_id = trim($this->input->post('linkdin_id'));
+		$facebook_id = trim($this->input->post('facebook_id'));
+		$twitter_id = trim($this->input->post('twitter_id'));
+		$pinterest_id = trim($this->input->post('pinterest_id'));
+		$instragram_id = trim($this->input->post('instragram_id'));
+		$user_id = $this->session->userdata('user_id');
+		$social_media_data = $this->UM->get_single_data('social_media', '1', $user_id);
+	
+		// Validation patterns
+		$validators = [
+			'linkedin' => '/^https:\/\/www\.linkedin\.com\/in\/[a-zA-Z0-9-]+\/?$/',
+			'facebook' => '/^https:\/\/www\.facebook\.com\/profile\.php\?id=\d+(&mibextid=\w+)?$/',
+			'twitter' => '/^https:\/\/twitter\.com\/[a-zA-Z0-9_]+\/?$/',
+			'pinterest' => '/^https:\/\/in\.pinterest\.com\/[a-zA-Z0-9-_]+\/?$/',
+			'instagram' => '/^https:\/\/www\.instagram\.com\/[a-zA-Z0-9_.]+\/?$/'
+		];
+	
+		$errors = [];
+	
+		// Validate LinkedIn
+		if (!empty($linkdin_id) && !preg_match($validators['linkedin'], $linkdin_id)) {
+			$errors[] = 'Invalid LinkedIn URL';
+		}
+	
+		// Validate Facebook
+		if (!empty($facebook_id) && !preg_match($validators['facebook'], $facebook_id)) {
+			$errors[] = 'Invalid Facebook URL';
+		}
+	
+		// Validate Twitter
+		if (!empty($twitter_id) && !preg_match($validators['twitter'], $twitter_id)) {
+			$errors[] = 'Invalid Twitter URL';
+		}
+	
+		// Validate Pinterest
+		if (!empty($pinterest_id) && !preg_match($validators['pinterest'], $pinterest_id)) {
+			$errors[] = 'Invalid Pinterest URL';
+		}
+	
+		// Validate Instagram
+		if (!empty($instragram_id) && !preg_match($validators['instagram'], $instragram_id)) {
+			$errors[] = 'Invalid Instagram URL';
+		}
+	
+		// If there are validation errors, redirect back with errors
+		if (!empty($errors)) {
+			$this->session->set_flashdata('errors', $errors);
+			redirect($_SERVER["HTTP_REFERER"]);
+			return;
+		}
+	
+		$array = [
+			'facebook_id' => !empty($facebook_id) ? $facebook_id : null,
+			'linkdin_id' => !empty($linkdin_id) ? $linkdin_id : null,
+			'twitter_id' => !empty($twitter_id) ? $twitter_id : null,
+			'pinterest_id' => !empty($pinterest_id) ? $pinterest_id : null,
+			'instragram_id' => !empty($instragram_id) ? $instragram_id : null,
+			'user_id' => $user_id,
+			'status' => 1
+		];
+	
+		if (!empty($social_media_data)) {
+			$result = $this->db->where('user_id', $user_id)->update('social_media', $array);
+		} else {
+			$result = $this->db->insert('social_media', $array);
+		}
+	
+		redirect($_SERVER["HTTP_REFERER"]);
+	}
+	
 }
 
 

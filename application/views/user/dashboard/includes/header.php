@@ -1,7 +1,8 @@
 <?php
 $user_id=$this->session->userdata('user_id');
+$slug=$this->session->userdata('slug');
 $user_data= $this->db->where(['id'=>$user_id,'status'=>1])->get('tbl_users')->row();
-$name_id = $user_data->first_name . $user_data->last_name .  $user_data->id;
+// $name_id = $user_data->first_name . $user_data->last_name .  $user_data->id;
 $image_data=$this->db->select('image')->where(['user_id'=>$user_id,'status'=>1])->get('tbl_user_image')->row();
 $about_data=$this->db->select('designation')->where(['user_id'=>$user_id,'status'=>1])->get('tbl_about')->row();
 ?>
@@ -13,11 +14,11 @@ $about_data=$this->db->select('designation')->where(['user_id'=>$user_id,'status
             <div class="mobile-toggle-menu"><i class='bx bx-menu'></i>
             </div>
                 <div class="search-bar d-lg-block ">
-                    <input type="text" class="form-control" value="<?=base_url()?><?=$name_id?>" id="copytoClipboard" title="Your Profile URL">
+                    <input type="text" class="form-control" value="<?=base_url()?><?=$slug?>" id="copytoClipboard" title="Your Profile URL">
                 </div>
                 <div class="search-bar d-lg-block">
                     <a href="#" onclick="copytoClipboard()" title="Copy URL" class="btn btn-outline-secondary"><i class="bx bx-copy"></i></a>
-                    <a href="<?=base_url()?><?=$name_id?>" class="btn btn-outline-secondary" title="Run URL" target="_blank"><i class="bx bx-play"></i></a>
+                    <a href="<?=base_url()?><?=$slug?>" class="btn btn-outline-secondary" title="Run URL" target="_blank"><i class="bx bx-play"></i></a>
                 </div>
                 <div class="top-menu ms-auto">
                 <ul class="navbar-nav align-items-center gap-1">
@@ -58,9 +59,9 @@ $about_data=$this->db->select('designation')->where(['user_id'=>$user_id,'status
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item d-flex align-items-center" href="<?=base_url()?><?=$this->session->userdata('user_name').$this->session->userdata('user_id')?>/my-profile"><i class="bx bx-user fs-5"></i><span>My Profile</span></a>
+                    <li><a class="dropdown-item d-flex align-items-center" href="<?=base_url()?><?=$slug?>/my-profile"><i class="bx bx-user fs-5"></i><span>My Profile</span></a>
                     </li>
-                    <li><a class="dropdown-item d-flex align-items-center" href="<?=base_url()?><?=$this->session->userdata('user_name').$this->session->userdata('user_id')?>/change-password"><i class="bx bx-lock fs-5"></i><span>Change Password</span></a>
+                    <li><a class="dropdown-item d-flex align-items-center" href="<?=base_url()?><?=$slug?>/change-password"><i class="bx bx-lock fs-5"></i><span>Change Password</span></a>
                     </li>
                     <li>
                         <div class="dropdown-divider mb-0"></div>

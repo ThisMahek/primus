@@ -36,12 +36,6 @@
                                 <button type="button" class="btn btn-outline-primary  repeater-add-btn px-4"
                                     title="Add More Colloum" id="add-class"><i class="bx bx-plus"></i></button>
                             </div>
-                            <!-- Repeater Items -->
-                               
-
-
-
-                            
                             <div class="items">
                                 <!-- Repeater Content -->
                                 <div class="row item-content">
@@ -60,9 +54,6 @@
                                             <label for="inputEmail1" class="form-label">Description<span
                                                     class="text-danger">*</span> (Max 100 words Accepted)</label>
                                                     <div id="editor" name="description"></div>
-                                                        
-                                                    
-                                          
                                         </div>
                                 </div>
                                 <!-- Repeater Remove Btn -->
