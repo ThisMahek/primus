@@ -110,7 +110,7 @@ $about_data=$this->db->select('designation')->where(['user_id'=>$user_id,'status
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label for="description" class="form-label">Project Description<span class="text-danger">*</span> (Max 40 words Accepted)</label>
-                                <textarea class="form-control" name="description"  id="project_description"aria-label="With textarea" style="height: 110px;" ></textarea>
+                              <textarea  class="form-control" name="description" id="project_description"></textarea>
                             </div>
                             <div class="col-md-12 text-end">
                                 <button type="submit" class="btn btn-outline-secondary w-25" id="editButton">Update</button>

@@ -126,6 +126,9 @@ class UserDashboard extends CI_Controller
 	}
 	public function save_education()
 	{
+// echo "<pre>";
+// print_r($_POST);
+// exit;
 		// Get the input data
 		$ids = $this->input->post('delete_id');
 		$education_type = $this->input->post('education_type');
@@ -199,13 +202,13 @@ class UserDashboard extends CI_Controller
 		$this->set_word_limit(100);
 		$this->form_validation->set_rules('introduction', 'Introduction', 'required|callback_validate_words');
 		$this->form_validation->set_rules('designation', 'Designation', 'required');
-		$this->form_validation->set_rules('carrier_objective', 'Carrier Objective', 'required');
+		//$this->form_validation->set_rules('carrier_objective', 'Carrier Objective', 'required');
 
 		if (empty($_FILES['user_cv']['name']) && $this->input->post('key') == 2) {
 			$this->form_validation->set_rules('user_cv', 'User_cv', 'required');
 		}
 		if ($this->form_validation->run() == FALSE) {
-			if (strpos(validation_errors(), 'introduction') == false) {
+			if (strpos(validation_errors(), 'Introduction') !== false) {
 				echo 4; // Specific error code for introduction word limit exceeded
 			} else {
 				//$this->session->set_flashdata('validation_errors', validation_errors());
@@ -244,7 +247,7 @@ class UserDashboard extends CI_Controller
 			$array['introduction'] = $this->input->post('introduction');
 			;
 			$array['designation'] = $this->input->post('designation');
-			$array['carrier_objective'] = $this->input->post('carrier_objective');
+		//	$array['carrier_objective'] = $this->input->post('carrier_objective');
 			$array['user_id'] = $user_id;
 			$userdata = $this->UM->get_data('tbl_about', '1', $user_id);
 			if (!empty($userdata)) {
@@ -269,21 +272,43 @@ class UserDashboard extends CI_Controller
 		$this->word_limit = $limit;
 	}
 
-	public function validate_words($field_name)
-	{
-		// Remove any HTML tags and trim extra spaces
+// 	public function validate_words($field_name)
+// 	{
+// 		// Remove any HTML tags and trim extra spaces
 
-		$words = trim($field_name);
-		// Count words
-		$word_count = str_word_count($words);
-		// Check if the word count is within the limit
-		if ($word_count > $this->word_limit) {
-			$this->form_validation->set_message('validate_words', 'The {field} must not exceed ' . $this->word_limit . ' words.');
-			return FALSE;
-		} else {
-			return TRUE;
-		}
-	}
+// 		$words = trim($field_name);
+	
+// 		// Count words
+// 		$word_count = str_word_count($words);
+// 		// Check if the word count is within the limit
+// if ($word_count > $this->word_limit) {
+//         $this->form_validation->set_message('validate_words', 'The {field} must not exceed ' . $this->word_limit . ' words.');
+//         return FALSE;
+//     }
+//     return TRUE;
+// 	}
+public function validate_words($field_name)
+{
+    // Remove any HTML tags
+    $words = strip_tags($field_name);
+
+    // Trim leading and trailing whitespace
+    $words = trim($words);
+
+    // Replace multiple spaces with a single space
+    $words = preg_replace('/\s+/', ' ', $words);
+
+    // Count words
+    $word_count = str_word_count($words);
+	//print_r($word_count );exit;
+    // Check if the word count is within the limit
+    if ($word_count > $this->word_limit) {
+        $this->form_validation->set_message('validate_words', 'The {field} must not exceed ' . $this->word_limit . ' words.');
+        return FALSE;
+    }
+    return TRUE;
+}
+
 	public function delete_project($id)
 	{
 		$response = $this->db->where('id', $id)->delete('tbl_project');
@@ -574,7 +599,9 @@ class UserDashboard extends CI_Controller
 	public function get_single_project()
 	{
 		$user_id = $this->session->userdata('user_id');
-		$result = $this->UM->get_single_data('tbl_project', 1, $user_id);
+		$id = $this->input->post('id');
+		$result = $this->db->where(['id'=>$id,'user_id'=>$user_id])->get('tbl_project')->row();
+		
 		echo json_encode($result);
 	}
 	public function delete_data()
@@ -645,8 +672,8 @@ class UserDashboard extends CI_Controller
 				$first_name=$this->input->post('first_name');
 				$last_name=$this->input->post('last_name');
 				$update_array = array(
-					'first_name' => $first_name,//$this->input->post('first_name'),
-					'last_name' => $last_name,//$this->input->post('last_name'),
+					//'first_name' => $first_name,//$this->input->post('first_name'),
+					//'last_name' => $last_name,//$this->input->post('last_name'),
 					'mobile_no' => $mobile,
 					'country' => $this->input->post('country'),
 					'state' => $this->input->post('state'),
@@ -654,14 +681,14 @@ class UserDashboard extends CI_Controller
 					'designation' => $this->input->post('designation'),
 				);
 
-             if($this->session->userdata('first_name')!= $first_name || $this->session->userdata('last_name')!= $last_name)
-			 {
-				$slug=generate_slug($first_name, $last_name, $user_id);
-				$update_array['slug'] = $slug;
-				$this->session->set_userdata('slug',$slug);
-				$this->session->set_userdata('user_name',$first_name.' '.$last_name);
+            //  if($this->session->userdata('first_name')!= $first_name || $this->session->userdata('last_name')!= $last_name)
+			//  {
+			// 	$slug=generate_slug($first_name, $last_name, $user_id);
+			// 	$update_array['slug'] = $slug;
+			// 	$this->session->set_userdata('slug',$slug);
+			// 	$this->session->set_userdata('user_name',$first_name.' '.$last_name);
 				
-			 }
+			//  }
 
 
 

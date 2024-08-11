@@ -30,14 +30,14 @@
                                     class="text-danger">*<span></label>
                             <input type="text" class="form-control" id="first_name"
                                 value="<?= $user_data->first_name ?>" name="first_name"
-                                placeholder="Enter Your First Name">
+                                placeholder="Enter Your First Name" readonly>
                             <span id="firstname_error" class="error_msg"></span>
                         </div>
                         <div class="col-md-6">
                             <label for="inputEmailAddress" class="form-label">Last Name<span
                                     class="text-danger">*<span></label>
                             <input type="text" class="form-control" id="last_name" value="<?= $user_data->last_name ?>"
-                                name="last_name" placeholder="Enter Your Last Name" >
+                                name="last_name" placeholder="Enter Your Last Name" readonly>
                             <span id="lastname_error" class="error_msg"></span>
                         </div>
                         <div class="col-md-6">

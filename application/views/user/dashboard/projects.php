@@ -100,15 +100,16 @@
                                         <div class="col-md-12 mb-3">
                                             <label for="inputEmail1" class="form-label">Project Description<span
                                                     class="text-danger">*</span> (Max 40 words Accepted)</label>
-                                                    <div id="editor" name="introduction">
+                                                    
+                                                    <!-- <div id="add-project-description"> </div> -->
                                                         
-                                                    </div>
+                                                   
                                             <textarea class="form-control" name="description" id="description"
                                                 aria-label="With textarea" style="height: 110px;"
                                                ></textarea>
                                         </div>
-                                        <div class="col-md-12 text-end">
-                                            <button type="submit" class="btn btn-outline-secondary w-25"
+                                        <div class="col-md-12 text-end mt-5">
+                                            <button type="submit" class="btn btn-outline-secondary w-25 mt-4"
                                                 id="projectsubmitButton">Save</button>
                                         </div>
                                     </div>
@@ -179,99 +180,119 @@
         </div>
     </div>
     </div>
-    <?php include_once ('includes/footer.php') ?>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"></script>
+   
+     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"></script> --> -->
     <script>
-        $(document).ready(function () {
-            function handleFormSubmit(formSelector) {
-                $(formSelector).validate({
-                    rules: {
-                        project_name: { required: true },
-                        project_url: { required: true },
-                        working_role: { required: true },
-                        description: { required: true },
-                        faeture_image: {
-                            required: function (element) {
-                                // Check if action is 'add' and conditionally require feature_image
-                                var action = $('#operation').val(); // Assuming action is stored in a hidden input with id 'action'
-                                return action === 'add';
-                            }
-                        }
-                    },
-                    messages: {
-                        project_name: { required: "Enter Project Name" },
-                        project_url: { required: "Enter Project URL" },
-                        working_role: { required: "Enter Working Role" },
-                        description: { required: "Enter Project Description" },
-                        faeture_image: { required: "Please Choose Image" }
-                    },
-                    submitHandler: function (form, e) {
-                        e.preventDefault();
-                        var formData = new FormData($(formSelector)[0]);
-                        var operation = $(formSelector).find('input[name="operation"]').val();
-                        var url = operation === 'add' ? BASE_URL + "UserDashboard/add_project" : BASE_URL + "UserDashboard/edit_project";
+    $(document).ready(function () {
+        // Initialize Quill editor for both forms
+        // var addProjectQuill = new Quill('#add-project-description', {
+        //     theme: 'snow'
+        // });
+        // var editProjectQuill = new Quill('#edit-project-description', {
+        //     theme: 'snow'
+        // });
 
-                        $.ajax({
-                            url: url,
-                            type: 'POST',
-                            data: formData,
-                            contentType: false,
-                            processData: false,
-                            success: function (response) {
-                               
-                                if (response == 1) {
-                                    if (operation === 'edit') {
-                                        $('#editProject').modal('hide');
-                                        $('.updated-container').load(window.location.href + ' .updated-container', function () {
-                                            $("#view_project").click();
-                                            $(formSelector)[0].reset();
-                                            Swal.fire({
-                                                icon: "success",
-                                                title: "Success",
-                                                text: "Your data was updated successfully!",
-                                            });
-                                        });
-                                    } else {
-                                       
-                                        $('.updated-container').load(window.location.href + ' .updated-container', function () {
-                                            $("#view_project").click();
-                                            $(formSelector)[0].reset();
-                                            Swal.fire({
-                                                icon: "success",
-                                                title: "Success",
-                                                text: "Your data was added successfully!",
-                                            });
-                                        });
-                                    }
-                                } else if (response == 2) {
+        function handleFormSubmit(formSelector) {
+            $(formSelector).validate({
+                rules: {
+                    project_name: { required: true },
+                    project_url: { required: true },
+                    working_role: { required: true },
+                    description: { required: true },
+                    faeture_image: {
+                        required: function (element) {
+                            var action = $('#operation').val();
+                            return action === 'add';
+                        }
+                    }
+                },
+                messages: {
+                    project_name: { required: "Enter Project Name" },
+                    project_url: { required: "Enter Project URL" },
+                    working_role: { required: "Enter Working Role" },
+                    description: { required: "Enter Project Description" },
+                    faeture_image: { required: "Please Choose Image" }
+                },
+                submitHandler: function (form, e) {
+                    e.preventDefault();
+                    var formData = new FormData($(formSelector)[0]);
+
+                    // // Get the current content from the Quill editor
+                    // var descriptionContent = quill.root.innerHTML;
+
+                    // // Append the content to the FormData
+                    // formData.append('description', descriptionContent);
+
+                    var operation = $(formSelector).find('input[name="operation"]').val();
+                    var url = operation === 'add' ? BASE_URL + "UserDashboard/add_project" : BASE_URL + "UserDashboard/edit_project";
+
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function (response) {
+                            if (response == 1) {
+                                if (operation === 'edit') {
+                                    $('#editProject').modal('hide');
                                     Swal.fire({
-                                        icon: "error",
-                                        title: "Oops..",
-                                        text: "Invalid data submitted. Please fill all fields!",
-                                    });
-                                } else if (response == 4) {
-                                    Swal.fire({
-                                        icon: "error",
-                                        title: "Oops...",
-                                        text: "Description must not exceed 40 words!",
+                                            icon: "success",
+                                            title: "Success",
+                                            text: "Your data was updated successfully!",
+                                        });
+                                    $('.updated-container').load(window.location.href + ' .updated-container', function () {
+                                        $("#view_project").click();
+                                        $(formSelector)[0].reset();
+                                        editProjectQuill.setContents([]); // Clear the Quill editor
+                                        // Swal.fire({
+                                        //     icon: "success",
+                                        //     title: "Success",
+                                        //     text: "Your data was updated successfully!",
+                                        // });
                                     });
                                 } else {
-                                    Swal.fire({
-                                        icon: "error",
-                                        title: "Oops...",
-                                        text: "Something went wrong!",
+                                    $('.updated-container').load(window.location.href + ' .updated-container', function () {
+                                        $("#view_project").click();
+                                        $(formSelector)[0].reset();
+                                        addProjectQuill.setContents([]); // Clear the Quill editor
+                                        Swal.fire({
+                                            icon: "success",
+                                            title: "Success",
+                                            text: "Your data was added successfully!",
+                                        });
                                     });
                                 }
+                            } else if (response == 2) {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Oops..",
+                                    text: "Invalid data submitted. Please fill all fields!",
+                                });
+                            } else if (response == 4) {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Oops...",
+                                    text: "Description must not exceed 40 words!",
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Oops...",
+                                    text: "Something went wrong!",
+                                });
                             }
-                        });
-                    }
-                });
-            }
+                        }
+                    });
+                }
+            });
+        }
 
-            handleFormSubmit('#addProjectForm');
-            handleFormSubmit('#editProjectForm');
-        });
-
-
+        handleFormSubmit('#addProjectForm');
+        handleFormSubmit('#editProjectForm');
+        
+    });
     </script>
+
+   <?php include_once ('includes/footer.php') ?>

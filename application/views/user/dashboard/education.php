@@ -36,6 +36,9 @@
                             <!-- Repeater Items -->
                           <?php
                           if(!empty($education_data)){
+                            $user_id=$this->session->userdata('user_id');
+                            $i=0;
+                          //  $j=$i;
                             foreach($education_data as  $key=>$row)
                           {
                           ?>
@@ -60,7 +63,8 @@
                                             <label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label>
 </div>
                                         <!-- <div id="editor" > -->
-                                        <textarea class="form-control" name="description[]" aria-label="With textarea" style="height: 110px;" ><?=$row->description?>
+                                        <div class="editor" id="editor-<?='education'.$i?>"  data-index="<?=$i?>"><?=$row->description?></div>
+                                        <!-- <textarea class="form-control" name="description[]" aria-label="With textarea" style="height: 110px;" ><?=$row->description?> -->
                                     </textarea>
                                     </div>
                                    
@@ -72,7 +76,9 @@
                                         </div>
                                     </div>
                                 
-                                <?php }?>
+                                <?php }
+                                $i++
+                                ?>
                                 <hr>
                                 </div>
                                <?php } }else{?>
@@ -97,8 +103,8 @@
                                             <label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label>
 </div>
                                         <!-- <div id="editor" > -->
-                                        <div id="editor"></div>
-                                        <textarea class="form-control" name="description[]" aria-label="With textarea" style="height: 110px;" ></textarea>
+                                        <div  class="editor" id="editor-education0"  data-index="0"></div>
+                                        <!-- <textarea class="form-control" name="description[]" aria-label="With textarea" style="height: 110px;" ></textarea> -->
                                     </div>
                                     <!-- Repeater Remove Btn -->
                                     <div class="row mt-3">
@@ -107,7 +113,9 @@
                                         </div>
                                     </div><hr>
                                 </div>
-                                <?php }?>
+                                <?php }
+                              
+                                ?>
                             </div>
                             
                            
@@ -129,4 +137,132 @@
         </div>
         <!--end page wrapper -->
         <?php include_once('includes/footer.php') ?>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        
+      
+var education = <?php echo empty($education_data) ? 1 : count($education_data); ?>; // Start from the count of existing items
+var quillEditors = []; // Initialize the Quill editors array first
+
+// Initialize existing Quill editors on document ready
+$(document).ready(function () {
+    $('.editor').each(function () {
+        var id = $(this).attr('id');
+        var dataIndex = $(this).data('index');
+     //alert(dataIndex);
+        var quill = new Quill('#' + id, {
+            theme: 'snow'
+        });
+        var education_index = id; // Corrected to capture the correct index part after 'editor-education'
+        quillEditors[dataIndex] = quill;
+    });
+});
+
+$("#add-class-eduction").click(function () {
+    // Append new group
+    var group = `
+        <div class="items">
+            <div class="item-content">
+                <div class="mb-3">
+                    <label for="inputEmail1" class="form-label">Enter Qualification Type<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="education_type[]" placeholder="Example : MCA" >
+                </div>
+                <div class="mb-3">
+                    <label for="inputEmail1" class="form-label">Enter School/College/Institute/University Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="institute[]" placeholder="Enter Your School/College/Institute/University Name" >
+                </div>
+                <div class="mb-3">
+                    <label for="inputEmail1" class="form-label">Year of Passing<span class="text-danger">*</span></label>
+                    <input class="form-control" name="year[]" max="` + currentYearMonth + `" type="month" id="">
+                </div>
+                <div class="mt-3">
+                    <label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label>
+                </div>
+                <div class="editor" id="editor-education${education}" data-index="${education}"></div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-6 repeater-remove-btn">
+                    <button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)" title="Remove Column">
+                        <i class="bx bx-x"></i>
+                    </button>
+                </div>
+            </div>
+            <hr>
+        </div>`;
     
+    $(this).closest('form').find('.append-area').append(group);
+    
+    // Initialize the new Quill editor
+    var quill = new Quill('#editor-education' + education, {
+        theme: 'snow'
+    });
+    
+    quillEditors[education] = quill;
+    education++; // Increment to avoid ID duplication
+});
+
+// Submit form with Quill editor content
+$('#submit_education').on('click', function (event) {
+    event.preventDefault(); // Prevent form submission
+
+    var formData = $('#education_form').serializeArray(); // Get existing form data
+
+    // Collect content from each Quill editor
+    $.each(quillEditors, function (education_index, quill) {
+        console.log('Index:', education_index);
+        console.log('quill:', quill);
+        if (quill) { // Check if the editor exists
+            formData.push({
+                name: 'description[' + education_index + ']',
+                value: quill.root.innerHTML // or quill.getText() for plain text
+            });
+        }
+    });
+
+    console.log(formData); // Use console.log to inspect the formData
+
+    $.ajax({
+        url: BASE_URL + "UserDashboard/save_education",
+        type: 'POST',
+        data: formData,
+        success: function (response) {
+            if (response == 1) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Success",
+                    text: "Your data was saved successfully!",
+                });
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000);
+            } else if (response == 2) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Invalid data submitted. Please fill all fields!",
+                });
+            } else if (response == 3) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Kindly do any action first!",
+                });
+            } else if (response == 4) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Description must not exceed 40 words!",
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong!",
+                });
+            }
+        }
+    });
+});
+
+
+        </script>
