@@ -589,7 +589,7 @@ function remove_db_data(id, tbl) {
 function add_preview(image, imageId, spanId, buttonId, img_height, img_width) {
     // alert(spanId);
     var filePath = image.value;
-    var allowedExtensions = /(\.jpg|\.png|\.jpeg )$/i;
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.jpeg )$/i;
 
     if (!allowedExtensions.exec(filePath)) {
 

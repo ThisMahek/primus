@@ -121,7 +121,11 @@ class UsersView extends CI_Controller
 	}
 	public function award_archiments()
 	{
-		$this->load->view('user/dashboard/award_archiments');
+		$user_id = $this->session->userdata('user_id');
+		$data['user_data'] = $this->UM->get_user_data();
+		$data['award_data'] = $this->UM->get_data('tbl_award','1',$user_id);
+		$data['award_count'] = $this->db->where(['user_id' => $user_id])->get('tbl_award')->num_rows();
+		$this->load->view('user/dashboard/award_archiments',$data);
 	}
 	
 

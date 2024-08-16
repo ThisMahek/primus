@@ -61,11 +61,8 @@
                                         </div>
                                         <div class="mt-3">
                                             <label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label>
-</div>
-                                        <!-- <div id="editor" > -->
+                                      
                                         <div class="editor" id="editor-<?='education'.$i?>"  data-index="<?=$i?>"><?=$row->description?></div>
-                                        <!-- <textarea class="form-control" name="description[]" aria-label="With textarea" style="height: 110px;" ><?=$row->description?> -->
-                                    </textarea>
                                     </div>
                                    
                                     <!-- Repeater Remove Btn -->

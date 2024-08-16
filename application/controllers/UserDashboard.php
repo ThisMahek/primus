@@ -126,10 +126,6 @@ class UserDashboard extends CI_Controller
 	}
 	public function save_education()
 	{
-// echo "<pre>";
-// print_r($_POST);
-// exit;
-		// Get the input data
 		$ids = $this->input->post('delete_id');
 		$education_type = $this->input->post('education_type');
 		$institute = $this->input->post('institute');
@@ -495,83 +491,7 @@ public function validate_words($field_name)
 
 
 
-	public function save_client()
-	{
-		$this->load->library('form_validation');
-		$user_id = $this->session->userdata('user_id');
-		$collect_keeping_id = [0];
-
-		// Validate URLs
-		foreach ($this->input->post('url') as $key => $url) {
-			$this->form_validation->set_rules("url[{$key}]", "Client's Website URL #{$key}", 'required|valid_url');
-		}
-
-		// Custom validation for the logo field
-		$logos = $_FILES['logo']['name'];
-		$previous_file_names = $this->input->post('previous_file_name');
-
-		$logo_is_valid = true;
-		foreach ($logos as $key => $logo) {
-			if (empty($logo) && empty($previous_file_names[$key])) {
-				$logo_is_valid = false;
-				break;
-			}
-		}
-
-		if ($this->form_validation->run() == FALSE || !$logo_is_valid) {
-			$errors = validation_errors();
-			if (!$logo_is_valid) {
-				$errors .= "<p>The Client Logo field is required for each entry.</p>";
-			}
-			echo json_encode(['status' => 'error', 'message' => $errors, 'response' => 0]);
-			return;
-		}
-
-		if (isset($logos)) {
-			$config = array(
-				'upload_path' => './assets/upload/logo',
-				'allowed_types' => 'jpg|gif|png|jpeg|PNG',
-				'overwrite' => 1
-			);
-			$this->load->library('upload', $config);
-			$url = $this->input->post('url');
-			$id = $this->input->post('id');
-
-			foreach ($logos as $key => $fileName) {
-				$_FILES['userfile'] = array(
-					'name' => $fileName,
-					'type' => $_FILES['logo']['type'][$key],
-					'tmp_name' => $_FILES['logo']['tmp_name'][$key],
-					'error' => $_FILES['logo']['error'][$key],
-					'size' => $_FILES['logo']['size'][$key],
-				);
-				$this->upload->initialize($config);
-
-				if ($this->upload->do_upload('userfile')) {
-					$uploadData = $this->upload->data();
-					$imageFileName = $uploadData['file_name'];
-				} else {
-					$imageFileName = $previous_file_names[$key];
-				}
-
-				$data = array(
-					'url' => $url[$key],
-					'logo' => $imageFileName,
-					'user_id' => $user_id
-				);
-				if (!empty($id[$key])) {
-					$this->db->where('id', $id[$key])->update('tbl_client', $data);
-					$collect_keeping_id[] = $id[$key];
-				} else {
-					$this->db->insert('tbl_client', $data);
-					$collect_keeping_id[] = $this->db->insert_id();
-				}
-			}
-		}
-
-		$data = $this->db->get('tbl_client')->result_array();
-		echo json_encode(['status' => 'success', 'message' => 'Clients saved successfully!', 'data' => $data, 'response' => 1]);
-	}
+	
 
 	// Callback function to validate file
 	public function file_check($str)
@@ -890,7 +810,290 @@ public function validate_words($field_name)
 	
 		redirect($_SERVER["HTTP_REFERER"]);
 	}
-	
+	public function save_client()
+	{
+		$this->load->library('form_validation');
+		$user_id = $this->session->userdata('user_id');
+		$collect_keeping_id = [0];
+
+		// Validate URLs
+		foreach ($this->input->post('url') as $key => $url) {
+			$this->form_validation->set_rules("url[{$key}]", "Client's Website URL #{$key}", 'required|valid_url');
+		}
+
+		// Custom validation for the logo field
+		$logos = $_FILES['logo']['name'];
+		$previous_file_names = $this->input->post('previous_file_name');
+
+		$logo_is_valid = true;
+		foreach ($logos as $key => $logo) {
+			if (empty($logo) && empty($previous_file_names[$key])) {
+				$logo_is_valid = false;
+				break;
+			}
+		}
+
+		if ($this->form_validation->run() == FALSE || !$logo_is_valid) {
+			$errors = validation_errors();
+			if (!$logo_is_valid) {
+				$errors .= "<p>The Client Logo field is required for each entry.</p>";
+			}
+			echo json_encode(['status' => 'error', 'message' => $errors, 'response' => 0]);
+			return;
+		}
+
+		if (isset($logos)) {
+			$config = array(
+				'upload_path' => './assets/upload/logo',
+				'allowed_types' => 'jpg|gif|png|jpeg|PNG',
+				'overwrite' => 1
+			);
+			$this->load->library('upload', $config);
+			$url = $this->input->post('url');
+			$id = $this->input->post('id');
+
+			foreach ($logos as $key => $fileName) {
+				$_FILES['userfile'] = array(
+					'name' => $fileName,
+					'type' => $_FILES['logo']['type'][$key],
+					'tmp_name' => $_FILES['logo']['tmp_name'][$key],
+					'error' => $_FILES['logo']['error'][$key],
+					'size' => $_FILES['logo']['size'][$key],
+				);
+				$this->upload->initialize($config);
+
+				if ($this->upload->do_upload('userfile')) {
+					$uploadData = $this->upload->data();
+					$imageFileName = $uploadData['file_name'];
+				} else {
+					$imageFileName = $previous_file_names[$key];
+				}
+
+				$data = array(
+					'url' => $url[$key],
+					'logo' => $imageFileName,
+					'user_id' => $user_id
+				);
+				if (!empty($id[$key])) {
+					$this->db->where('id', $id[$key])->update('tbl_client', $data);
+					$collect_keeping_id[] = $id[$key];
+				} else {
+					$this->db->insert('tbl_client', $data);
+					$collect_keeping_id[] = $this->db->insert_id();
+				}
+			}
+		}
+
+		$data = $this->db->get('tbl_client')->result_array();
+		echo json_encode(['status' => 'success', 'message' => 'Clients saved successfully!', 'data' => $data, 'response' => 1]);
+	}
+	// public function save_award()
+	// {
+		
+	// //	print_r($_POST);exit;
+	// 	$this->load->library('form_validation');
+	// 	$user_id = $this->session->userdata('user_id');
+	// 	$collect_keeping_id = [0];
+
+	// 	// Validate URLs
+	// 	foreach ($this->input->post('title') as $key => $title) {
+	// 		//$this->form_validation->set_rules("url[{$key}]", "Client's Website URL #{$key}", 'required|valid_url');
+	// 		$this->form_validation->set_rules("title[{$key}]", "title #{$key}", 'required');
+	// 	}
+
+	// 	// Custom validation for the logo field
+	// 	$images = $_FILES['image']['name'];
+	// 	$previous_file_names = $this->input->post('previous_file_name');
+
+	// 	$image_is_valid = true;
+	// 	foreach ($images as $key => $image) {
+	// 		if (empty($image) && empty($previous_file_names[$key])) {
+	// 			$image_is_valid = false;
+	// 			break;
+	// 		}
+	// 	}
+
+	// 	if ($this->form_validation->run() == FALSE || !$image_is_valid) {
+	// 		$errors = validation_errors();
+	// 		if (!$image_is_valid) {
+	// 			$errors .= "<p>The Image field is required for each entry.</p>";
+	// 		}
+	// 		echo json_encode(['status' => 'error', 'message' => $errors, 'response' => 0]);
+	// 		return;
+	// 	}
+
+	// 	if (isset($images)) {
+	// 		$config = array(
+	// 			'upload_path' => './assets/upload/award',
+	// 			'allowed_types' => 'jpg|gif|png|jpeg|PNG',
+	// 			'overwrite' => 1
+	// 		);
+	// 		$this->load->library('upload', $config);
+	// 		$title = $this->input->post('title');
+	// 		$id = $this->input->post('id');
+
+	// 		foreach ($images as $key => $fileName) {
+	// 			$_FILES['userfile'] = array(
+	// 				'name' => $fileName,
+	// 				'type' => $_FILES['image']['type'][$key],
+	// 				'tmp_name' => $_FILES['image']['tmp_name'][$key],
+	// 				'error' => $_FILES['image']['error'][$key],
+	// 				'size' => $_FILES['image']['size'][$key],
+	// 			);
+	// 			$this->upload->initialize($config);
+
+	// 			if ($this->upload->do_upload('userfile')) {
+	// 				$uploadData = $this->upload->data();
+	// 				$imageFileName = $uploadData['file_name'];
+	// 			} else {
+	// 				$imageFileName = $previous_file_names[$key];
+	// 			}
+
+	// 			$data = array(
+	// 				'title' => $title[$key],
+	// 				'image' => $imageFileName,
+	// 				'user_id' => $user_id,
+	// 				'status'=>1
+	// 			);
+	// 			if (!empty($id[$key])) {
+	// 				$this->db->where('id', $id[$key])->update('tbl_award', $data);
+	// 				$collect_keeping_id[] = $id[$key];
+	// 			} else {
+	// 				$this->db->insert('tbl_award', $data);
+	// 				$collect_keeping_id[] = $this->db->insert_id();
+	// 			}
+	// 		}
+	// 	}
+
+	// 	$data = $this->db->get('tbl_award')->result_array();
+	// 	echo json_encode(['status' => 'success', 'message' => 'Award saved successfully!', 'data' => $data, 'response' => 1]);
+	// }
+	public function save_award()
+{
+    $this->load->library('form_validation');
+    $user_id = $this->session->userdata('user_id');
+    $collect_keeping_id = [0];
+
+    // Retrieve POST data
+    $title = $this->input->post('title');
+    $description = $this->input->post('description');
+    $images = $_FILES['image']['name'];
+    $previous_file_names = $this->input->post('previous_file_name');
+    $id = $this->input->post('id');
+
+    // Check if all fields are blank
+    $all_blank = true;
+    for ($i = 0; $i < count($title); $i++) {
+        if (!empty(trim($title[$i])) || !empty(trim($description[$i])) || !empty(trim($images[$i])) || !empty(trim($previous_file_names[$i]))) {
+            $all_blank = false;
+            break;
+        }
+    }
+    if ($all_blank) {
+        echo 2; // Specific error code for all fields being blank
+        return;
+    }
+
+    // Set a word limit for the description
+    $this->set_word_limit(40);
+
+    // Set validation rules for each input field
+    for ($i = 0; $i < count($title); $i++) {
+        $this->form_validation->set_rules('title[' . $i . ']', 'Title', 'required');
+        $this->form_validation->set_rules('description[' . $i . ']', 'Description', 'callback_validate_words');
+    }
+
+    // Custom validation for the image field
+    $image_is_valid = true;
+    foreach ($images as $key => $image) {
+        if (empty($image) && empty($previous_file_names[$key])) {
+            $image_is_valid = false;
+            break;
+        }
+    }
+
+    // Run the validation
+    if ($this->form_validation->run() == FALSE || !$image_is_valid) {
+        // Capture validation errors
+        $validation_errors = validation_errors();
+
+        // Check if the error is specifically for the description field
+        if (strpos($validation_errors, 'Description') !== false) {
+            echo 4; // Specific error code for description validation issues
+        } else {
+            echo 2; // General validation error
+        }
+        return;
+    }
+
+    // Proceed with the image upload and database operations
+    if (isset($images)) {
+        $config = array(
+            'upload_path' => './assets/upload/award',
+            'allowed_types' => 'jpg|gif|png|jpeg|PNG',
+            'overwrite' => 1
+        );
+        $this->load->library('upload', $config);
+
+        for ($i = 0; $i < count($title); $i++) {
+            $_FILES['userfile'] = array(
+                'name' => $images[$i],
+                'type' => $_FILES['image']['type'][$i],
+                'tmp_name' => $_FILES['image']['tmp_name'][$i],
+                'error' => $_FILES['image']['error'][$i],
+                'size' => $_FILES['image']['size'][$i],
+            );
+            $this->upload->initialize($config);
+
+            if ($this->upload->do_upload('userfile')) {
+                $uploadData = $this->upload->data();
+                $imageFileName = $uploadData['file_name'];
+            } else {
+                $imageFileName = $previous_file_names[$i];
+            }
+
+            $data = array(
+                'title' => $title[$i],
+                'description' => $description[$i], // Add the description here
+                'image' => $imageFileName,
+                'user_id' => $user_id,
+                'status' => 1
+            );
+
+            if (!empty($id[$i])) {
+                $result=$this->db->where('id', $id[$i])->update('tbl_award', $data);
+                $collect_keeping_id[] = $id[$i];
+            } else {
+                $result=$this->db->insert('tbl_award', $data);
+                $collect_keeping_id[] = $this->db->insert_id();
+            }
+        }
+    }
+
+    $data = $this->db->get('tbl_award')->result_array();
+  if($result)
+  {
+	echo 1;
+  }else{
+	echo 0;
+  }
+}
+
+// Custom callback function to validate the word limit in the description
+// public function validate_words($str)
+// {
+//     $word_limit = 40; // Set the word limit
+//     $word_count = str_word_count(strip_tags($str));
+
+//     if ($word_count > $word_limit) {
+//         $this->form_validation->set_message('validate_words', 'The {field} field must not exceed ' . $word_limit . ' words.');
+//         return FALSE;
+//     } else {
+//         return TRUE;
+//     }
+// }
+
+
 }
 
 
