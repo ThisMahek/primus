@@ -31,11 +31,8 @@ class Home extends CI_Controller {
 		
 		$data['user_data'] = $user_data;
 		$data['user_id'] = $user_id;
-		//if(!empty($data['user_data'])){
+		
 		$this->load->view('user/index',$data);
-		// }
-		// else{
-		// $this->load->view('user/nodata');
-		// }
+		
 	}
 }
