@@ -466,6 +466,9 @@ if($user_data->is_client==1){
       <?php }?>
   <!--==== Client Section End ======-->
   <!--==== Awards & Achivements Section Start=== -->
+  <?php
+if($user_data->is_award==1){
+?>
   <section class="cv_project_wrapper">
     <div class="cv_container container-fluid">
       <div class="row">
@@ -477,20 +480,26 @@ if($user_data->is_client==1){
         </div>
         <div class="col-12">
           <div class="cv_project_content">
+            <?php
+            foreach($award_data as $row)
+                 {
+                  
+              ?>
             <div class="cv_project_box">
               <div class="cv_project_img">
-                <img src="assets/images/proj-1.webp" class="img-fluid">
+                <img src="<?=base_url()?>assets/upload/award/<?=$row->image?>" class="img-fluid">
               </div>
               <div class="cv_project_text">
                 <div class="cv_project_heading">
-                  <p>Development</p>
+                  <p><?=$row->title?></p>
                 </div>
                 <div class="cv_project_title">
-                  <p>Best Wireframe Tools For Web Designers.</p>
+                  <p><?=$row->description?></p>
                 </div>
               </div>
             </div>
-            <div class="cv_project_box">
+            <?php }?>
+            <!-- <div class="cv_project_box">
               <div class="cv_project_img">
                 <img src="assets/images/proj-2.webp" class="img-fluid">
               </div>
@@ -515,12 +524,13 @@ if($user_data->is_client==1){
                   <p>Best Wireframe Tools For Web Designers.</p>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
     </div>
   </section>
+  <?php }?>
   <!--=== Awards & Achivements Section End==== -->
   <!--==== Contact Section Start=== -->
     <section class="cv_address_wrapper" id="contactUs">

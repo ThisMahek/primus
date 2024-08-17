@@ -27,6 +27,8 @@ class Home extends CI_Controller {
 		$data['total_project'] = $this->UM->get_count('tbl_project',$user_id);
 		$data['total_client'] = $this->UM->get_count('tbl_client',$user_id);
 		$data['social_media'] = $this->UM->get_single_data('social_media','1',$user_id);
+		$data['award_data'] = $this->UM->get_data('tbl_award','1',$user_id);
+		
 		$data['user_data'] = $user_data;
 		$data['user_id'] = $user_id;
 		//if(!empty($data['user_data'])){

@@ -225,9 +225,7 @@ function checkPDFAvailability() {
         },
     });
 }
-function removeInputGroup(btn) {
-    $(btn).closest('.items').remove();
-}
+
 // function daysDifference(index) {
 //     const fromDateElement = document.getElementById(`from_date${index}`);
 //     const toDateElement = document.getElementById(`to_date${index}`);
@@ -317,134 +315,9 @@ $(document).ready(function () {
         <div class="col-md-12 mb-3"><label for="skill" class="form-label">Enter Your Skill<span class="text-danger">*</span></label><input type="text" name="skill[]" class="form-control" placeholder="Example : Java" ></div><div class="col-md-12 mb-3"><label for="percantage" class="form-label">Mark in Percentage (%)<span class="text-danger">*</span></label><select class="form-control"  name="percantage[]"><option value="0">0%</option><option value="10">10%</option><option value="20">20%</option><option value="30">30%</option><option value="40">40%</option><option value="50">50%</option><option value="60">60%</option><option value="70">70%</option><option value="80">80%</option><option value="90">90%</option><option value="100">100%</option></select></div></div><div class="row mt-3 mb-3"><div class="col-md-6 repeater-remove-btn"><button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)" title="Remove Colloum"><i class="bx bx-x"></i></button></div></div><hr></div>`;
         $(this).closest('form').find('.append-area').append(group);
     });
-    $("#add-class-award").click(function () {
-
-        var group = `<div class="items"><div class="row item-content">
-        <div class="col-md-12 mb-3"><label for="skill" class="form-label">Enter Your Skill<span class="text-danger">*</span></label><input type="text" name="skill[]" class="form-control" placeholder="Example : Java" ></div><div class="col-md-12 mb-3"><label for="percantage" class="form-label">Mark in Percentage (%)<span class="text-danger">*</span></label><select class="form-control"  name="percantage[]"><option value="0">0%</option><option value="10">10%</option><option value="20">20%</option><option value="30">30%</option><option value="40">40%</option><option value="50">50%</option><option value="60">60%</option><option value="70">70%</option><option value="80">80%</option><option value="90">90%</option><option value="100">100%</option></select></div></div><div class="row mt-3 mb-3"><div class="col-md-6 repeater-remove-btn"><button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)" title="Remove Colloum"><i class="bx bx-x"></i></button></div></div><hr></div>`;
-        $(this).closest('form').find('.append-area').append(group);
-    });
-    //start education section
-//     var education = 0;
-//     var quillEditors = []; // Initialize the Quill editors array first
-    
-//     $("#add-class-eduction").click(function () {
-//         // Append new group
-//         var group = `
-//             <div class="items">
-//                 <div class="item-content">
-//                     <div class="mb-3">
-//                         <label for="inputEmail1" class="form-label">Enter Qualification Type<span class="text-danger">*</span></label>
-//                         <input type="text" class="form-control" name="education_type[]" placeholder="Example : MCA" >
-//                     </div>
-//                     <div class="mb-3">
-//                         <label for="inputEmail1" class="form-label">Enter School/College/Institute/University Name <span class="text-danger">*</span></label>
-//                         <input type="text" class="form-control" name="institute[]" placeholder="Enter Your School/College/Institute/University Name" >
-//                     </div>
-//                     <div class="mb-3">
-//                         <label for="inputEmail1" class="form-label">Year of Passing<span class="text-danger">*</span></label>
-//                         <input class="form-control" name="year[]" max="` + currentYearMonth + `" type="month" id="">
-//                     </div>
-//                     <div class="mt-3">
-//                         <label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label>
-//                     </div>
-//                     <div class="editor" id="editor-education${education}" data-index="${education}"></div>
-//                 </div>
-//                 <div class="row mt-3">
-//                     <div class="col-md-6 repeater-remove-btn">
-//                         <button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)" title="Remove Column">
-//                             <i class="bx bx-x"></i>
-//                         </button>
-//                     </div>
-//                 </div>
-//                 <hr>
-//             </div>`;
-    
-//         $(this).closest('form').find('.append-area').append(group);
-    
-//         // Initialize the new Quill editor
-//         var quill = new Quill('#editor-education' + education, {
-//             theme: 'snow'
-//         });
-    
-//         quillEditors[education] = quill;
-//         education++; // Increment to avoid ID duplication
-//     });
-    
-//     // On document ready, initialize existing Quill editors
-//    // $(document).ready(function () {
-//         $('.editor').each(function () {
-//             var id = $(this).attr('id');
-//             var quill = new Quill('#' + id, {
-//                 theme: 'snow'
-//             });
-//             var index = id.split('-')[1];
-//             quillEditors[index] = quill;
-//         });
-//    // });
-    
-//     // Submit form with Quill editor content
-//     $('#submit_education').on('click', function (event) {
-//         event.preventDefault(); // Prevent form submission
-    
-//         var formData = $('#education_form').serializeArray(); // Get existing form data
-    
-//         // Collect content from each Quill editor
-//         $.each(quillEditors, function (index, quill) {
-//             if (quill) { // Check if the editor exists
-//                 formData.push({
-//                     name: 'description[' + index + ']',
-//                     value: quill.root.innerHTML // or quill.getText() for plain text
-//                 });
-//             }
-//         });
-    
-//         console.log(formData); // Use console.log to inspect the formData
-    
-//         $.ajax({
-//             url: BASE_URL + "UserDashboard/save_education",
-//             type: 'POST',
-//             data: formData,
-//             success: function (response) {
-//                 if (response == 1) {
-//                     Swal.fire({
-//                         icon: "success",
-//                         title: "Success",
-//                         text: "Your data was saved successfully!",
-//                     });
-//                     setTimeout(function () {
-//                         window.location.reload();
-//                     }, 2000);
-//                 } else if (response == 2) {
-//                     Swal.fire({
-//                         icon: "error",
-//                         title: "Oops...",
-//                         text: "Invalid data submitted. Please fill all fields!",
-//                     });
-//                 } else if (response == 3) {
-//                     Swal.fire({
-//                         icon: "error",
-//                         title: "Oops...",
-//                         text: "Kindly do any action first!",
-//                     });
-//                 } else if (response == 4) {
-//                     Swal.fire({
-//                         icon: "error",
-//                         title: "Oops...",
-//                         text: "Description must not exceed 40 words!",
-//                     });
-//                 } else {
-//                     Swal.fire({
-//                         icon: "error",
-//                         title: "Oops...",
-//                         text: "Something went wrong!",
-//                     });
-//                 }
-//             }
-//         });
-//     });
     
 
-    $('#submit_skill').on('click', function () {
+    $('#submit_skill').on('click', function (event) {
         event.preventDefault();
         // alert('hu');
         $.ajax({
@@ -623,4 +496,9 @@ function add_preview(image, imageId, spanId, buttonId, img_height, img_width) {
             reader.readAsDataURL(image.files[0]);
         }
     }
+}
+
+function removeInputGroup(btn) {
+    
+    $(btn).closest('.items').remove();
 }

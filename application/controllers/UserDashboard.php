@@ -73,7 +73,9 @@ class UserDashboard extends CI_Controller
 	}
 	public function save_experience()
 	{
-
+		// echo "<pre>";
+		// print_r($_POST);
+		// exit;
 		$ids = $this->input->post('delete_id');
 		$work_type = $this->input->post('work_type');
 		$organisation_name = $this->input->post('organisation_name');

@@ -1,219 +1,85 @@
-Order Number
-2918567080
-8102480867
-9230128184
-9002423338
-5363436618
-8538179266
-8931125744
-4396524888
-7012571665
-9529415661
-9608049142
-7680802850
-4294916969
-6128021078
-4509953830
-9816399857
-8122090317
-4350450443
-7093954593
-4610299770
-1717636918
-6513230813
-6187403831
-7024038329
-4193099260
-7955565298
-5287253104
-4451261773
-3320320742
-3344027312
-8576571217
-7499519950
-4671934936
-7949495696
-9736646921
-8076977240
-4678437303
-7648954422
-2997615619
-5735990423
-6729051322
-7652976712
-8340313238
-8445195124
-8897227016
-8619379250
-9325712717
-7411101059
-8314518284
-8552270756
-7064802488
-4033434342
-1796989057
-9135862338
-8009453479
-6947830314
-5112815248
-4173445992
-4323264212
-4092308294
-3921368884
-1907658009
-3588660833
-4639083993
-4283724214
-8326175551
-7866855410
-9969468893
-2837423196
-8683832931
-4405390304
-4050086564
-2177772832
-9318061837
-7245413374
-7727353576
-9825751267
-6091384907
-8387846488
-8844786877
-4197485331
-9748947284
-7483992551
-4462428158
-9681757479
-1631144348
-9824072501
-9729874630
-7200672865
-9561966079
-8345205858
-6403512435
-6354678987
-6937348847
-3701062411
-3642851133
-1871512056
-2125902279
-9776084321
-6472483158
-5082783630
-8407275634
-7985433639
-5950054742
-1626159530
-1778676168
-2694921932
-2809218207
-3691715718
-2429049362
-6551172780
-7159215362
-2281508003
-7677025444
-3005129530
-7424626199
-3808671151
-7980631167
-5678471136
-9867319323
-7025177762
-2441142238
-8942671907
-7396563340
-5944847542
-8257222929
-3661500960
-9911067016
-3461895212
-3144174181
-8695179536
-9689000298
-1843954252
-9096342903
-4878530021
-9775615136
-8264523334
-5315686658
-8305847504
-8235708121
-4638459171
-9759205302
-7810102329
-3397894431
-6201713328
-7679564529
-8725694108
-9108722264
-4729122484
-3968951794
-9961678909
-7941074333
-4888157470
-2461846136
-3547849791
-6736362357
-7762773592
-3944771754
-3742079795
-2513872847
-7558668868
-7436698619
-7077439246
-5648011756
-3345373723
-7882848222
-5363173411
-9337415158
-4979186164
-6573717256
-3740320846
-8306905915
-3336553774
-4713592530
-4707768836
-6176228327
-3697924342
-3315955115
-6515148399
-7490385032
-7991971379
-4002454756
-3609493722
-9406936455
-1895099253
-2283768421
-9834703150
-3308813294
-3894431946
-4500746916
-3383765452
-9360535374
-8276735281
-9696266144
-9778288343
-3434995282
-3344283579
-6235897609
-5999515691
-8145447408
-5989047515
-1866386564
-6354357947
-9799541618
-2130015729
-5434195244
-8508457271
-8807569598
-4319541940
-2221032604
-7196490920
-7383719950
-4905495884
-4153041167
-2495134260
-8188088012
-7822953540
-3959925423
+<form id="education_form" method="post">
+   <div class="append-area">
+      <!-- Repeater Heading -->
+      <div class="d-flex align-items-center justify-content-between">
+         <h5 class="mb-0"></h5>
+         <button type="button" class="btn btn-outline-primary  repeater-add-btn px-4" id="add-class-eduction" title="Add More Colloum"><i class="bx bx-plus"></i></button>
+      </div>
+      <!-- Repeater Items -->
+      <?php
+         if(!empty($education_data)){
+            $user_id=$this->session->userdata('user_id');
+            $i=0;
+            foreach($education_data as  $key=>$row) {
+      ?>
+      <div class="items">
+         <input type="hidden"  name="delete_id[]" class="form-control" value="<?=$row->id?>">
+         <!-- Repeater Content -->
+         <div class="item-content">
+            <div class="mb-3">
+               <label for="inputEmail1" class="form-label">Enter Qualification Type<span class="text-danger">*</span></label>
+               <input type="text" class="form-control" name="education_type[]" value="<?=$row->education_type?>" placeholder="Example: MCA">
+            </div>
+            <div class="mb-3">
+               <label for="inputEmail1" class="form-label">Enter School/College/Institute/University Name <span class="text-danger">*</span></label>
+               <input type="text"  class="form-control" value="<?=$row->institute?>" name="institute[]" placeholder="Enter Your School/College/Institute/University Name">
+            </div>
+            <div class="mb-3">
+               <label for="inputEmail1" class="form-label">Year of Passing<span class="text-danger">*</span></label>
+               <input class="form-control" name="year[]" value="<?=$row->year?>" type="month" max="<?php echo date('Y-m'); ?>">
+            </div>
+            <div class="mt-3">
+               <label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label>
+               <div class="editor" id="editor-education<?=$i?>" data-index="<?=$i?>"><?=$row->description?></div>
+            </div>
+            <hr/>
+            <?php if ($key != 0) { ?>
+            <!-- Repeater Remove Btn -->
+            <div class="row mt-3 mb-5">
+               <div class="col-md-6 repeater-remove-btn">
+                  <button type="button" onclick="remove_db_data(<?=$row->id?>,'tbl_qualification')" class="btn btn-outline-danger remove-btn px-4" title="Remove Colloum"><i class="bx bx-x"></i></button>
+               </div>
+            </div>
+            <?php } ?>
+         </div>
+      </div> <!-- Closing div for "items" -->
+      <?php $i++; } } else { ?>
+      <div class="items">
+         <!-- Repeater Content -->
+         <div class="item-content">
+            <div class="mb-3">
+               <label for="inputEmail1" class="form-label">Enter Qualification Type<span class="text-danger">*</span></label>
+               <input type="text" class="form-control" name="education_type[]" placeholder="Example: MCA">
+            </div>
+            <div class="mb-3">
+               <label for="inputEmail1" class="form-label">Enter School/College/Institute/University Name <span class="text-danger">*</span></label>
+               <input type="text" class="form-control" name="institute[]" placeholder="Enter Your School/College/Institute/University Name">
+            </div>
+            <div class="mb-3">
+               <label for="inputEmail1" class="form-label">Year of Passing<span class="text-danger">*</span></label>
+               <input class="form-control" name="year[]" type="month" id="" max="<?php echo date('Y-m'); ?>">
+            </div>
+            <div class="mt-3">
+               <label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label>
+               <div class="editor" id="editor-education0" data-index="0"></div>
+            </div>
+            <!-- Repeater Remove Btn -->
+            <div class="row mt-3 mb-5">
+               <div class="col-md-6 repeater-remove-btn">
+                  <button class="btn btn-outline-danger remove-btn px-4" title="Remove Colloum"><i class="bx bx-x"></i></button>
+               </div>
+            </div>
+            <hr>
+         </div>
+      </div> <!-- Closing div for "items" -->
+      <?php } ?>
+   </div>
+   </div>
+   <div class="col-md-12 text-end">
+      <?php if(!empty($education_data)) { ?>
+      <button class="btn btn-outline-secondary w-25 " id="submit_education">Update</button>
+      <?php } else { ?>
+      <button class="btn btn-outline-secondary w-25 " id="submit_education">Save</button>
+      <?php } ?>
+   </div>
+</form>

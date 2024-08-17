@@ -30,13 +30,13 @@
                         </div>
                     </div>
                     <hr />
-                    <form id="awardForm" enctype="multipart/form-data">
+                    <form id="awardForm" method="POST" enctype="multipart/form-data">
                         <div class="append-area">
                             <!-- Repeater Heading -->
                             <div class="d-flex align-items-center justify-content-between">
                                 <h5 class="mb-0"></h5>
                                 <button type="button" class="btn btn-outline-primary  repeater-add-btn px-4"
-                                    title="Add More Colloum" id="add-class"><i class="bx bx-plus"></i></button>
+                                    title="Add More Colloum" id="add-class-award"><i class="bx bx-plus"></i></button>
                             </div>
                             <!-- Repeater Items -->
                             <?php
@@ -44,7 +44,7 @@
                                 $i = -1;
                                 foreach ($award_data as $key => $row) {
                                     $i++;
-                                   
+
                                     ?>
 
                                     <div class="items">
@@ -68,15 +68,13 @@
                                                 <input type="hidden" name="previous_file_name[]" value="<?= $row->image ?>">
                                                 <img src="<?= base_url('assets/upload/award/' . $row->image) ?>"
                                                     alt="Existing Logo" width="330" height="192">
-                                                <?php if ($key != 0) { ?>
-
-                                                    <input type="file" name="image[]" class="form-control" accept="image/*">
-                                                <?php } else { ?>
-                                                    <input type="file" name="image[]" class="form-control" accept="image/*"
-                                                        onchange="add_preview(this, 'imagePreview', 'sp_img','award_button','330','192')"
-                                                        hidden>
+                                       
+                                                    
+                                                    <input type="file" name="image[]" class="form-control" accept="image/*"  onchange="add_preview(this, 'imagePreview', 'sp_img','award_button','330','192')" >
+                                           
+                                                        
                                                     <span id="sp_img" style="color:red"></span>
-                                                <?php } ?>
+                                               
 
                                             </div>
 
@@ -87,7 +85,8 @@
                                             <label for="file" class="mb-2">Add Some Description <span
                                                     class="text-danger">*</span> (Max 40 words Accepted)</label>
 
-                                            <div class="editor" id="editor-award<?=$i ?>" data-index="<?= $i ?>"><?=$row->description?></div>
+                                            <div class="editor" id="editor-award<?= $i ?>" data-index="<?= $i ?>">
+                                                <?= $row->description ?></div>
                                         </div>
                                         <!-- Repeater Remove Btn -->
                                         <?php if ($key != 0) { ?>
@@ -105,10 +104,8 @@
                                         <hr>
                                     </div>
                                 <?php }
-                            
-                            } 
-                            
-                            else { ?>
+
+                            } else { ?>
 
 
 
@@ -148,7 +145,7 @@
 
                     <?php if (!empty($award_data)) {
                         ?>
-                        <button  class="btn btn-outline-secondary w-25" id="award_button">Update</button>
+                        <button class="btn btn-outline-secondary w-25" id="award_button">Update</button>
                     <?php } else { ?>
                         <button class="btn btn-outline-secondary w-25" id="award_button">Save</button>
                     <?php } ?>
@@ -162,23 +159,23 @@
     <?php include_once('includes/footer.php') ?>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
-    var award = <?php echo empty($award_data) ? 1 : count($award_data); ?>;
-    var quillEditors = [];
+        var award = <?php echo empty($award_data) ? 1 : count($award_data); ?>;
+        var quillEditors = [];
 
-    $(document).ready(function () {
-        // Initialize existing Quill editors
-        $('.editor').each(function () {
-            var id = $(this).attr('id');
-            var dataIndex = $(this).data('index');
-            var quill = new Quill('#' + id, {
-                theme: 'snow'
+        $(document).ready(function () {
+            // Initialize existing Quill editors
+            $('.editor').each(function () {
+                var id = $(this).attr('id');
+                var dataIndex = $(this).data('index');
+                var quill = new Quill('#' + id, {
+                    theme: 'snow'
+                });
+                quillEditors[dataIndex] = quill;
             });
-            quillEditors[dataIndex] = quill;
-        });
 
-        // Add new Quill editor dynamically
-        $("#add-class").click(function () {
-            var group = `<div class="items"><div class="row item-content">
+            // Add new Quill editor dynamically
+            $("#add-class-award").click(function () {
+                var group = `<div class="items"><div class="row item-content">
                  <div class="col-md-12 mb-3">
                  <label for="title" class="form-label">Title<span class="text-danger">*</span></label>
                  <input name="title[]" type="text" class="form-control" >
@@ -195,65 +192,86 @@
                 </div>
                 <div class="editor" id="editor-award${award}" data-index="${award}"></div>
             </div>
-                 <div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button type="button" class="btn btn-outline-danger remove-btn px-4" title="Remove Column"><i class="bx bx-x" onclick="removeInputGroup(this)"></i></button></div></div><hr></div>`;
-            
-            $(this).closest('form').find('.append-area').append(group);
+                 <div class="row mt-3"><div class="col-md-6 repeater-remove-btn">
+                 <button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)" title="Remove Column"><i class="bx bx-x" ></i></button>
+                 </div>
+                 </div>
+                 <hr>
+                 </div>`;
 
-            // Initialize the new Quill editor
-            var quill = new Quill('#editor-award' + award, {
-                theme: 'snow'
+                $(this).closest('form').find('.append-area').append(group);
+
+                // Initialize the new Quill editor
+                var quill = new Quill('#editor-award' + award, {
+                    theme: 'snow'
+                });
+
+                quillEditors[award] = quill;
+                award++;
             });
 
-            quillEditors[award] = quill;
-            award++;
-        });
 
-        $('#award_button').on('click', function (event) {
-            event.preventDefault();
+            $('#award_button').on('click', function (event) {
+                event.preventDefault();
 
-            // Use FormData to handle file uploads
-            var formData = new FormData($('#awardForm')[0]);
+                // Use FormData to handle file uploads
+                var formData = new FormData($('#awardForm')[0]);
 
-            // Collect content from each Quill editor and append it to FormData
-            $.each(quillEditors, function (award_index, quill) {
-                if (quill) {
-                    formData.append('description[' + award_index + ']', quill.root.innerHTML); 
-                }
-            });
-
-            $.ajax({
-                url: '<?= base_url() ?>UserDashboard/save_award',
-                method: 'POST',
-                data: formData,
-               // dataType:JSON,
-                processData: false,
-               contentType: false,
-                success: function (response) {
-
-                    if (response==1) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'Your data was saved successfully!'
-                        }).then(function () {
-                            location.reload();
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Oops..",
-                            text: "Invalid data submitted. Please fill all fields!",
-                        });
+                // Collect content from each Quill editor and append it to FormData
+                $.each(quillEditors, function (award_index, quill) {
+                    if (quill) {
+                        formData.append('description[' + award_index + ']', quill.root.innerHTML);
                     }
-                },
-                error: function () {
-                    alert('An error occurred. Please try again.');
-                }
+                });
+
+                $.ajax({
+                    url: '<?= base_url() ?>UserDashboard/save_award',
+                    method: 'POST',
+                    data: formData,
+                    // dataType:JSON,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        //alert(response);
+                        if (response == 1) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Success",
+                                text: "Your data was saved successfully!",
+                            });
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000);
+                        } else if (response == 2) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Invalid data submitted. Please fill all fields!",
+                            });
+                        } else if (response == 3) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Kindly do any action first!",
+                            });
+                        } else if (response == 4) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Description must not exceed 40 words!",
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Something went wrong!",
+                            });
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred. Please try again.');
+                    }
+                });
             });
         });
-    });
-
-    function removeInputGroup(btn) {
-        $(btn).closest('.items').remove();
-    }
-</script>
+    </script>
