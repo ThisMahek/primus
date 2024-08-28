@@ -172,32 +172,36 @@
                 });
                 quillEditors[dataIndex] = quill;
             });
-
             // Add new Quill editor dynamically
             $("#add-class-award").click(function () {
-                var group = `<div class="items"><div class="row item-content">
-                 <div class="col-md-12 mb-3">
-                 <label for="title" class="form-label">Title<span class="text-danger">*</span></label>
-                 <input name="title[]" type="text" class="form-control" >
-                 </div>
-                <div class="col-md-12 mb-3">
-                <label for="image" class="form-label">Upload Image<span class="text-danger">* </span>(Image must be in 330 × 192 px)</label>
-                 <input type="hidden" name="id[]" value=""> <input type="hidden" name="previous_file_name[]" value="">
-                 <input type="file" name="image[]" accept="image/*" onchange="add_preview(this, 'imagePreview','sp_img'+${award},'award_button','330','192')" class="form-control" > 
-                 <span id="sp_img${award}" style="color:red"></span>
-                 </div>
-                 </div>
-                  <div class="mt-3">
-                    <label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label>
-                </div>
-                <div class="editor" id="editor-award${award}" data-index="${award}"></div>
-            </div>
-                 <div class="row mt-3"><div class="col-md-6 repeater-remove-btn">
-                 <button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)" title="Remove Column"><i class="bx bx-x" ></i></button>
-                 </div>
-                 </div>
-                 <hr>
-                 </div>`;
+                var group = `<div class="items">
+  <div class="row item-content">
+    <div class="col-md-12 mb-3">
+      <label for="title" class="form-label">Title<span class="text-danger">*</span></label>
+      <input name="title[]" type="text" class="form-control">
+    </div>
+  </div>
+  <div class="col-md-12 mb-3">
+    <label for="image" class="form-label">Upload Image<span class="text-danger">*</span> (Image must be in 330 × 192 px)</label>
+    <input type="hidden" name="id[]" value="">
+    <input type="hidden" name="previous_file_name[]" value="">
+    <input type="file" name="image[]" accept="image/*" onchange="add_preview(this, 'imagePreview','sp_img'+${award},'award_button','330','192')" class="form-control">
+    <span id="sp_img${award}" style="color:red"></span>
+  </div>
+  <div class="mt-3">
+    <label for="file" class="mb-2">Add Some Description <span class="text-danger">*</span> (Max 40 words Accepted)</label>
+  </div>
+  <div class="editor" id="editor-award${award}" data-index="${award}"></div>
+  <div class="row mt-3">
+    <div class="col-md-6 repeater-remove-btn">
+      <button class="btn btn-outline-danger remove-btn px-4" onclick="removeInputGroup(this)" title="Remove Column">
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+  </div>
+  <hr>
+</div> 
+`;
 
                 $(this).closest('form').find('.append-area').append(group);
 

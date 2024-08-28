@@ -102,7 +102,8 @@ $about_data=$this->db->select('designation')->where(['user_id'=>$user_id,'status
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label for="faeture_image" class="form-label">Upload Feature Image<span class="text-danger">*</span> (Image must be in 330 × 192 px)</label>
-                                <input class="form-control" type="file" id="faeture_image" name="feature_image" accept="image/*" onchange="add_preview(this, 'imagePreview', 'sp_img_edit_project','editButton','330','192')">
+                                <input class="form-control" type="file" id="faeture_image" name="feature_image" accept="image/*" >
+                                <!-- onchange="add_preview(this, 'imagePreview', 'sp_img_edit_project','editButton','330','192')" -->
                                 <img id="project_image" src="" alt="Project Image">
                               
                                 <br />

@@ -94,7 +94,8 @@
 
                                             <input class="form-control" type="file" id="faeture_image"
                                                 name="faeture_image" accept="image/*"
-                                                onchange="add_preview(this, 'imagePreview', 'sp_img_add_project','projectsubmitButton','330','192')">
+                                               >
+                                               <!-- onchange="add_preview(this, 'imagePreview', 'sp_img_add_project','projectsubmitButton','330','192')" -->
                                             <span id="sp_img_add_project" style="color:red"></span>
                                         </div>
                                         <div class="col-md-12 mb-3">

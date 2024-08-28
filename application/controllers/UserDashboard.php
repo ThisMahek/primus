@@ -13,6 +13,7 @@ class UserDashboard extends CI_Controller
 		// if (!$this->session->userdata('user_id')) {
 		// 	redirect(base_url());
 		// }
+	//	 phpinfo(); 
 	}
 
 
@@ -73,9 +74,6 @@ class UserDashboard extends CI_Controller
 	}
 	public function save_experience()
 	{
-		// echo "<pre>";
-		// print_r($_POST);
-		// exit;
 		$ids = $this->input->post('delete_id');
 		$work_type = $this->input->post('work_type');
 		$organisation_name = $this->input->post('organisation_name');
@@ -245,7 +243,7 @@ class UserDashboard extends CI_Controller
 			$array['introduction'] = $this->input->post('introduction');
 			;
 			$array['designation'] = $this->input->post('designation');
-		//	$array['carrier_objective'] = $this->input->post('carrier_objective');
+			//	$array['carrier_objective'] = $this->input->post('carrier_objective');
 			$array['user_id'] = $user_id;
 			$userdata = $this->UM->get_data('tbl_about', '1', $user_id);
 			if (!empty($userdata)) {
@@ -270,13 +268,13 @@ class UserDashboard extends CI_Controller
 		$this->word_limit = $limit;
 	}
 
-// 	public function validate_words($field_name)
+	// 	public function validate_words($field_name)
 // 	{
 // 		// Remove any HTML tags and trim extra spaces
 
-// 		$words = trim($field_name);
-	
-// 		// Count words
+	// 		$words = trim($field_name);
+
+	// 		// Count words
 // 		$word_count = str_word_count($words);
 // 		// Check if the word count is within the limit
 // if ($word_count > $this->word_limit) {
@@ -285,27 +283,27 @@ class UserDashboard extends CI_Controller
 //     }
 //     return TRUE;
 // 	}
-public function validate_words($field_name)
-{
-    // Remove any HTML tags
-    $words = strip_tags($field_name);
+	public function validate_words($field_name)
+	{
+		// Remove any HTML tags
+		$words = strip_tags($field_name);
 
-    // Trim leading and trailing whitespace
-    $words = trim($words);
+		// Trim leading and trailing whitespace
+		$words = trim($words);
 
-    // Replace multiple spaces with a single space
-    $words = preg_replace('/\s+/', ' ', $words);
+		// Replace multiple spaces with a single space
+		$words = preg_replace('/\s+/', ' ', $words);
 
-    // Count words
-    $word_count = str_word_count($words);
-	//print_r($word_count );exit;
-    // Check if the word count is within the limit
-    if ($word_count > $this->word_limit) {
-        $this->form_validation->set_message('validate_words', 'The {field} must not exceed ' . $this->word_limit . ' words.');
-        return FALSE;
-    }
-    return TRUE;
-}
+		// Count words
+		$word_count = str_word_count($words);
+		//print_r($word_count );exit;
+		// Check if the word count is within the limit
+		if ($word_count > $this->word_limit) {
+			$this->form_validation->set_message('validate_words', 'The {field} must not exceed ' . $this->word_limit . ' words.');
+			return FALSE;
+		}
+		return TRUE;
+	}
 
 	public function delete_project($id)
 	{
@@ -316,61 +314,161 @@ public function validate_words($field_name)
 			echo 0;
 		}
 	}
-	public function add_project()
-	{
-		$this->load->library('form_validation');
-		$this->set_word_limit(40);
-		// Set validation rules
-		$this->form_validation->set_rules('project_name', 'Project Name', 'required');
-		$this->form_validation->set_rules('project_url', 'Project URL', 'required');
-		$this->form_validation->set_rules('working_role', 'Working Role', 'required');
-		$this->form_validation->set_rules('description', 'Description', 'callback_validate_words');
+	public function add_project_old()
+{
+    $this->load->library('form_validation');
+    $this->set_word_limit(40);
+    // Set validation rules
+    $this->form_validation->set_rules('project_name', 'Project Name', 'required');
+    $this->form_validation->set_rules('project_url', 'Project URL', 'required');
+    $this->form_validation->set_rules('working_role', 'Working Role', 'required');
+    $this->form_validation->set_rules('description', 'Description', 'callback_validate_words');
 
-		// Check if the form validation passes
-		if ($this->form_validation->run() == FALSE) {
-			if (strpos(validation_errors(), 'description') == false) {
-				echo 4; // Specific error code for introduction word limit exceeded
-			} else {
-				//$this->session->set_flashdata('validation_errors', validation_errors());
-				echo 2;
-			}
-		} else {
-			//print_r($_FILES);exit;
-			$user_id = $this->session->userdata('user_id');
-			$file = $_FILES["faeture_image"];
-			$MyFileName = "";
-			if (strlen($file['name']) > 0) {
-				$image = $file["name"];
-				$config['upload_path'] = './assets/upload/Project_Image';
-				$config['allowed_types'] = '*';
-				$config['file_name'] = $image;
-				$this->load->library("upload", $config);
-				$filestatus = $this->upload->do_upload('faeture_image');
-				if ($filestatus == true) {
-					$MyFileName = $this->upload->data('file_name');
-					$array['faeture_image'] = $MyFileName;
-				} else {
-					$error = array('error' => $this->upload->display_errors());
-					print_r($error);
-					exit;
-					$result = $error;
-				}
+    // Check if the form validation passes
+    if ($this->form_validation->run() == FALSE) {
+        if (strpos(validation_errors(), 'description') == false) {
+            echo 4; // Specific error code for introduction word limit exceeded
+        } else {
+            echo 2;
+        }
+    } else {
+        $user_id = $this->session->userdata('user_id');
+        $file = $_FILES["faeture_image"];
+        $MyFileName = "";
+        if (strlen($file['name']) > 0) {
+            $image = $file["name"];
+            $config['upload_path'] = './assets/upload/Project_Image';
+            $config['allowed_types'] = '*';
+            $config['file_name'] = $image;
+            $this->load->library("upload", $config);
+            $filestatus = $this->upload->do_upload('faeture_image');
+            if ($filestatus == true) {
+                $MyFileName = $this->upload->data('file_name');
+                $array['faeture_image'] = $MyFileName;
+                // Resize image to 300x192
+                $config_resize = [
+                    'image_library' => 'gd2',
+                    'source_image' => $this->upload->data('full_path'),
+                    'new_image' => './assets/upload/Project_Image/resized/', // Optional: Create a separate folder for resized images
+                    'maintain_ratio' => FALSE, // Set to FALSE to resize to exact dimensions
+                    'width' => 300,
+                    'height' => 192
+                ];
+                $this->load->library('image_lib', $config_resize);
 
-			}
-			//End: File upload code
-			$array['project_name'] = $this->input->post('project_name');
-			$array['working_role'] = $this->input->post('working_role');
-			$array['description'] = $this->input->post('description');
-			$array['project_url'] = $this->input->post('project_url');
-			$array['user_id'] = $user_id;
-			$response = $this->db->insert('tbl_project', $array);
-			if ($response) {
-				echo 1;
-			} else {
-				echo 0;
-			}
-		}
-	}
+                if (!$this->image_lib->resize()) {
+                    $error = $this->image_lib->display_errors();
+                   // echo $error; // Display the error for debugging
+                } else {
+                //    echo "Image uploaded and resized successfully.";
+                }
+
+                $this->image_lib->clear(); // Clear settings after use
+            } else {
+                $error = $this->upload->display_errors();
+               // echo $error; // Display the error for debugging
+            }
+        }
+
+        // Rest of your code for database insertion
+        $array['project_name'] = $this->input->post('project_name');
+        $array['working_role'] = $this->input->post('working_role');
+        $array['description'] = $this->input->post('description');
+        $array['project_url'] = $this->input->post('project_url');
+        $array['user_id'] = $user_id;
+
+        $response = $this->db->insert('tbl_project', $array);
+        if ($response) {
+            echo 1;
+        } else {
+            echo 0;
+        }
+    }
+}
+public function add_project()
+{
+    $this->load->library('form_validation');
+    $this->set_word_limit(40);
+
+    // Set validation rules
+    $this->form_validation->set_rules('project_name', 'Project Name', 'required');
+    $this->form_validation->set_rules('project_url', 'Project URL', 'required');
+    $this->form_validation->set_rules('working_role', 'Working Role', 'required');
+    $this->form_validation->set_rules('description', 'Description', 'callback_validate_words');
+
+    // Check if the form validation passes
+    if ($this->form_validation->run() == FALSE) {
+        if (strpos(validation_errors(), 'description') === false) {
+            echo 4; // Specific error code for introduction word limit exceeded
+        } else {
+            echo 2;
+        }
+    } else {
+        $user_id = $this->session->userdata('user_id');
+		//start image code
+        $file = $_FILES["faeture_image"];
+        $MyFileName = "";
+        if (strlen($file['name']) > 0) {
+            $image = $file["name"];
+            // Temporary upload path
+            $temp_path = './assets/upload/Project_Image/';
+            if (!file_exists($temp_path)) {
+                mkdir($temp_path, 0777, true);
+            }
+            // Resized image path
+            $resized_path = './assets/upload/Project_Image/resized/';
+            if (!file_exists($resized_path)) {
+                mkdir($resized_path, 0777, true);
+            }
+            $config['upload_path'] = $temp_path;
+            $config['allowed_types'] = 'jpg|jpeg|png|gif'; // Specify image types
+            $config['file_name'] = $image;
+            $this->load->library("upload", $config);
+            $filestatus = $this->upload->do_upload('faeture_image');
+            if ($filestatus == true) {
+                $MyFileName = $this->upload->data('file_name');
+                $source_image = $this->upload->data('full_path'); // Temporary image path
+                // Resize the image and save it in the resized folder
+                $config_resize = [
+                    'image_library' => 'gd2',
+                    'source_image' => $source_image,
+                    'new_image' => $resized_path . $MyFileName, // Save the resized image here
+                    'maintain_ratio' => FALSE, // Set to FALSE to resize to exact dimensions
+                    'width' => 300,
+                    'height' => 192
+                ];
+                $this->load->library('image_lib', $config_resize);
+                if (!$this->image_lib->resize()) {
+                    $error = $this->image_lib->display_errors();
+                   // echo $error; // Display the error for debugging
+                } else {
+                   // echo "Image uploaded and resized successfully.";
+                    $array['faeture_image'] = 'resized/' . $MyFileName; // Save resized image path in DB
+                }
+                $this->image_lib->clear(); // Clear settings after use
+                // Optional: Delete the original temporary image after resizing
+                unlink($source_image);
+            } else {
+                $error = $this->upload->display_errors();
+               // echo $error; // Display the error for debugging
+            }
+        }
+//end image code
+        // Rest of your code for database insertion
+        $array['project_name'] = $this->input->post('project_name');
+        $array['working_role'] = $this->input->post('working_role');
+        $array['description'] = $this->input->post('description');
+        $array['project_url'] = $this->input->post('project_url');
+        $array['user_id'] = $user_id;
+        $response = $this->db->insert('tbl_project', $array);
+        if ($response) {
+            echo 1;
+        } else {
+            echo 0;
+        }
+    }
+}
+
 	public function edit_project()
 	{
 		// Load form validation library
@@ -381,7 +479,6 @@ public function validate_words($field_name)
 		$this->form_validation->set_rules('project_url', 'Project URL', 'required');
 		$this->form_validation->set_rules('working_role', 'Working Role', 'required');
 		$this->form_validation->set_rules('description', 'Description', 'callback_validate_words');
-
 		// Check if the form validation passes
 		if ($this->form_validation->run() == FALSE) {
 			if (strpos(validation_errors(), 'description') == false) {
@@ -395,24 +492,73 @@ public function validate_words($field_name)
 
 			$id = $this->input->post('add_project_id');
 			$user_id = $this->session->userdata('user_id');
-			$file = $_FILES["feature_image"]; // Corrected to match form input name
+			// $file = $_FILES["feature_image"]; // Corrected to match form input name
+			// $MyFileName = "";
+			// if (strlen($file['name']) > 0) {
+			// 	$image = $file["name"];
+			// 	$config['upload_path'] = './assets/upload/Project_Image';
+			// 	$config['allowed_types'] = 'jpg|png|jpeg';
+			// 	$config['file_name'] = $image;
+			// 	$this->load->library("upload", $config);
+			// 	$filestatus = $this->upload->do_upload('feature_image'); // Corrected to match form input name
+			// 	if ($filestatus == true) {
+			// 		$MyFileName = $this->upload->data('file_name');
+			// 		$array['faeture_image'] = $MyFileName; // Corrected to match form input name
+			// 	} else {
+			// 		$error = array('error' => $this->upload->display_errors());
+			// 		echo json_encode(['status' => 0, 'errors' => $error]);
+			// 		return;
+			// 	}
+			// }
+			//start image code
+			$file = $_FILES["feature_image"];
 			$MyFileName = "";
 			if (strlen($file['name']) > 0) {
 				$image = $file["name"];
-				$config['upload_path'] = './assets/upload/Project_Image';
-				$config['allowed_types'] = 'jpg|png|jpeg';
+				// Temporary upload path
+				$temp_path = './assets/upload/Project_Image/';
+				if (!file_exists($temp_path)) {
+					mkdir($temp_path, 0777, true);
+				}
+				// Resized image path
+				$resized_path = './assets/upload/Project_Image/resized/';
+				if (!file_exists($resized_path)) {
+					mkdir($resized_path, 0777, true);
+				}
+				$config['upload_path'] = $temp_path;
+				$config['allowed_types'] = 'jpg|jpeg|png|gif'; // Specify image types
 				$config['file_name'] = $image;
 				$this->load->library("upload", $config);
-				$filestatus = $this->upload->do_upload('feature_image'); // Corrected to match form input name
+				$filestatus = $this->upload->do_upload('feature_image');
 				if ($filestatus == true) {
 					$MyFileName = $this->upload->data('file_name');
-					$array['faeture_image'] = $MyFileName; // Corrected to match form input name
+					$source_image = $this->upload->data('full_path'); // Temporary image path
+					// Resize the image and save it in the resized folder
+					$config_resize = [
+						'image_library' => 'gd2',
+						'source_image' => $source_image,
+						'new_image' => $resized_path . $MyFileName, // Save the resized image here
+						'maintain_ratio' => FALSE, // Set to FALSE to resize to exact dimensions
+						'width' => 300,
+						'height' => 192
+					];
+					$this->load->library('image_lib', $config_resize);
+					if (!$this->image_lib->resize()) {
+						$error = $this->image_lib->display_errors();
+					   // echo $error; // Display the error for debugging
+					} else {
+					   // echo "Image uploaded and resized successfully.";
+						$array['faeture_image'] = 'resized/' . $MyFileName; // Save resized image path in DB
+					}
+					$this->image_lib->clear(); // Clear settings after use
+					// Optional: Delete the original temporary image after resizing
+					unlink($source_image);
 				} else {
-					$error = array('error' => $this->upload->display_errors());
-					echo json_encode(['status' => 0, 'errors' => $error]);
-					return;
+					$error = $this->upload->display_errors();
+				   // echo $error; // Display the error for debugging
 				}
 			}
+	//end image code
 			//End: File upload code
 			$array['project_name'] = $this->input->post('project_name');
 			$array['working_role'] = $this->input->post('working_role');
@@ -493,7 +639,7 @@ public function validate_words($field_name)
 
 
 
-	
+
 
 	// Callback function to validate file
 	public function file_check($str)
@@ -522,8 +668,7 @@ public function validate_words($field_name)
 	{
 		$user_id = $this->session->userdata('user_id');
 		$id = $this->input->post('id');
-		$result = $this->db->where(['id'=>$id,'user_id'=>$user_id])->get('tbl_project')->row();
-		
+		$result = $this->db->where(['id' => $id, 'user_id' => $user_id])->get('tbl_project')->row();
 		echo json_encode($result);
 	}
 	public function delete_data()
@@ -591,8 +736,8 @@ public function validate_words($field_name)
 			if ($check_phone_data > 0) {
 				echo 4;
 			} else {
-				$first_name=$this->input->post('first_name');
-				$last_name=$this->input->post('last_name');
+				$first_name = $this->input->post('first_name');
+				$last_name = $this->input->post('last_name');
 				$update_array = array(
 					//'first_name' => $first_name,//$this->input->post('first_name'),
 					//'last_name' => $last_name,//$this->input->post('last_name'),
@@ -603,14 +748,14 @@ public function validate_words($field_name)
 					'designation' => $this->input->post('designation'),
 				);
 
-            //  if($this->session->userdata('first_name')!= $first_name || $this->session->userdata('last_name')!= $last_name)
-			//  {
-			// 	$slug=generate_slug($first_name, $last_name, $user_id);
-			// 	$update_array['slug'] = $slug;
-			// 	$this->session->set_userdata('slug',$slug);
-			// 	$this->session->set_userdata('user_name',$first_name.' '.$last_name);
-				
-			//  }
+				//  if($this->session->userdata('first_name')!= $first_name || $this->session->userdata('last_name')!= $last_name)
+				//  {
+				// 	$slug=generate_slug($first_name, $last_name, $user_id);
+				// 	$update_array['slug'] = $slug;
+				// 	$this->session->set_userdata('slug',$slug);
+				// 	$this->session->set_userdata('user_name',$first_name.' '.$last_name);
+
+				//  }
 
 
 
@@ -652,7 +797,7 @@ public function validate_words($field_name)
 				} else {
 					$res = $this->db->insert('get_otp', $data);
 				}
-				$this->session->set_userdata('user_forgot_password_email',$email);
+				$this->session->set_userdata('user_forgot_password_email', $email);
 				echo 1;
 				// $this->load->library('email'); 
 				// $config['protocol'] = 'smtp';
@@ -680,20 +825,21 @@ public function validate_words($field_name)
 			}
 		}
 	}
-	public function verify_otp_forgot_password(){
+	public function verify_otp_forgot_password()
+	{
 		$otp = $this->input->post('forgot_otp');
 		$email = $this->session->userdata('user_forgot_password_email');
-		$otp_entry = $this->db->where(['email' => $email, 'otp' => $otp,'status'=>0])->get('get_otp')->row();
-		if($otp_entry) {
+		$otp_entry = $this->db->where(['email' => $email, 'otp' => $otp, 'status' => 0])->get('get_otp')->row();
+		if ($otp_entry) {
 			$current_time = time();
 			$otp_creation_time = strtotime($otp_entry->created_at);
 			//echo $otp_creation_time;die();
 			$time_difference = $current_time - $otp_creation_time;
 			//echo $time_difference;die();
-			if($time_difference <= 86400) {
+			if ($time_difference <= 86400) {
 				echo 1; // OTP is valid
-				$update_otp_array=$this->db->where('email',$email)->update('get_otp',array('status'=>1));
-				
+				$update_otp_array = $this->db->where('email', $email)->update('get_otp', array('status' => 1));
+
 			} else {
 				echo 0; // OTP has expired
 			}
@@ -701,19 +847,21 @@ public function validate_words($field_name)
 			echo 2; // OTP is invalid
 		}
 	}
-	public function change_otp_password(){
-		$password=$this->input->post('forgot_password');
+	public function change_otp_password()
+	{
+		$password = $this->input->post('forgot_password');
 		$email = $this->session->userdata('user_forgot_password_email');
-		$user_data=$this->db->where('email_id',$email)->get('tbl_users')->row();
-		$update_response=$this->db->where('email_id',$user_data->email_id)->update('tbl_users',array('password'=>md5($password)));
-        if($update_response){
-          echo 1;
-		  $this->session->unset_userdata('user_forgot_password_email');
-		}else{
-             echo 0;
+		$user_data = $this->db->where('email_id', $email)->get('tbl_users')->row();
+		$update_response = $this->db->where('email_id', $user_data->email_id)->update('tbl_users', array('password' => md5($password)));
+		if ($update_response) {
+			echo 1;
+			$this->session->unset_userdata('user_forgot_password_email');
+		} else {
+			echo 0;
 		}
 	}
-	public function add_social_media_old() {
+	public function add_social_media_old()
+	{
 		$linkdin_id = trim($this->input->post('linkdin_id'));
 		$facebook_id = trim($this->input->post('facebook_id'));
 		$twitter_id = trim($this->input->post('twitter_id'));
@@ -721,7 +869,7 @@ public function validate_words($field_name)
 		$instragram_id = trim($this->input->post('instragram_id'));
 		$user_id = $this->session->userdata('user_id');
 		$social_media_data = $this->UM->get_single_data('social_media', '1', $user_id);
-		
+
 		$array = array(
 			'facebook_id' => !empty($facebook_id) ? $facebook_id : null,
 			'linkdin_id' => !empty($linkdin_id) ? $linkdin_id : null,
@@ -731,7 +879,7 @@ public function validate_words($field_name)
 			'user_id' => $user_id,
 			'status' => 1
 		);
-		
+
 		if (!empty($social_media_data)) {
 			$result = $this->db->where('user_id', $user_id)->update('social_media', $array);
 			//echo $this->db->last_query(); die();
@@ -742,7 +890,8 @@ public function validate_words($field_name)
 			redirect($_SERVER["HTTP_REFERER"]);
 		}
 	}
-	public function add_social_media() {
+	public function add_social_media()
+	{
 		$linkdin_id = trim($this->input->post('linkdin_id'));
 		$facebook_id = trim($this->input->post('facebook_id'));
 		$twitter_id = trim($this->input->post('twitter_id'));
@@ -750,7 +899,7 @@ public function validate_words($field_name)
 		$instragram_id = trim($this->input->post('instragram_id'));
 		$user_id = $this->session->userdata('user_id');
 		$social_media_data = $this->UM->get_single_data('social_media', '1', $user_id);
-	
+
 		// Validation patterns
 		$validators = [
 			'linkedin' => '/^https:\/\/www\.linkedin\.com\/in\/[a-zA-Z0-9-]+\/?$/',
@@ -759,41 +908,41 @@ public function validate_words($field_name)
 			'pinterest' => '/^https:\/\/in\.pinterest\.com\/[a-zA-Z0-9-_]+\/?$/',
 			'instagram' => '/^https:\/\/www\.instagram\.com\/[a-zA-Z0-9_.]+\/?$/'
 		];
-	
+
 		$errors = [];
-	
+
 		// Validate LinkedIn
 		if (!empty($linkdin_id) && !preg_match($validators['linkedin'], $linkdin_id)) {
 			$errors[] = 'Invalid LinkedIn URL';
 		}
-	
+
 		// Validate Facebook
 		if (!empty($facebook_id) && !preg_match($validators['facebook'], $facebook_id)) {
 			$errors[] = 'Invalid Facebook URL';
 		}
-	
+
 		// Validate Twitter
 		if (!empty($twitter_id) && !preg_match($validators['twitter'], $twitter_id)) {
 			$errors[] = 'Invalid Twitter URL';
 		}
-	
+
 		// Validate Pinterest
 		if (!empty($pinterest_id) && !preg_match($validators['pinterest'], $pinterest_id)) {
 			$errors[] = 'Invalid Pinterest URL';
 		}
-	
+
 		// Validate Instagram
 		if (!empty($instragram_id) && !preg_match($validators['instagram'], $instragram_id)) {
 			$errors[] = 'Invalid Instagram URL';
 		}
-	
+
 		// If there are validation errors, redirect back with errors
 		if (!empty($errors)) {
 			$this->session->set_flashdata('errors', $errors);
 			redirect($_SERVER["HTTP_REFERER"]);
 			return;
 		}
-	
+
 		$array = [
 			'facebook_id' => !empty($facebook_id) ? $facebook_id : null,
 			'linkdin_id' => !empty($linkdin_id) ? $linkdin_id : null,
@@ -803,13 +952,13 @@ public function validate_words($field_name)
 			'user_id' => $user_id,
 			'status' => 1
 		];
-	
+
 		if (!empty($social_media_data)) {
 			$result = $this->db->where('user_id', $user_id)->update('social_media', $array);
 		} else {
 			$result = $this->db->insert('social_media', $array);
 		}
-	
+
 		redirect($_SERVER["HTTP_REFERER"]);
 	}
 	public function save_client()
@@ -891,7 +1040,7 @@ public function validate_words($field_name)
 	}
 	// public function save_award()
 	// {
-		
+
 	// //	print_r($_POST);exit;
 	// 	$this->load->library('form_validation');
 	// 	$user_id = $this->session->userdata('user_id');
@@ -971,123 +1120,122 @@ public function validate_words($field_name)
 	// 	echo json_encode(['status' => 'success', 'message' => 'Award saved successfully!', 'data' => $data, 'response' => 1]);
 	// }
 	public function save_award()
-{
-    $this->load->library('form_validation');
-    $user_id = $this->session->userdata('user_id');
-    $collect_keeping_id = [0];
+	{
+		$this->load->library('form_validation');
+		$user_id = $this->session->userdata('user_id');
+		$collect_keeping_id = [0];
 
-    // Retrieve POST data
-    $title = $this->input->post('title');
-    $description = $this->input->post('description');
-    $images = $_FILES['image']['name'];
-    $previous_file_names = $this->input->post('previous_file_name');
-    $id = $this->input->post('id');
+		// Retrieve POST data
+		$title = $this->input->post('title');
+		$description = $this->input->post('description');
+		$images = $_FILES['image']['name'];
+		$previous_file_names = $this->input->post('previous_file_name');
+		$id = $this->input->post('id');
 
-    // Check if all fields are blank
-    $all_blank = true;
-    for ($i = 0; $i < count($title); $i++) {
-        if (!empty(trim($title[$i])) || !empty(trim($description[$i])) || !empty(trim($images[$i])) || !empty(trim($previous_file_names[$i]))) {
-            $all_blank = false;
-            break;
-        }
-    }
-    if ($all_blank) {
-        echo 2; // Specific error code for all fields being blank
-        return;
-    }
+		// Check if all fields are blank
+		$all_blank = true;
+		for ($i = 0; $i < count($title); $i++) {
+			if (!empty(trim($title[$i])) || !empty(trim($description[$i])) || !empty(trim($images[$i])) || !empty(trim($previous_file_names[$i]))) {
+				$all_blank = false;
+				break;
+			}
+		}
+		if ($all_blank) {
+			echo 2; // Specific error code for all fields being blank
+			return;
+		}
 
-    // Set a word limit for the description
-    $this->set_word_limit(40);
+		// Set a word limit for the description
+		$this->set_word_limit(40);
 
-    // Set validation rules for each input field
-    for ($i = 0; $i < count($title); $i++) {
-        $this->form_validation->set_rules('title[' . $i . ']', 'Title', 'required');
-        $this->form_validation->set_rules('description[' . $i . ']', 'Description', 'callback_validate_words');
-    }
+		// Set validation rules for each input field
+		for ($i = 0; $i < count($title); $i++) {
+			$this->form_validation->set_rules('title[' . $i . ']', 'Title', 'required');
+			$this->form_validation->set_rules('description[' . $i . ']', 'Description', 'callback_validate_words');
+		}
 
-    // Custom validation for the image field
-    $image_is_valid = true;
-    foreach ($images as $key => $image) {
-        if (empty($image) && empty($previous_file_names[$key])) {
-            $image_is_valid = false;
-            break;
-        }
-    }
+		// Custom validation for the image field
+		$image_is_valid = true;
+		foreach ($images as $key => $image) {
+			if (empty($image) && empty($previous_file_names[$key])) {
+				$image_is_valid = false;
+				break;
+			}
+		}
 
-    // Run the validation
-    if ($this->form_validation->run() == FALSE || !$image_is_valid) {
-        // Capture validation errors
-        $validation_errors = validation_errors();
+		// Run the validation
+		if ($this->form_validation->run() == FALSE || !$image_is_valid) {
+			// Capture validation errors
+			$validation_errors = validation_errors();
 
-        // Check if the error is specifically for the description field
-        if (strpos($validation_errors, 'Description') !== false) {
-            echo 4; // Specific error code for description validation issues
-        } else {
-            echo 2; // General validation error
-        }
-        return;
-    }
+			// Check if the error is specifically for the description field
+			if (strpos($validation_errors, 'Description') !== false) {
+				echo 4; // Specific error code for description validation issues
+			} else {
+				echo 2; // General validation error
+			}
+			return;
+		}
 
-    // Proceed with the image upload and database operations
-    if (isset($images)) {
-        $config = array(
-            'upload_path' => './assets/upload/award',
-            'allowed_types' => 'jpg|gif|png|jpeg|PNG',
-            'overwrite' => 1
-        );
-        $this->load->library('upload', $config);
+		// Proceed with the image upload and database operations
+		if (isset($images)) {
+			$config = array(
+				'upload_path' => './assets/upload/award',
+				'allowed_types' => 'jpg|gif|png|jpeg|PNG',
+				'overwrite' => 1
+			);
+			$this->load->library('upload', $config);
 
-        for ($i = 0; $i < count($title); $i++) {
-            $_FILES['userfile'] = array(
-                'name' => $images[$i],
-                'type' => $_FILES['image']['type'][$i],
-                'tmp_name' => $_FILES['image']['tmp_name'][$i],
-                'error' => $_FILES['image']['error'][$i],
-                'size' => $_FILES['image']['size'][$i],
-            );
-            $this->upload->initialize($config);
+			for ($i = 0; $i < count($title); $i++) {
+				$_FILES['userfile'] = array(
+					'name' => $images[$i],
+					'type' => $_FILES['image']['type'][$i],
+					'tmp_name' => $_FILES['image']['tmp_name'][$i],
+					'error' => $_FILES['image']['error'][$i],
+					'size' => $_FILES['image']['size'][$i],
+				);
+				$this->upload->initialize($config);
 
-            if ($this->upload->do_upload('userfile')) {
-                $uploadData = $this->upload->data();
-                $imageFileName = $uploadData['file_name'];
-            } else {
-                $imageFileName = $previous_file_names[$i];
-            }
+				if ($this->upload->do_upload('userfile')) {
+					$uploadData = $this->upload->data();
+					$imageFileName = $uploadData['file_name'];
+				} else {
+					$imageFileName = $previous_file_names[$i];
+				}
 
-            $data = array(
-                'title' => $title[$i],
-                'description' => $description[$i], // Add the description here
-                'image' => $imageFileName,
-                'user_id' => $user_id,
-                'status' => 1
-            );
+				$data = array(
+					'title' => $title[$i],
+					'description' => $description[$i], // Add the description here
+					'image' => $imageFileName,
+					'user_id' => $user_id,
+					'status' => 1
+				);
 
-            if (!empty($id[$i])) {
-                $result=$this->db->where('id', $id[$i])->update('tbl_award', $data);
-                $collect_keeping_id[] = $id[$i];
-            } else {
-                $result=$this->db->insert('tbl_award', $data);
-                $collect_keeping_id[] = $this->db->insert_id();
-            }
-        }
-    }
+				if (!empty($id[$i])) {
+					$result = $this->db->where('id', $id[$i])->update('tbl_award', $data);
+					$collect_keeping_id[] = $id[$i];
+				} else {
+					$result = $this->db->insert('tbl_award', $data);
+					$collect_keeping_id[] = $this->db->insert_id();
+				}
+			}
+		}
 
-    $data = $this->db->get('tbl_award')->result_array();
-  if($result)
-  {
-	echo 1;
-  }else{
-	echo 0;
-  }
-}
+		$data = $this->db->get('tbl_award')->result_array();
+		if ($result) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+	}
 
-// Custom callback function to validate the word limit in the description
+	// Custom callback function to validate the word limit in the description
 // public function validate_words($str)
 // {
 //     $word_limit = 40; // Set the word limit
 //     $word_count = str_word_count(strip_tags($str));
 
-//     if ($word_count > $word_limit) {
+	//     if ($word_count > $word_limit) {
 //         $this->form_validation->set_message('validate_words', 'The {field} field must not exceed ' . $word_limit . ' words.');
 //         return FALSE;
 //     } else {
