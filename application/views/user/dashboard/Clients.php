@@ -56,9 +56,9 @@
                                         <img src="<?= base_url('assets/upload/logo/' . $row->logo) ?>" alt="Existing Logo" width="170" height="103">
                                         <?php if ($key!=0) {?>
                                             
-                                            <input type="file" name="logo[]" class="form-control" accept="image/*"  hidden>
+                                            <input type="file" name="logo[]" class="form-control" accept="image/*"  >
                                                      <?php }else{?>
-                                                        <input type="file" name="logo[]" class="form-control"  accept="image/*"   onchange="add_preview(this, 'imagePreview', 'sp_img','client_button','330','192')">
+                                                        <input type="file" name="logo[]" class="form-control"  accept="image/*"   onchange="add_preview(this, 'imagePreview', 'sp_img','client_button','170','103')" hidden>
                                                         <span id="sp_img" style="color:red"></span>
                                                          <?php }?>
                                                      
@@ -71,9 +71,9 @@
                                                 <input type="hidden" name="previous_url[]" value="<?=$row->url?>">
                                                 <?php if ($key!=0) {?>
                                             
-                                        <input name="url[]" type="url" value="<?=$row->url?>" class="form-control" readonly>
+                                        <input name="url[]" type="url" value="<?=$row->url?>" class="form-control" >
                                         <?php } else{?>
-                                            <input name="url[]" type="url" value="<?=$row->url?>" class="form-control" >
+                                            <input name="url[]" type="url" value="<?=$row->url?>" class="form-control" readonly >
 <?php } ?>                                        </div>
                                 </div>
                                    <!-- Repeater Remove Btn -->
@@ -98,7 +98,7 @@
                                     <div class="col-md-12 mb-3">
                                         <label for="logo" class="form-label">Upload Logo of Your Clients<span
                                                 class="text-danger">* </span>(Logo must be in 170 × 103 px)</label>
-                                        <input type="file" name="logo[]" class="form-control"  accept="image/*"   onchange="add_preview(this, 'imagePreview', 'sp_img','client_button','330','192')">
+                                        <input type="file" name="logo[]" class="form-control"  accept="image/*"   onchange="add_preview(this, 'imagePreview', 'sp_img','client_button','170','103')">
                                         <span id="sp_img" style="color:red"></span>
                                     </div>
                                     <div class="col-md-12 mb-3">
@@ -135,7 +135,7 @@
         let i = 1;
         $("#add-class").click(function () {
             i++;
-            var group = `<div class="items"><div class="row item-content"><div class="col-md-12 mb-3"><label for="logo" class="form-label">Upload Logo of Your Clients<span class="text-danger">* </span>(Logo must be in 170 × 103 px)</label> <input type="hidden" name="id[]" value=""> <input type="hidden" name="previous_file_name[]" value=""><input type="file" name="logo[]" accept="image/*" onchange="add_preview(this, 'imagePreview','sp_img'+${i},'client_button','300','192')" class="form-control" > <span id="sp_img${i}" style="color:red"></span></div><div class="col-md-12 mb-3"><label for="url" class="form-label">Client's Website URL<span class="text-danger">*</span></label><input name="url[]" type="url" class="form-control" ></div></div><div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button type="button" class="btn btn-outline-danger remove-btn px-4" title="Remove Colloum"><i class="bx bx-x" onclick="removeInputGroup(this)"></i></button></div></div><hr></div>`;
+            var group = `<div class="items"><div class="row item-content"><div class="col-md-12 mb-3"><label for="logo" class="form-label">Upload Logo of Your Clients<span class="text-danger">* </span>(Logo must be in 170 × 103 px)</label> <input type="hidden" name="id[]" value=""> <input type="hidden" name="previous_file_name[]" value=""><input type="file" name="logo[]" accept="image/*" onchange="add_preview(this, 'imagePreview','sp_img'+${i},'client_button','170','103')" class="form-control" > <span id="sp_img${i}" style="color:red"></span></div><div class="col-md-12 mb-3"><label for="url" class="form-label">Client's Website URL<span class="text-danger">*</span></label><input name="url[]" type="url" class="form-control" ></div></div><div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button type="button" class="btn btn-outline-danger remove-btn px-4" title="Remove Colloum"><i class="bx bx-x" onclick="removeInputGroup(this)"></i></button></div></div><hr></div>`;
             $(this).closest('form').find('.append-area').append(group);
         });
 

@@ -143,7 +143,7 @@ function onlyNumbers(event) {
 
 function add_preview(image, imageId, spanId, buttonId, img_height, img_width) {
     var filePath = image.value;
-    var allowedExtensions = /(\.jpg|\.png|\.jpeg )$/i;
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.jpeg )$/i;
 
     if (!allowedExtensions.exec(filePath)) {
         document.getElementById(spanId).innerHTML = '\n Please upload file having extensions .jpg, .png, .jpeg only.';

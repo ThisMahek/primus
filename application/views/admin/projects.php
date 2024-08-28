@@ -78,7 +78,7 @@
                                             </div>
                                             <div class="col-md-12 mb-3">
                                                 <label for="inputEmail1" class="form-label">Project Description<span class="text-danger">*</span> (Max 40 words Accepted)</label>
-                                                <textarea class="form-control" aria-label="With textarea" style="height: 110px;" required></textarea>
+                                                <!-- <textarea class="form-control" aria-label="With textarea" style="height: 110px;" required></textarea> -->
                                             </div>
                                             <div class="col-md-12 text-end">
                                                 <button class="btn btn-outline-secondary w-25">Save</button>

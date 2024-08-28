@@ -90,6 +90,7 @@
                                             <label for="skill" class="form-label">Enter Your Skill<span class="text-danger">*</span></label>
                                             <input type="text"  name="skill[]" class="form-control" placeholder="Example : Java"  >
                                         </div>
+
                                         <div class="col-md-12 mb-3">
                                             <label for="percantage" class="form-label">Mark in Percentage (%)<span class="text-danger">*</span></label>
                                             <select class="form-control"  name="percantage[]">
@@ -106,7 +107,9 @@
                                                     <option value="100">100%</option>
                                                     </select>
                                         </div>
+
                                     </div>
+                                    
                                     <div class="row mt-3 mb-5">
                                         <div class="col-md-6 repeater-remove-btn">
                                             <button class="btn btn-outline-danger remove-btn px-4" title="Remove Colloum"><i class="bx bx-x"></i></button>
