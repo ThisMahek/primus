@@ -88,8 +88,7 @@
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <label for="inputEmail1" class="form-label">Upload Feature Image<span
-                                                    class="text-danger">*</span> (Image must be in 330 × 192 px
-                                                )</label>
+                                                    class="text-danger">*</span></label>
 
 
                                             <input class="form-control" type="file" id="faeture_image"

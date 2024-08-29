@@ -58,10 +58,10 @@
                                             
                                             <input type="file" name="logo[]" class="form-control" accept="image/*"  >
                                                      <?php }else{?>
-                                                        <input type="file" name="logo[]" class="form-control"  accept="image/*"   onchange="add_preview(this, 'imagePreview', 'sp_img','client_button','170','103')" hidden>
+                                                        <input type="file" name="logo[]" class="form-control"  accept="image/*"   hidden>
                                                         <span id="sp_img" style="color:red"></span>
                                                          <?php }?>
-                                                     
+                                                         <!-- onchange="add_preview(this, 'imagePreview', 'sp_img','client_button','170','103')"  -->
                                     </div>
 
                                     
@@ -97,10 +97,11 @@
                                 <div class="row item-content">
                                     <div class="col-md-12 mb-3">
                                         <label for="logo" class="form-label">Upload Logo of Your Clients<span
-                                                class="text-danger">* </span>(Logo must be in 170 × 103 px)</label>
-                                        <input type="file" name="logo[]" class="form-control"  accept="image/*"   onchange="add_preview(this, 'imagePreview', 'sp_img','client_button','170','103')">
+                                                class="text-danger">* </span></label>
+                                        <input type="file" name="logo[]" class="form-control"  accept="image/*"   >
                                         <span id="sp_img" style="color:red"></span>
                                     </div>
+                                    <!-- onchange="add_preview(this, 'imagePreview', 'sp_img','client_button','170','103')" -->
                                     <div class="col-md-12 mb-3">
                                         <label for="url" class="form-label">Client's Website URL<span
                                                 class="text-danger">*</span></label>
@@ -135,7 +136,7 @@
         let i = 1;
         $("#add-class").click(function () {
             i++;
-            var group = `<div class="items"><div class="row item-content"><div class="col-md-12 mb-3"><label for="logo" class="form-label">Upload Logo of Your Clients<span class="text-danger">* </span>(Logo must be in 170 × 103 px)</label> <input type="hidden" name="id[]" value=""> <input type="hidden" name="previous_file_name[]" value=""><input type="file" name="logo[]" accept="image/*" onchange="add_preview(this, 'imagePreview','sp_img'+${i},'client_button','170','103')" class="form-control" > <span id="sp_img${i}" style="color:red"></span></div><div class="col-md-12 mb-3"><label for="url" class="form-label">Client's Website URL<span class="text-danger">*</span></label><input name="url[]" type="url" class="form-control" ></div></div><div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button type="button" class="btn btn-outline-danger remove-btn px-4" title="Remove Colloum"><i class="bx bx-x" onclick="removeInputGroup(this)"></i></button></div></div><hr></div>`;
+            var group = `<div class="items"><div class="row item-content"><div class="col-md-12 mb-3"><label for="logo" class="form-label">Upload Logo of Your Clients<span class="text-danger">* </span></label> <input type="hidden" name="id[]" value=""> <input type="hidden" name="previous_file_name[]" value=""><input type="file" name="logo[]" accept="image/*"  class="form-control" > <span id="sp_img${i}" style="color:red"></span></div><div class="col-md-12 mb-3"><label for="url" class="form-label">Client's Website URL<span class="text-danger">*</span></label><input name="url[]" type="url" class="form-control" ></div></div><div class="row mt-3"><div class="col-md-6 repeater-remove-btn"><button type="button" class="btn btn-outline-danger remove-btn px-4" title="Remove Colloum"><i class="bx bx-x" onclick="removeInputGroup(this)"></i></button></div></div><hr></div>`;
             $(this).closest('form').find('.append-area').append(group);
         });
 

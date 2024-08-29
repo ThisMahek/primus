@@ -314,77 +314,7 @@ class UserDashboard extends CI_Controller
 			echo 0;
 		}
 	}
-	public function add_project_old()
-{
-    $this->load->library('form_validation');
-    $this->set_word_limit(40);
-    // Set validation rules
-    $this->form_validation->set_rules('project_name', 'Project Name', 'required');
-    $this->form_validation->set_rules('project_url', 'Project URL', 'required');
-    $this->form_validation->set_rules('working_role', 'Working Role', 'required');
-    $this->form_validation->set_rules('description', 'Description', 'callback_validate_words');
 
-    // Check if the form validation passes
-    if ($this->form_validation->run() == FALSE) {
-        if (strpos(validation_errors(), 'description') == false) {
-            echo 4; // Specific error code for introduction word limit exceeded
-        } else {
-            echo 2;
-        }
-    } else {
-        $user_id = $this->session->userdata('user_id');
-        $file = $_FILES["faeture_image"];
-        $MyFileName = "";
-        if (strlen($file['name']) > 0) {
-            $image = $file["name"];
-            $config['upload_path'] = './assets/upload/Project_Image';
-            $config['allowed_types'] = '*';
-            $config['file_name'] = $image;
-            $this->load->library("upload", $config);
-            $filestatus = $this->upload->do_upload('faeture_image');
-            if ($filestatus == true) {
-                $MyFileName = $this->upload->data('file_name');
-                $array['faeture_image'] = $MyFileName;
-                // Resize image to 300x192
-                $config_resize = [
-                    'image_library' => 'gd2',
-                    'source_image' => $this->upload->data('full_path'),
-                    'new_image' => './assets/upload/Project_Image/resized/', // Optional: Create a separate folder for resized images
-                    'maintain_ratio' => FALSE, // Set to FALSE to resize to exact dimensions
-                    'width' => 300,
-                    'height' => 192
-                ];
-                $this->load->library('image_lib', $config_resize);
-
-                if (!$this->image_lib->resize()) {
-                    $error = $this->image_lib->display_errors();
-                   // echo $error; // Display the error for debugging
-                } else {
-                //    echo "Image uploaded and resized successfully.";
-                }
-
-                $this->image_lib->clear(); // Clear settings after use
-            } else {
-                $error = $this->upload->display_errors();
-               // echo $error; // Display the error for debugging
-            }
-        }
-
-        // Rest of your code for database insertion
-        $array['project_name'] = $this->input->post('project_name');
-        $array['working_role'] = $this->input->post('working_role');
-        $array['description'] = $this->input->post('description');
-        $array['project_url'] = $this->input->post('project_url');
-        $array['user_id'] = $user_id;
-
-        $response = $this->db->insert('tbl_project', $array);
-        if ($response) {
-            echo 1;
-        } else {
-            echo 0;
-        }
-    }
-}
 public function add_project()
 {
     $this->load->library('form_validation');
@@ -860,37 +790,7 @@ public function add_project()
 			echo 0;
 		}
 	}
-	public function add_social_media_old()
-	{
-		$linkdin_id = trim($this->input->post('linkdin_id'));
-		$facebook_id = trim($this->input->post('facebook_id'));
-		$twitter_id = trim($this->input->post('twitter_id'));
-		$pinterest_id = trim($this->input->post('pinterest_id'));
-		$instragram_id = trim($this->input->post('instragram_id'));
-		$user_id = $this->session->userdata('user_id');
-		$social_media_data = $this->UM->get_single_data('social_media', '1', $user_id);
-
-		$array = array(
-			'facebook_id' => !empty($facebook_id) ? $facebook_id : null,
-			'linkdin_id' => !empty($linkdin_id) ? $linkdin_id : null,
-			'twitter_id' => !empty($twitter_id) ? $twitter_id : null,
-			'pinterest_id' => !empty($pinterest_id) ? $pinterest_id : null,
-			'instragram_id' => !empty($instragram_id) ? $instragram_id : null,
-			'user_id' => $user_id,
-			'status' => 1
-		);
-
-		if (!empty($social_media_data)) {
-			$result = $this->db->where('user_id', $user_id)->update('social_media', $array);
-			//echo $this->db->last_query(); die();
-			//echo 'update';
-			redirect($_SERVER["HTTP_REFERER"]);
-		} else {
-			$result = $this->db->insert('social_media', $array);
-			redirect($_SERVER["HTTP_REFERER"]);
-		}
-	}
-	public function add_social_media()
+		public function add_social_media()
 	{
 		$linkdin_id = trim($this->input->post('linkdin_id'));
 		$facebook_id = trim($this->input->post('facebook_id'));
@@ -961,83 +861,102 @@ public function add_project()
 
 		redirect($_SERVER["HTTP_REFERER"]);
 	}
+	
 	public function save_client()
-	{
-		$this->load->library('form_validation');
-		$user_id = $this->session->userdata('user_id');
-		$collect_keeping_id = [0];
+{
+    $this->load->library('form_validation');
+    $this->load->library('upload');
+    $this->load->library('image_lib');
+    $user_id = $this->session->userdata('user_id');
+    $collect_keeping_id = [0];
 
-		// Validate URLs
-		foreach ($this->input->post('url') as $key => $url) {
-			$this->form_validation->set_rules("url[{$key}]", "Client's Website URL #{$key}", 'required|valid_url');
-		}
+    // Validate URLs
+    foreach ($this->input->post('url') as $key => $url) {
+        $this->form_validation->set_rules("url[{$key}]", "Client's Website URL #{$key}", 'required|valid_url');
+    }
 
-		// Custom validation for the logo field
-		$logos = $_FILES['logo']['name'];
-		$previous_file_names = $this->input->post('previous_file_name');
+    // Custom validation for the logo field
+    $logos = $_FILES['logo']['name'];
+    $previous_file_names = $this->input->post('previous_file_name');
 
-		$logo_is_valid = true;
-		foreach ($logos as $key => $logo) {
-			if (empty($logo) && empty($previous_file_names[$key])) {
-				$logo_is_valid = false;
-				break;
-			}
-		}
+    $logo_is_valid = true;
+    foreach ($logos as $key => $logo) {
+        if (empty($logo) && empty($previous_file_names[$key])) {
+            $logo_is_valid = false;
+            break;
+        }
+    }
 
-		if ($this->form_validation->run() == FALSE || !$logo_is_valid) {
-			$errors = validation_errors();
-			if (!$logo_is_valid) {
-				$errors .= "<p>The Client Logo field is required for each entry.</p>";
-			}
-			echo json_encode(['status' => 'error', 'message' => $errors, 'response' => 0]);
-			return;
-		}
+    if ($this->form_validation->run() == FALSE || !$logo_is_valid) {
+        $errors = validation_errors();
+        if (!$logo_is_valid) {
+            $errors .= "<p>The Client Logo field is required for each entry.</p>";
+        }
+        echo json_encode(['status' => 'error', 'message' => $errors, 'response' => 0]);
+        return;
+    }
 
-		if (isset($logos)) {
-			$config = array(
-				'upload_path' => './assets/upload/logo',
-				'allowed_types' => 'jpg|gif|png|jpeg|PNG',
-				'overwrite' => 1
-			);
-			$this->load->library('upload', $config);
-			$url = $this->input->post('url');
-			$id = $this->input->post('id');
+    if (isset($logos)) {
+        $config = array(
+            'upload_path' => './assets/upload/logo',
+            'allowed_types' => 'jpg|gif|png|jpeg|PNG',
+            'overwrite' => 1
+        );
+        $this->upload->initialize($config);
+        $url = $this->input->post('url');
+        $id = $this->input->post('id');
 
-			foreach ($logos as $key => $fileName) {
-				$_FILES['userfile'] = array(
-					'name' => $fileName,
-					'type' => $_FILES['logo']['type'][$key],
-					'tmp_name' => $_FILES['logo']['tmp_name'][$key],
-					'error' => $_FILES['logo']['error'][$key],
-					'size' => $_FILES['logo']['size'][$key],
-				);
-				$this->upload->initialize($config);
+        foreach ($logos as $key => $fileName) {
+            $_FILES['userfile'] = array(
+                'name' => $fileName,
+                'type' => $_FILES['logo']['type'][$key],
+                'tmp_name' => $_FILES['logo']['tmp_name'][$key],
+                'error' => $_FILES['logo']['error'][$key],
+                'size' => $_FILES['logo']['size'][$key],
+            );
+            $this->upload->initialize($config);
 
-				if ($this->upload->do_upload('userfile')) {
-					$uploadData = $this->upload->data();
-					$imageFileName = $uploadData['file_name'];
-				} else {
-					$imageFileName = $previous_file_names[$key];
-				}
+            if ($this->upload->do_upload('userfile')) {
+                $uploadData = $this->upload->data();
+                $imageFileName = $uploadData['file_name'];
 
-				$data = array(
-					'url' => $url[$key],
-					'logo' => $imageFileName,
-					'user_id' => $user_id
-				);
-				if (!empty($id[$key])) {
-					$this->db->where('id', $id[$key])->update('tbl_client', $data);
-					$collect_keeping_id[] = $id[$key];
-				} else {
-					$this->db->insert('tbl_client', $data);
-					$collect_keeping_id[] = $this->db->insert_id();
-				}
-			}
-		}
+                // Resize the image
+                $resizeConfig = array(
+                    'image_library' => 'gd2',
+                    'source_image' => $uploadData['full_path'],
+                    'maintain_ratio' => FALSE,
+                    'width' => 170,
+                    'height' => 103,
+                );
+                $this->image_lib->clear(); // Clear previous settings
+                $this->image_lib->initialize($resizeConfig);
 
-		$data = $this->db->get('tbl_client')->result_array();
-		echo json_encode(['status' => 'success', 'message' => 'Clients saved successfully!', 'data' => $data, 'response' => 1]);
-	}
+                if (!$this->image_lib->resize()) {
+                    echo $this->image_lib->display_errors();
+                }
+            } else {
+                $imageFileName = $previous_file_names[$key];
+            }
+
+            $data = array(
+                'url' => $url[$key],
+                'logo' => $imageFileName,
+                'user_id' => $user_id
+            );
+            if (!empty($id[$key])) {
+                $this->db->where('id', $id[$key])->update('tbl_client', $data);
+                $collect_keeping_id[] = $id[$key];
+            } else {
+                $this->db->insert('tbl_client', $data);
+                $collect_keeping_id[] = $this->db->insert_id();
+            }
+        }
+    }
+
+    $data = $this->db->get('tbl_client')->result_array();
+    echo json_encode(['status' => 'success', 'message' => 'Clients saved successfully!', 'data' => $data, 'response' => 1]);
+}
+
 	// public function save_award()
 	// {
 
