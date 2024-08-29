@@ -70,7 +70,7 @@
                                                     alt="Existing Logo" width="330" height="192">
                                        
                                                     
-                                                    <input type="file" name="image[]" class="form-control" accept="image/*"  onchange="add_preview(this, 'imagePreview', 'sp_img','award_button','330','192')" >
+                                                    <input type="file" name="image[]" class="form-control" accept="image/*"   >
                                            
                                                         
                                                     <span id="sp_img" style="color:red"></span>
@@ -119,9 +119,9 @@
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <label for="logo" class="form-label">Upload Image<span class="text-danger">*
-                                                </span>(Logo must be in 330 × 192 px)</label>
+                                                </span></label>
                                             <input type="file" name="image[]" class="form-control" accept="image/*"
-                                                onchange="add_preview(this, 'imagePreview', 'sp_img','award_button','330','192')">
+                                               >
                                             <span id="sp_img" style="color:red"></span>
                                         </div>
                                         <div class="col-md-12 mt-3">
@@ -182,10 +182,10 @@
     </div>
   </div>
   <div class="col-md-12 mb-3">
-    <label for="image" class="form-label">Upload Image<span class="text-danger">*</span> (Image must be in 330 × 192 px)</label>
+    <label for="image" class="form-label">Upload Image<span class="text-danger">*</span></label>
     <input type="hidden" name="id[]" value="">
     <input type="hidden" name="previous_file_name[]" value="">
-    <input type="file" name="image[]" accept="image/*" onchange="add_preview(this, 'imagePreview','sp_img'+${award},'award_button','330','192')" class="form-control">
+    <input type="file" name="image[]" accept="image/*" class="form-control">
     <span id="sp_img${award}" style="color:red"></span>
   </div>
   <div class="mt-3">
